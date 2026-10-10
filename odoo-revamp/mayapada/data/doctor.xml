@@ -1,0 +1,2333 @@
+<odoo>
+    <data>
+
+        <record model="ir.actions.act_window" id="doctor_menu_action">
+            <field name="name">Doctor Menu</field>
+            <field name="res_model">res.partner</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_is_doctor_internal':1}</field>
+            <field name="domain">[('doctor','=',1)]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_analytic_menu_action">
+            <field name="name">Doctor Analytic Menu</field>
+            <field name="res_model">account.analytic.account</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_is_doctor_internal':1}</field>
+            <field name="domain">[('sync_wipro_type','=','doctor_internal')]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_rate_menu_action">
+            <field name="name">Master Doctor Rate</field>
+            <!-- <field name="type">ir.actions.act_window</field> -->
+            <field name="res_model">doctor.rate</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+            <!-- <field name="target">current</field> -->
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_rate_line_menu_action">
+            <field name="name">Master Doctor Rate Line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">doctor.rate.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="target">current</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payout_interface_menu_action">
+            <field name="name">Worklist Payout Dhealth</field>
+            <field name="res_model">doctor.payout.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="mayapada_doctor_rate_line_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.line.inherited</field>
+            <field name="model">doctor.rate.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="Worklist Fee Line">
+                    <field name="service_id"/>
+                    <field name="product_id"/>
+                    <field name="package_id"/>
+                    <field name="take_out"/>
+                    <field name="patient_type"/>
+                    <field name="rate"/>
+                    <field name="type_rate"/>
+                    <field name="rate_value"/>
+                    <field name="bed_type"/>
+                    <field name="bed_type_id"/>
+                    <field name="is_hospital_sharing"/>
+                    <field name="hospital_sharing_amount"/>
+                    <field name="payer_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_doctor_rate_line_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.line.search.inherited</field>
+            <field name="model">doctor.rate.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <search string="Fee Line Search">
+                    <filter name="patient_type" string="OP" domain="[('patient_type','=', '1')]" help="OP"/>
+                    <filter name="patient_type" string="IP" domain="[('patient_type','=', '2')]" help="IP"/>
+                    <filter name="patient_type" string="Emergency" domain="[('patient_type','=', '3')]" help="Emergency"/>
+                    <filter name="patient_type" string="Daycare" domain="[('patient_type','=', '4')]" help="Daycare"/>
+                    <filter name="patient_type" string="MCU" domain="[('patient_type','=', '5')]" help="MCU"/>
+                    <filter name="patient_type" string="Pharmacy" domain="[('patient_type','=', '6')]" help="Pharmacy"/>
+                    <filter name="patient_type" string="Both" domain="[('patient_type','=', '7')]" help="Both"/>
+                    <filter name="doctor_rate_id" string="Doctor" domain="[]" context="{'group_by': 'doctor_rate_id'}" />
+                    <filter name="payer_id" string="Payer" domain="[]" context="{'group_by': 'payer_id'}" />
+                    <separator/>
+                    <filter name="rate" string="Rate" domain="[('rate','>', 0)]" help="Rate" />
+                    <filter name="rate_value" string="Rate Value" domain="[('rate_value','>', 0)]" help="Rate Value" />
+                    <separator/>
+                    <filter name="service_id" string="Service" domain="[]" context="{'group_by': 'service_id'}" />
+                    <filter name="product_id" string="Service Item" domain="[]" context="{'group_by': 'product_id'}" />
+                    <separator/>
+                    <field name="doctor_rate_id" string="Doctor"/>
+                    <field name="payer_id" string="Payer"/>
+                    <field name="service_id" string="Service"/>
+                    <field name="product_id" string="Service Item"/>
+                    <field name="package_id" string="Package"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_rate_import_menu_action">
+            <field name="name">Master Doctor Rate Import</field>
+            <field name="res_model">doctor.rate.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_fee_sub_menu_action">
+            <field name="name">Worklist Fee Doctor</field>
+            <field name="res_model">doctor.fee</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="target">current</field>
+        </record>
+
+
+
+
+        <record model="ir.actions.act_window" id="mcu_package_action">
+            <field name="name">MCU Package (Wipro)</field>
+            <field name="res_model">doctor.mcu</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="mcu_dhealth_action">
+            <field name="name">MCU Package (Dhealth)</field>
+            <field name="res_model">doctor.payout.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('patient_type','=','5')]</field>
+            <field name="context">{'mcu_doctor': 1, 'search_default_pending_mcu': 1, 'search_default_last_days':1}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="mcu_arcus_action">
+            <field name="name">MCU Package (Arcus)</field>
+            <field name="res_model">doctor.payout.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('patient_group','=','MCU')]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_service_cost_wizard_action">
+            <field name="name">Bulk Syncing Service Cost Fee</field>
+            <field name="res_model">doctor.service.cost.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="report_doctor_service_cost_wizard_action">
+            <field name="name">Service Cost Fee Doctor</field>
+            <field name="res_model">report.doctor.service.cost.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="payout_wipro_menu_action">
+            <field name="name">Worklist Payout Wipro</field>
+            <field name="res_model">wipro.payout.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="target">current</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="fee_detail_menu_action">
+            <field name="name">Worklist Fee Line</field>
+            <field name="res_model">doctor.fee.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('state','=','draft')]</field>
+            <field name="target">current</field>
+        </record>
+
+
+
+	<record model="ir.actions.act_window" id="doctor_tax_action">
+            <field name="name">Master Tax Setting</field>
+            <field name="res_model">doctor.tax</field>
+            <field name="view_mode">tree,form,pivot</field>
+            
+        </record>
+
+
+        <record model="ir.actions.act_window" id="doctor_fee_wizard_action">
+            <field name="name">Generate Fee Doctor</field>
+            <field name="res_model">doctor.fee.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="generate_payout_wipro_action">
+            <field name="name">Generate HIS Payout</field>
+            <field name="res_model">payout.wipro.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="generate_payout_wizard_action">
+            <field name="name">Generate Payout Dhealth</field>
+            <field name="res_model">payout.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="bulk_update_payout_wizard_action">
+            <field name="name">Bulk Update Payout Dhealth</field>
+            <field name="res_model">payout.bulk.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="generate_fee_detail_wizard_action">
+            <field name="name">Generate Fee Line</field>
+            <field name="res_model">fee.detail.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="report_doctor_fee_sub_menu_action">
+            <field name="name">Generate Report Fee Doctor</field>
+            <field name="res_model">report.doctor.fee.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="doctor_fee_others_detail_action">
+            <field name="name">Doctor Fee Others Detail</field>
+            <field name="res_model">doctor.fee.others.detail</field>
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+
+         <record model="ir.actions.act_window" id="doctor_fee_posting_action">
+            <field name="name">Doctor Fee Bulk Posting</field>
+            <field name="res_model">doctor.fee.posting.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_fee_send_email_action">
+            <field name="name">Doctor Fee Send Email</field>
+            <field name="res_model">doctor.fee.send.email.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="doctor_rate_bulk_update_menu_action">
+            <field name="name">Master Doctor Rate Bulk Update</field>
+            <field name="res_model">doctor.rate.bulk.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+        <record model="ir.actions.act_window" id="doctor_fee_others_import_wizard_action">
+            <field name="name">Doctor Fee Others Import</field>
+            <field name="res_model">doctor.fee.others.import.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="doctor_fee_bpjs_menu_action">
+            <field name="name">Doctor Fee BPJS</field>
+            <field name="res_model">doctor.fee.bpjs</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="target">current</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="doctor_fee_bpjs_import_menu_action">
+            <field name="name">Doctor Fee BPJS Import</field>
+            <field name="res_model">doctor.fee.bpjs.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="doctor_pot_import_wizard_action">
+            <field name="name">Doctor POT Share Import</field>
+            <field name="res_model">doctor.pot.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+        <record model="ir.actions.act_window" id="generate_fee_bpjs_detail_wizard_action">
+            <field name="name">Generate Fee BPJS Line</field>
+            <field name="res_model">fee.bpjs.detail.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="bulk_update_doctor_wizard_action">
+            <field name="name">Bulk Update Fee Line</field>
+            <field name="res_model">doctor.fee.bulk.update.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+        <record id="mayapada_doctor_rate_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.inherited</field>
+            <field name="model">doctor.rate</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Doctor Rate">
+                        <header>
+                            <button name="action_ask_release" states="draft" type="object" string="Ask Release"/>
+                            <button name="approve" states="waiting" type="object" string="Approve"/>
+                            <button name="action_draft" states="release,waiting" type="object" string="Set to Draft"/>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="company_id"/>
+                                    <field name="doctor_id" domain="[('sync_wipro_type','=','doctor_internal')]" />
+                                    <field name="parent_id" domain="[('company_id','=', company_id),('parent_id','=',False)]" />
+                                    <field name="start_date_validity"/>
+                                    <field name="end_date_validity"/>
+                                    <field name="allowance"/>
+                                    <field name="guarantee_fee"/>
+                                    <field name="join_prorate" attrs="{'invisible': [('guarantee_fee','=',0)]}" />
+                                    <field name="join_date" attrs="{'invisible': [('join_prorate','=',False)]}" />
+                                    
+                                    <field name="is_grossup"/>
+                                    <field name="is_dental"/>
+                                    <field name="is_external"/>
+                                    <field name="is_npwp"/>
+                                    <field name="npwp"/>
+                                    <field name="npwp_name"/>
+                                    <field name="email"/>
+                                </group>
+                                <group>
+                                    <field name="is_pot_total"/>
+                                    <field name="is_pot_gp"/>
+                                    <field name="is_p12_total"/>
+                                    <field name="is_p12"/>
+                                    <field name="is_igd_total"/>
+                                    <field name="is_igd"/>
+                                    <field name="is_pengirim_total"/>
+                                    <field name="is_pengirim"/>
+                                    <field name="is_tnc_total"/>
+                                    <field name="is_tnc"/>
+                                    <field name="is_hd_total"/>
+                                    <field name="is_hd"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Rate Line">
+                                    <field name="rate_line_ids">
+                                        <tree editable="bottom">
+                                            <field name="service_id"/>
+                                            <field name="service_spec_id"/>
+                                            <field name="product_id" domain="[('sync_type','=',parent.sync_type)]"/>
+                                            <field name="package_id"/>
+                                            <field name="take_out"/>
+                                            <field name="patient_type"/>
+                                            <field name="rate"/>
+                                            <field name="type_rate"/>
+                                            <field name="rate_value"/>
+                                            <field name="bed_type"/>
+                                            <field name="bed_type_id"/>
+                                            <field name="is_hospital_sharing"/>
+                                            <field name="hospital_sharing_amount"/>
+                                            <field name="payer_id" domain="[('sync_type','=', parent.sync_type), ('insurance','=', True)]"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Doctor BPJS (Group)">
+                                    <field name="bpjs_doctor_ids" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal'),('code', 'like', 'BP')]"/>
+                                </page>
+                                <page string="Childs">
+                                    <field name="rate_childs_ids" readonly="1"/>
+                                </page>
+                                <page string="Referal Line">
+                                    <field name="referal_line_ids">
+                                        <tree editable="bottom">
+                                            <field name="bed_type"/>
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Bank Account">
+                                    <group>
+                                    <group>
+                                        <field name="bank_name"/>
+                                        <field name="bank_branch"/>
+                                        <field name="bank_account_no"/>
+                                        <field name="bank_account_name"/>
+                                    </group>
+                                    </group>
+                                </page>
+                                <page string="Technical">
+                                     <group>
+                                     <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+            </field>
+        </record>
+
+
+        <record id="mayapada_doctor_rate_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.tree.inherited</field>
+            <field name="model">doctor.rate</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="Doctor Rate">
+                    <field name="doctor_id"/>
+                    <field name="start_date_validity"/>
+                    <field name="end_date_validity"/>
+                    <field name="guarantee_fee"/>
+                    <field name="is_pot_gp"/>
+                    <field name="is_dental"/>
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_doctor_rate_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.search.inherited</field>
+            <field name="model">doctor.rate</field>
+            <field name="arch" type="xml">
+                <search string="Search Doctor Rate">
+                    <filter name="is_pot_gp" string="POT/GP" domain="[('is_pot_gp','=', True)]" help="Doctor POT / GP"/>
+                    <filter name="is_p12" string="P1/P2" domain="[('is_p12','=', True)]" help="Doctor P1 / P2"/>
+                    <filter name="is_igd" string="IGD" domain="[('is_igd','=', True)]" help="Doctor IGD"/>
+                    <filter name="is_tnc" string="TNC" domain="[('is_tnc','=', True)]" help="Doctor TNC"/>
+                    <filter name="is_hd" string="HD" domain="[('is_hd','=', True)]" help="Doctor HD"/>
+                    <filter name="is_pengirim" string="Referral" domain="[('is_pengirim','=', True)]" help="Doctor Pengirim"/>
+                    <filter name="is_dental" string="Dental" domain="[('is_dental','=', True)]" help="Doctor Dental"/>
+                    <filter name="is_external" string="External" domain="[('is_external','=', True)]" help="Doctor External"/>
+                    
+                    <separator/>
+                    <field name="doctor_id"/>
+                </search>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="mayapada_doctor_mcu_inherited" model="ir.ui.view">
+            <field name="name">doctor.mcu.inherited</field>
+            <field name="model">doctor.mcu</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="MCU Bills Detail">
+                    <sheet>
+                        <div class="oe_title">
+                            
+                            <h1>
+                                <field name="name" readonly="1" modifiers="{'readonly': true}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_admission_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="arcus_admission_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="admission_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="admit_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_patient_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_regcode" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_type_name" readonly="1" modifiers="{'readonly': true}"/>
+                                
+                                <field name="arcus_package_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="package_order_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="package_order_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_package_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="package_order_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="package_name" readonly="1" modifiers="{'readonly': true}"/>
+                            </group>
+                            <group>
+                                <field name="tglproses" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_type" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="bill_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_bill_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="arcus_bill_id" readonly="1" modifiers="{'readonly': true}"/>
+                                
+                                <field name="bill_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_payer_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="arcus_payer_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="payer_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="payer_type" readonly="1" modifiers="{'readonly': true}"/>
+
+                                <field name="odoo_tpa_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="arcus_tpa_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="tpa_code" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="tpa_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="arcus_primary_id" readonly="1" modifiers="{'readonly': true}"/>
+                                                                
+                                <field name="odoo_primary_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_group"/>
+                                <field name="is_updated" can_write="true" modifiers="{}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detail Package">
+                                <field name="doctor_mcu_ids">
+                                    <tree>
+                                        <field name="order_no" readonly="1" modifiers="{'readonly': true}" />
+                                        <field name="order_date_start" readonly="1" modifiers="{'readonly': true}" />
+                                        <field name="service_name" readonly="1" modifiers="{'readonly': true}" />
+                                        <field name="specialise_name" readonly="1" modifiers="{'readonly': true}" />
+                                        <field name="odoo_service_item_id" />
+                                        <field name="company_id"/>
+                                        <field name="odoo_doctor_id" can_create="true" can_write="true" modifiers="{}" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" />
+                                        <field name="total" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">  
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_date" readonly="1"/>
+                                        <field name="sync_id" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_doctor_mcu_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.mcu.tree.inherited</field>
+            <field name="model">doctor.mcu</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+               <tree string="MCU Package (Wipro)">
+                        <field name="tglproses"/>
+                        <field name="admission_no"/>
+                        <field name="bill_no"/>
+                        <field name="patient_name"/>
+                        <field name="package_name"/>
+                        <field name="primary_name"/>
+                        <field name="total"/>
+                        <field name="is_updated"/>
+                        <field name="sync_type"/>
+                    </tree>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_doctor_mcu_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.mcu.search.inherited</field>
+            <field name="model">doctor.mcu</field>
+            <field name="arch" type="xml">
+                <search string="Search Doctor MCU">
+                    <filter name="last_days" string="45 Last Days" domain="[('tglproses','>=',(context_today()+relativedelta(days=-45)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="pending_mcu" string="MCU Pending" domain="[('is_mcu_updated','=', False)]" help="Data MCU yang belum di Updated"/>
+                    <filter name="update" string="MCU Updated" domain="[('is_mcu_updated','=', True)]" help="Update Data MCU"/>
+                    <separator/>
+                    <field name="odoo_patient_id"/>
+                    <field name="odoo_package_id"/>
+                    <field name="odoo_payer_id"/>
+                    <field name="odoo_primary_id"/>
+                    <field name="admission_no"/>
+                    <field name="bill_no"/>
+                </search>
+            </field>
+        </record>
+
+
+
+
+        <record id="mayapada_doctor_mcu_line_inherited" model="ir.ui.view">
+            <field name="name">doctor.mcu.line.inherited</field>
+            <field name="model">doctor.mcu.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="MCU Bills Detail">
+                    <sheet>
+                        <group string="Information">
+                            <group>
+                                <field name="tglproses" readonly="1" />
+                                <field name="arcus_doctor_mcu_id" readonly="1" />
+                                <field name="arcus_admission_id" readonly="1" />
+                                <field name="odoo_bill_id" readonly="1" />
+                                <field name="arcus_bill_id" readonly="1" />
+                                <field name="patient_type_name" readonly="1" />
+                                <field name="odoo_agreement_id" readonly="1" />
+                                <field name="agreement_name" readonly="1" />
+                                <field name="arcus_prescribe_id" readonly="1" />
+                                <field name="arcus_primary_id" readonly="1" />
+                                <field name="arcus_perform_id" readonly="1" />
+                                <field name="arcus_doctor_id" readonly="1" />
+                                <field name="arcus_patient_id" readonly="1" />
+                                <field name="arcus_payer_id" readonly="1" />
+                                <field name="odoo_tpa_id" readonly="1" />
+                                <field name="arcus_tpa_id" readonly="1" />
+                                <field name="company_id" readonly="1" />
+                                <field name="odoo_admission_id" readonly="1" />
+                                <field name="admit_date" readonly="1" />
+                                <field name="odoo_package_id" readonly="1" />
+                                <field name="odoo_service_id" readonly="1" />
+                                <field name="department_name" readonly="1" />
+                                <field name="arcus_service_id" readonly="1" />
+                                <field name="odoo_department_id" readonly="1" />
+                                <field name="arcus_department_id" readonly="1" />
+                                <field name="odoo_specialise_id" readonly="1" />
+                                <field name="arcus_specialise_id" readonly="1" />
+                                <field name="specialise_code" readonly="1" />
+                                <field name="arcus_service_item_id" readonly="1" />
+                                <field name="service_item_code" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="tpa_code" readonly="1" />
+                                <field name="tpa_name" readonly="1" />
+                                <field name="arcus_order_id" readonly="1" />
+                                <field name="order_number" readonly="1" />
+                                <field name="arcus_order_item_id" readonly="1" />
+                                <field name="order_date_start" readonly="1" />
+                                <field name="order_date_end" readonly="1" />
+                                <field name="order_status" readonly="1" />
+                                <field name="order_lastupdate" readonly="1" />
+                                <field name="order_type" readonly="1" />
+                                <field name="patientchargeuid" readonly="1" />
+                                <field name="chargecodeuid" readonly="1" />
+                                <field name="chargestatusflag" readonly="1" />
+                                <field name="arcus_package_id" readonly="1" />
+                                <field name="package_code" readonly="1" />
+                                <field name="arcus_package_order_id" readonly="1" />
+                                <field name="package_order_no" readonly="1" />
+                                <field name="package_order_date" readonly="1" />
+                                <field name="arcus_bed_type_id" readonly="1" />
+                                <field name="odoo_bed_type_id" readonly="1" />
+                                <field name="bed_type" readonly="1" />
+                                <field name="odoo_service_group_id" readonly="1" />
+                                <field name="arcus_service_group_id" readonly="1" />
+                                <field name="service_group_name" readonly="1" />
+                                <field name="patient_group" readonly="1" />
+                                <field name="bill_no" readonly="1" />
+                                <field name="bill_date" readonly="1" />
+                                <field name="odoo_service_item_id" readonly="1" />
+                                <field name="specialise_name" readonly="1" />
+                                <field name="order_no" readonly="1" />
+                                <field name="order_date" readonly="1" />
+                            </group>
+                        </group>
+                        <group>   
+                                <field name="odoo_doctor_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_primary_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_prescribe_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_perform_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_uom_id" readonly="1"/>
+                                <field name="arcus_uom_id" readonly="1"/>
+                                <field name="uom_name" readonly="1"/>
+                                <field name="quantiy" readonly="1"/>
+                                <field name="price_normal" readonly="1"/>
+                                <field name="price_unit" readonly="1"/>
+                                <field name="discount" readonly="1"/>
+                                <field name="bill_amount" readonly="1"/>
+                                <field name="total" readonly="1"/>
+                                <field name="is_converted" />
+                                <field name="is_updated" /> 
+                                <field name="arcus_tariff_id" />
+                                <field name="arcus_tariff_name" />
+                                <field name="arcus_priority_id" />
+                                <field name="arcus_priority_name" />
+                                <field name="arcus_order_date" />
+                                <field name="arcus_executed_date" />
+                                <field name="arcus_authorize_date" />
+                                <field name="arcus_cancel_date" />
+                                <field name="arcus_authorize_exec_delay" />
+                                <field name="arcus_is_cito" />
+                                                       
+                        </group>
+                         <group string="Technical">
+                                    <field name="sync_type"/>
+                                    <field name="sync_consol_id_main" readonly="1" />
+                                    <field name="sync_consol_id_unit" readonly="1" />
+                                    <field name="sync_consol_date" readonly="1" />
+                                </group>
+                    </sheet>
+            </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_doctor_mcu_line_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.mcu.line.tree.inherited</field>
+            <field name="model">doctor.mcu.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+               <tree string="MCU Bill Detail (Wipro)">
+                        <field name="tglproses"/>
+                        <field name="admission_no"/>
+                        <field name="bill_no" readonly="1"/>
+                        <field name="patient_name"/>
+                        <field name="package_name"/>
+                        <field name="service_name"/>
+                        <field name="service_item_name"/>
+                        <field name="primary_name"/>
+                        <field name="total"/>
+                        <field name="is_updated"/>
+                        <field name="sync_type"/>
+                    </tree>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_payout_line_inherited" model="ir.ui.view">
+            <field name="name">doctor.payout.line.inherited</field>
+            <field name="model">doctor.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+			<form string="Doctor Payout Interface">
+                        <header>
+                             <button string="Compute" name="action_compute" type="object" class="oe_highlight"/>
+                        </header>
+                        <sheet>
+                            <group string="Doctor Detail">
+                                <group>  
+                                    <field name="company_id" readonly="1" modifiers="{'readonly': true}"/>      
+                                    <field name="account_analytic_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" />
+                                    <field name="primary_doc_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" />
+                                    <field name="prescribe_doc_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                    <field name="perform_doc_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>                              
+                                </group>
+                                <group>
+                                    <field name="price_unit" readonly="1"/>
+                                    <field name="discount_rate" readonly="1"/>
+                                    <field name="price_subtotal" readonly="1"/>
+                                    <field name="price_discount"/>
+                                    <field name="price_total"/>
+                                    <field name="fee_total" readonly="1"/>
+                                    <field name="is_mcu_updated"/>
+                                    <field name="write_uid" readonly="1"/>
+                                </group>
+                            </group>
+                            <group string="Information">
+                                <group>
+                                    <field name="reference_no" readonly="1"/>
+                                    <field name="tglproses" readonly="1"/>
+                                    <field name="billno" readonly="1"/>
+                                    <field name="order_id" readonly="1"/>
+                                    <field name="billing_id" readonly="1"/>
+                                    <field name="partner_id" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="patient_type" readonly="1" modifiers="{'readonly': true}"/>
+                                    <field name="patient_group" readonly="1" modifiers="{'readonly': true}"/>
+                                    <field name="type_line" readonly="1" modifiers="{'readonly': true}"/>
+                                    <field name="payer" readonly="1" can_create="true" can_write="true" modifiers="{'readonly': true}"/>
+                                    <field name="payer_type" readonly="1" modifiers="{'readonly': true}"/>
+                                </group>    
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="is_package" readonly="1"/>
+                                    <field name="package_id" readonly="1"/>
+                                    <field name="package_name" readonly="1"/>
+                                    <field name="service_categ_id" readonly="1"/>
+                                    <field name="department_id" readonly="1"/>
+                                    <field name="item_specialisation" readonly="1"/>
+                                </group>
+                                <group>    
+                                    <field name="order_no" />
+                                    <field name="order_item_no" />
+                                    <field name="order_date" readonly="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="product_uom_qty" readonly="1"/>
+                                    <field name="product_uom" readonly="1"/>
+                                    <field name="bed_type" readonly="1"/> 
+                                </group>
+                            </group>    
+                            
+                            <notebook>
+                                <page string="Fee Realization">
+                                    <field name="fee_line_ids">
+                                        <tree readonly="1">
+                                            <field name="doctor_fee_id"/>
+                                            <field name="year"/>
+                                            <field name="month"/>
+                                            <field name="is_pot_gp"/>
+                                            <field name="rate"/>
+                                            <field name="rate_pot"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="sync_type"/>
+                                            <field name="sync_consol_id_main" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_unit" readonly="1" />
+                                            <field name="sync_consol_date" readonly="1" />
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
+            </field>
+        </record>
+
+
+
+
+	<record id="mayapada_doctor_payout_line_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.payout.line.tree.inherited</field>
+            <field name="model">doctor.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Worklist Payout Interface">
+                    <field name="reference_no"/>
+                    <field name="order_date" string="Order Date" readonly="1"/>
+                    <field name="order_id" readonly="1"/>
+                    <field name="billno"/>
+                    <field name="partner_id"/>
+                    <field name="account_analytic_id"/>
+                    <field name="department_id"/>
+                    <field name="service_categ_id"/>
+                    <field name="product_id"/>
+                    <field name="product_uom_qty"/>
+                    <field name="price_total"/>
+                </tree>
+            </field>
+        </record>
+
+
+	<record id="mayapada_doctor_payout_line_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.payout.line.search.inherited</field>
+            <field name="model">doctor.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<search string="Doctor Payout Search">
+                    <filter name="inpatient" string="InPatient" domain="[('patient_group','=', 'InPatient')]" help="InPatient"/>
+                    <filter name="outpatient" string="OutPatient" domain="[('patient_group','=', 'OutPatient')]" help="OutPatient"/>
+                    <filter name="emergency" string="Emergency" domain="[('patient_group','=', 'Emergency')]" help="Emergency"/>
+                    <filter name="mcu" string="MCU" domain="[('patient_group','=', 'MCU')]" help="MCU"/>
+                    <filter name="last_days" string="45 Last Days" domain="[('tglproses','>=',(context_today()+relativedelta(days=-45)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="pending_mcu" string="MCU Pending" domain="[('is_mcu_updated','=',False)]" help="MCU Pending"/>
+                    <filter name="updated" string="MCU Updated" domain="[('is_mcu_updated','=',True)]" help="MCU Updated"/>
+                    
+                    <separator/>
+                    <field name="partner_id"/>
+                    <field name="order_no"/>
+                    <field name="billno"/>
+                    <field name="payer"/>
+                    <field name="account_analytic_id"/>
+                    <field name="primary_doc_id"/>
+                    <field name="admission_no"/>
+                    <field name="reference_no"/>
+                    <field name="service_categ_id"/>
+                    <field name="bed_type"/>
+                    <field name="department_id"/>
+                    <field name="item_specialisation"/>
+                    <field name="product_id"/>
+                    <field name="price_total"/>
+                    <field name="patient_type"/>
+                    <separator/>
+                    <filter name="analytic_doctor" string="Analytic Doctor" domain="[]" context="{'group_by': 'account_analytic_id'}"/>
+                    <filter name="service_category" string="Service Category" domain="[]" context="{'group_by': 'service_categ_id'}"/>
+                    <filter name="product" string="Product" domain="[]" context="{'group_by': 'product_id'}"/>
+                    <filter name="department" string="Department/Area" domain="[]" context="{'group_by': 'department_id'}"/>
+                    <filter name="company" string="Company" domain="[]" context="{'group_by': 'company_id'}"/>
+                    <filter name="total_revenue" string="Total Revenue" domain="[]" context="{'group_by': 'price_total'}"/>
+                </search>
+            </field>
+        </record>
+
+
+
+
+
+    <record id="mayapada_wipro_payout_line_form_inherited" model="ir.ui.view">
+            <field name="name">wipro.payout.line.form.inherited</field>
+            <field name="model">wipro.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <form string="Payout Bill Detail">
+                    <sheet>
+                        <group string="Information">
+                            <group> 
+                                <field name="odoo_doctor_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_primary_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_prescribe_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                                <field name="odoo_perform_id"  domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]"/>
+                            </group>
+                            <group>
+                                <field name="bed_type" readonly="1" />
+                                <field name="bed_type_id" readonly="1"/>
+                                <field name="total"/>
+                                <field name="is_converted" />
+                                <field name="is_updated"/>
+                            </group>     
+                        </group>
+                        <group>
+                            <group>
+                                <field name="company_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="tglproses" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_admission_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="admission_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="admit_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_patient_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_regcode" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_name" readonly="1" modifiers="{'readonly': true}"/>
+                            </group>
+                            <group>
+                                <field name="reference_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_type" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_group" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="bill_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="bill_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_payer_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="payer_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="payer_type" readonly="1" modifiers="{'readonly': true}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="odoo_service_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="service_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="department_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="specialise_name" readonly="1" modifiers="{'readonly': true}"/>
+                            </group>
+                            <group>
+                                <field name="odoo_service_item_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="service_item_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="order_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="order_date" readonly="1" modifiers="{'readonly': true}"/>
+                            </group>
+                        </group>
+                        <group string="Technical">
+                             <group>
+                                <field name="sync_type"/>
+                                <field name="sync_consol_id_main" readonly="1" />
+                                <field name="sync_consol_id_unit" readonly="1" />
+                                <field name="sync_consol_date" readonly="1" />
+                            </group>
+                        </group>
+                    </sheet>
+                     <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+            </form>
+            </field>
+        </record>
+
+
+
+
+
+	<record id="mayapada_wipro_payout_line_tree_inherited" model="ir.ui.view">
+            <field name="name">wipro.payout.line.tree.inherited</field>
+            <field name="model">wipro.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Payout Interface Result (Wipro)">
+                        <field name="tglproses"/>
+                        <field name="reference_no"/>
+                        <field name="admission_no"/>
+                        <field name="bill_no" readonly="1"/>
+                        <field name="patient_name"/>
+                        <field name="service_name"/>
+                        <field name="service_item_name"/>
+                        <field name="doctor_name"/>
+                        <field name="total"/>
+                        <field name="is_updated"/>
+                        <field name="sync_type"/>
+                    </tree>
+            </field>
+        </record>
+
+
+	<record id="mayapada_wipro_payout_line_search_inherited" model="ir.ui.view">
+            <field name="name">wipro.payout.line.search.inherited</field>
+            <field name="model">wipro.payout.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<search string="Payout Interface Search">
+                    <filter name="inpatient" string="InPatient" domain="[('patient_group','=', 'InPatient')]" help="InPatient"/>
+                    <filter name="outpatient" string="OutPatient" domain="[('patient_group','=', 'OutPatient')]" help="OutPatient"/>
+                    <filter name="emergency" string="Emergency" domain="[('patient_group','=', 'Emergency')]" help="Emergency"/>
+                    <separator/>
+                    <field name="odoo_patient_id"/>
+                    <field name="odoo_package_id"/>
+                    <field name="odoo_payer_id"/>
+                    <field name="odoo_doctor_id"/>
+                    <field name="odoo_primary_id"/>
+                    <field name="admission_no"/>
+                    <field name="bill_no"/>
+                    <field name="service_name"/>
+                    <field name="department_name"/>
+                    <field name="specialise_name"/>
+                    <field name="odoo_service_item_id"/>
+                    <field name="patient_type"/>
+                </search>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_bpjs_form_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.bpjs.form.inherited</field>
+            <field name="model">doctor.fee.bpjs</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<form string="Edit Doctor Fee BPJS">
+                        <sheet>
+                            <group string="Information">
+                                <group>     
+                                    <field name="year" readonly="1"/>
+                                    <field name="month" readonly="1"/>
+                                    <field name="reference_no" readonly="1"/>
+                                    <field name="bill_date" readonly="1"/>
+                                    <field name="bill_no" readonly="1"/>
+                                    <field name="billing_id" readonly="1"/> 
+                                    <field name="bill_amount" readonly="1"/>  
+                                    
+                                </group>
+                                <group>
+                                    <field name="odoo_admission_id" readonly="1"/> 
+                                    <field name="admission_no" readonly="1"/>
+                                    <field name="odoo_primary_id" readonly="1"/> 
+                                    <field name="primary_id" readonly="1"/>
+                                    <field name="primary_code" readonly="1"/> 
+                                    <field name="primary_name" readonly="1"/>
+
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="odoo_patient_id" readonly="1"/> 
+                                    <field name="patient_id" readonly="1"/>
+                                    <field name="patient_regcode" readonly="1"/> 
+                                    <field name="patient_name" readonly="1"/>
+                                    <field name="patient_type" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="odoo_payer_id" readonly="1"/> 
+                                    <field name="payer_id" readonly="1"/>
+                                    <field name="payer_code" readonly="1"/> 
+                                    <field name="payer_name" readonly="1"/>
+                                    <field name="payer_type" readonly="1"/>
+                                </group>
+                            </group>
+
+                            <group>
+                                <group>
+                                    <field name="company_id" readonly="1"/>
+                                    <field name="tglproses" readonly="1"/>
+                                    <field name="sep" readonly="1"/>
+                                    <field name="inacbg_amount" readonly="1"/>
+                                    
+                                </group>
+                                <group>
+                                    <field name="patient_discount" readonly="1"/>
+                                    <field name="company_discount" readonly="1"/>
+                                    <field name="patient_balance" readonly="1"/>
+                                    <field name="company_balance" readonly="1"/>
+                                    <field name="patient_amount_for_discount" readonly="1"/>
+                                    <field name="company_amount_for_discount" readonly="1"/>
+                                    
+                                </group>    
+                            </group> 
+                            
+                            <notebook>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="sync_type"/>
+                                            <field name="sync_consol_date" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_main" readonly="1" />
+                                            <field name="sync_consol_id_unit" readonly="1" />
+                                        </group>
+                                    </group>
+                                </page>  
+                            </notebook>
+                        </sheet>
+                         <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
+            </field>
+        </record>
+
+
+
+
+	<record id="mayapada_doctor_fee_bpjs_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.bpjs.tree.inherited</field>
+            <field name="model">doctor.fee.bpjs</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Doctor Fee BPJS">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="bill_no"/>
+                    <field name="admission_no"/>
+                    <field name="odoo_patient_id"/>
+                    <field name="sep"/>
+                    <field name="inacbg_amount"/>
+                    <field name="company_id"/>
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_line_form_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.line.form.inherited</field>
+            <field name="model">doctor.fee.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		        <form string="Edit Fee Line">
+                    <header>
+                            <button string="Compute" name="compute_fee" type="object" class="oe_highlight" states="draft"/>
+                    </header>
+                    <sheet>
+                        <group string="Information">
+                            <group>     
+                                <field name="reference_no" readonly="1"/>
+                                <field name="year" readonly="1"/>
+                                <field name="month" readonly="1"/>   
+                                <field name="doctor_fee_id" domain="[('year','=', year),('month','=', month)]"/>   
+                                <field name="odoo_doctor_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" /> 
+                                <field name="remark" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>                                
+                                <field name="state" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="total" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                                <field name="rate" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <field name="rate_percent" readonly="1" />
+                                <field name="rate_remark" readonly="1"/>                                    
+                                <field name="is_bpjs" readonly="1" modifiers="{'readonly': true}" />
+                                <field name="bpjs_remark" readonly="1" modifiers="{'readonly': true}" />
+                                <field name="bpjs_check_remark" readonly="1" modifiers="{'readonly': true}" />
+                                <field name="bpjs_count_doctor" readonly="1" modifiers="{'readonly': true}" />
+                                <field name="rate_accrual" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            
+                        </group>
+
+                        <group string="POT/GP">
+                            <group>
+                                <field name="is_pot_gp" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_pot" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+                        <group string="P1/P2">
+                            <group>
+                                <field name="is_p12" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_p12" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+                        <group string="IGD">
+                            <group>
+                                <field name="is_igd" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_igd" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+
+                        <group string="Referral">
+                            <group>
+                                <field name="is_pengirim" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_pengirim" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+
+                        <group string="TNC">
+                            <group>
+                                <field name="is_tnc" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_tnc" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+                        <group string="HD">
+                            <group>
+                                <field name="is_hd" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                            <group>
+                                <field name="rate_hd" readonly="1" modifiers="{'readonly': true}" />
+                            </group>
+                        </group>
+
+                        <group>
+                            <group>
+                                <field name="company_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="tglproses" readonly="1"/>
+                                <field name="odoo_admission_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="admit_date" readonly="1"/>
+                                <field name="odoo_patient_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_regcode" readonly="1"/>
+                                <field name="odoo_package_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="package_name" readonly="1"/>
+                                <field name="service_group" readonly="1"/>
+                                <field name="odoo_service_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="department_name" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="specialise_name" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="id" readonly="1"/>
+                                <field name="patient_type" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="patient_group" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="billing_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="bill_no" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="bill_date" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="odoo_payer_id" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="payer_type" readonly="1" modifiers="{'readonly': true}"/>
+                                <field name="order_no" readonly="1"/>
+                                <field name="order_item_no" readonly="1"/>
+                                <field name="order_date" readonly="1"/>
+                                <field name="odoo_service_item_id" readonly="1"/>
+                                <field name="bed_type" readonly="1"/> 
+                                <field name="bed_type_id" readonly="1"/>
+
+                            </group>    
+                        </group> 
+
+                        <group string="Technical">
+                            <group>
+                                <field name="sync_consol_date" readonly="1" />
+                                <field name="sync_type"/>
+                            </group>
+                            <group>
+                                <field name="sync_consol_id_main" readonly="1" />
+                                <field name="sync_consol_id_unit" readonly="1" />
+                            </group>
+                        </group>  
+                    </sheet>
+                    <!-- <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div> -->
+                </form>
+            </field>
+        </record>
+
+
+
+
+	<record id="mayapada_doctor_fee_line_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.line.tree.inherited</field>
+            <field name="model">doctor.fee.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Worklist Fee Line">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="reference_no"/>
+                    <field name="doctor_fee_id"/>
+                    <field name="order_date"/>
+                    <field name="bill_no"/>
+                    <field name="patient_name"/>
+                    <field name="odoo_payer_id"/>                     
+                    <field name="service_name"/>
+                    <field name="service_item_name"/>
+                    <field name="total"/>
+                    <field name="rate"/>
+                    <field name="state"/>
+                    <field name="sync_type" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+	<record id="mayapada_doctor_fee_line_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.line.search.inherited</field>
+            <field name="model">doctor.fee.line</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<search string="Fee Line Search">
+                    <filter name="inpatient" string="IPD" domain="[('patient_group','=', 'InPatient')]" help="InPatient"/>
+                    <filter name="outpatient" string="OPD" domain="[('patient_group','=', 'OutPatient')]" help="OutPatient"/>
+                    <filter name="emergency" string="IGD" domain="[('patient_group','=', 'Emergency')]" help="Emergency"/>
+                    <filter name="mcu" string="MCU" domain="[('patient_group','=', 'MCU')]" help="MCU"/>
+                    <filter name="gp" string="POT/GP" domain="[('is_pot_gp','=', True)]" help="POT/GP"/>
+                    <filter name="order_date" string="Order Date" domain="[]" context="{'group_by': 'order_date:day'}" />
+                    <filter name="total" string="Bill Amount" domain="[]" context="{'group_by': 'total'}" />
+                    <filter name="rate" string="Fee Amount" domain="[]" context="{'group_by': 'rate'}" />
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft" />
+                    <filter name="confirm" string="Confirm" domain="[('state','=', 'confirmed')]" help="Confirm"/>
+                    <separator/>
+                    <field name="order_no"/>
+                    <field name="doctor_fee_id"/>
+                    <field name="odoo_patient_id"/>
+                    <field name="odoo_package_id"/>
+                    <field name="odoo_payer_id"/>
+                    <field name="odoo_doctor_id"/>
+                    <field name="odoo_primary_id"/>
+                    <field name="reference_no"/>
+                    <field name="admission_no"/>
+                    <field name="bill_no"/>
+                    <field name="service_name"/>
+                    <field name="department_name"/>
+                    <field name="specialise_name"/>
+                    <field name="odoo_service_item_id"/>
+                    <field name="patient_type"/>
+                </search>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_form_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.form.inherited</field>
+            <field name="model">doctor.fee</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<form string="Doctor Fee" delete="true">
+                        <header>
+                             <button string="Compute Bruto" name="compute_bruto" type="object" class="oe_highlight" states="draft"/>
+                             <button string="Compute Line" name="compute_line" type="object" class="oe_highlight" states="draft"/>
+                             <button string="Import Others" name="action_import" type="object" class="oe_highlight" />
+                             <button string="Preview" name="action_preview" type="object" class="oe_highlight" />
+                             <button string="PDF" name="action_print" type="object" class="oe_highlight" />
+                             <button string="PDF BPJS" name="action_print_bpjs" type="object" class="oe_highlight" />
+                             <button string="PDF TNC" name="action_print_tnc" type="object" class="oe_highlight" attrs="{'invisible':[('is_tnc','=',False)]}" />
+                             <button string="Print TNC" name="button_print_tnc" type="object" class="oe_highlight" attrs="{'invisible':[('is_tnc_total','=',False)]}" />
+                             <button string="XLS" name="action_excel" type="object" class="oe_highlight" />
+                             <button string="Confirm" name="confirm" type="object" class="oe_highlight" states="draft"/>
+                             <button string="Unconfirm" name="unconfirm" type="object" class="oe_highlight" states="confirmed"/>
+                             <button string="Unpost" name="unpost" type="object" class="oe_highlight" states="posted"/>
+                             <button string="Cancel" name="cancel" type="object" class="oe_highlight" states="confirmed"/>
+                             <button string="Set Draft" name="set_draft" type="object" class="oe_highlight" states="cancel"/>
+                             <button string="Send Email" name="send_email" type="object" class="oe_highlight" attrs="{'invisible':['|', ('email_send','=',True), ('state', 'in', ['draft','cancel'])]}"/>
+                             <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="doctor_id" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="year" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="month" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="gross_fee" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="other" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="allowance" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="total_fee" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="bruto" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                                <group>
+                                    <field name="gross_up" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="total" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="dpp" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="dpp_50" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="pph_21" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="total_nett" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="deduction" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="thp" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Transaction Line">
+                                    <field name="transaction_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="order_date"/>
+                                        <field name="admission_no"/>
+                                        <field name="bill_no"/>
+                                        <field name="patient_name"/>
+                                        <field name="service_name"/>
+                                        <field name="service_item_name"/>
+                                        <field name="total" sum="Total" widget="monetary"/>
+                                        <field name="rate" sum="Total" widget="monetary"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Accrual BPJS">
+                                    <field name="accrual_ids" readonly="1">
+                                        <tree editable="bottom">
+                                            <field name="order_date"/>
+                                            <field name="admission_no"/>
+                                            <field name="bill_no"/>
+                                            <field name="patient_name"/>
+                                            <field name="service_name"/>
+                                            <field name="service_item_name"/>
+                                            <field name="total" sum="Total" widget="monetary"/>
+                                            <field name="rate_accrual" sum="Total" widget="monetary"/>
+                                            <field name="rate" sum="Total" widget="monetary"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Others (Before Tax)">
+                                    <field name="other_transaction_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                        <tree editable="bottom">
+                                            <field name="other_type"/>
+                                            <field name="analytic_account_id" domain="[('company_id', '=', parent.company_id),('code', 'like', '510%'), ('parent_id', '!=', False),('name', 'like', 'Doctor Fee%')]"/>
+                                            <field name="bill_id"/>
+                                            <field name="bill_date" readonly="1"/>
+                                            <field name="patient_type" readonly="1"/>
+                                            <field name="partner_id" domain="[('company_id', '=', parent.company_id),('insurance', '=', True)]" readonly="1"/>
+                                            <field name="patient_id" readonly="1"/>
+                                            <field name="item"/>
+                                            <field name="description"/>
+                                            <field name="amount" sum="Total" widget="monetary"/>
+                                            <field name="credit_gf"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Deduction &amp; Addition (After Tax)">
+                                    <field name="deduction_transaction_ids" attrs="{'readonly':[('state','!=','draft')]}">
+                                        <tree editable="bottom">
+                                            <field name="item"/>
+                                            <field name="analytic_account_id" domain="[('company_id', '=', parent.company_id),('code', 'like', '510%'), ('parent_id', '!=', False),('name', 'like', 'Doctor Fee%')]"/>
+                                            <field name="description"/>
+                                            <field name="amount"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="POT &amp; Dental">
+                                    <group string="General"> 
+                                        <group>
+                                            <field name="is_external" string="External Clinic"/>
+                                        </group>
+                                        <group>
+                                            <field name="is_dental"/>
+                                        </group>
+                                    </group>
+
+                                    <group string="POT/GP"> 
+                                        <group>
+                                            <field name="is_pot_total"/>
+                                            <field name="pot_total_point" attrs="{'readonly':[('is_pot_total', '!=', True)]}"  />
+                                            <field name="pot_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_pot_gp"/>
+                                            <field name="pot_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="pot_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+                                    <group string="IGD"> 
+                                        <group>
+                                            <field name="is_igd_total"/>
+                                            <field name="igd_total_point" attrs="{'readonly':[('is_igd_total', '!=', True)]}"  />
+                                            <field name="igd_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_igd"/>
+                                            <field name="igd_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="igd_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+                                    <group string="P1/P2"> 
+                                        <group>
+                                            <field name="is_p12_total"/>
+                                            <field name="p12_total_point" attrs="{'readonly':[('is_p12_total', '!=', True)]}"  />
+                                            <field name="p12_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_p12"/>
+                                            <field name="p12_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="p12_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+                                    <group string="Referral"> 
+                                        <group>
+                                            <field name="is_pengirim_total"/>
+                                            <field name="pengirim_total_point" attrs="{'readonly':[('is_pengirim_total', '!=', True)]}"  />
+                                            <field name="pengirim_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_pengirim"/>
+                                            <field name="pengirim_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="pengirim_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+                                    <group string="TNC"> 
+                                        <group>
+                                            <field name="is_tnc_total"/>
+                                            <field name="tnc_total_point" attrs="{'readonly':[('is_tnc_total', '!=', True)]}"  />
+                                            <field name="tnc_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_tnc"/>
+                                            <field name="tnc_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="tnc_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+
+                                    <group string="HD"> 
+                                        <group>
+                                            <field name="is_hd_total"/>
+                                            <field name="hd_total_point" attrs="{'readonly':[('is_hd_total', '!=', True)]}"  />
+                                            <field name="hd_total_share" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="is_hd"/>
+                                            <field name="hd_point" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="hd_share" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+
+
+                                </page>
+                                <page string="Information">
+                                    <group>
+                                        <group>
+                                            <field name="gf" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="gf_other" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="join_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="is_npwp"/>
+                                            <field name="npwp"/>
+                                            <field name="journal_id"/>
+                                            <field name="email_send" readonly="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="total_accrual" readonly="1"/>
+                                            <field name="is_grossup"/>
+                                            <field name="lapis" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="previous_bruto" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="previous_pph21" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
+            </field>
+        </record>
+
+
+
+
+
+	<record id="mayapada_doctor_fee_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.tree.inherited</field>
+            <field name="model">doctor.fee</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Doctor Fee" delete="true">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="doctor_id"/>
+                    <field name="thp" sum="Total" widget="monetary"/>
+                    <field name="state"/>
+                    <field name="is_pot_gp"/>
+                    <field name="is_dental"/>
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.search.inherited</field>
+            <field name="model">doctor.fee</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<search string="Fee Line Search">
+                    <filter name="draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft"/>
+                    <filter name="confirm" string="Confirm" domain="[('state','=', 'confirmed')]" help="Confirm"/>
+                    <filter name="posted" string="Posted" domain="[('state','=', 'posted')]" help="Posted"/>
+                    <separator/>
+                    <filter name="thp" string="THP" domain="[('thp','>', 0)]" help="POT/GP"/>
+                    <separator/>
+                    <filter name="is_dental" string="Dental" domain="[('is_dental','=', True)]" help="Dental"/>
+                    <filter name="is_external" string="Clinic" domain="[('is_external','=', True)]" help="Clinic External"/>
+                    <separator/>
+                    <filter name="is_gp" string="POT/GP" domain="[('is_pot_gp','=', True)]" help="POT/GP"/>
+                    <filter name="is_igd" string="IGD" domain="[('is_igd','=', True)]" help="IGD"/>
+                    <filter name="is_p12" string="P1/P2" domain="[('is_p12','=', True)]" help="P1/P2"/>
+                    <filter name="is_pengirim" string="Referral" domain="[('is_pengirim','=', True)]" help="Referral"/>
+                    <filter name="is_tnc" string="TNC" domain="[('is_tnc','=', True)]" help="TNC"/>
+                    <filter name="is_hd" string="HD" domain="[('is_hd','=', True)]" help="HD"/>
+                    <field name="doctor_id"/>
+                </search>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_others_detail_form_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.others.detail.form.inherited</field>
+            <field name="model">doctor.fee.others.detail</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<form string="Other Fee Detail">
+                        <header>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <group string="Information">
+                                <group>     
+                                    <field name="company_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="reference_no" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="year" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="month" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/> 
+                                    <field name="fee_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>  
+                                    <field name="remark" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>                                
+                                    <field name="state" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                </group>
+                                <group>
+                                    <field name="tglproses" readonly="1"/>
+                                    <field name="journal_id" readonly="1"/>
+                                    <field name="odoo_doctor_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}" domain="[('company_id', '=', company_id),('sync_wipro_type', '=', 'doctor_internal')]" /> 
+                                    <field name="total" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                                    <field name="rate" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="rate_percent" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="rate_remark" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>                                    
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="odoo_admission_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="admit_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="bill_no" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="bill_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="discharge_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="code_inacbg" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="patient_regcode" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="patient_name" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="payer_name" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="payer_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                </group>
+                                <group>
+                                    <field name="patient_group" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="patient_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="odoo_service_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="department_name" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="specialise_name" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="order_no" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="order_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="odoo_service_item_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                    <field name="bed_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/> 
+                                </group>    
+                            </group> 
+
+                            <notebook>
+                                <page string="Technical">
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                                        <field name="sync_consol_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                                    </group>
+                                </page>  
+                            </notebook>
+                        </sheet>
+                    </form>
+            </field>
+        </record>
+
+
+
+
+	<record id="mayapada_doctor_fee_others_detail_tree_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.others.detail.tree.inherited</field>
+            <field name="model">doctor.fee.others.detail</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<tree string="Worklist Fee Other Detail">
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="reference_no"/>
+                    <field name="patient_type"/>
+                    <field name="bill_no"/>
+                    <field name="patient_name"/>
+                    <field name="service_name"/>
+                    <field name="rate"/>
+                    <field name="state"/>
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+	<record id="mayapada_doctor_fee_others_detail_search_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.others.detail.search.inherited</field>
+            <field name="model">doctor.fee.others.detail</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+		<search string="Fee Other Search">
+                    <filter name="inpatient" string="IPD" domain="[('patient_group','=', 'InPatient')]" help="InPatient"/>
+                    <filter name="outpatient" string="OPD" domain="[('patient_group','=', 'OutPatient')]" help="OutPatient"/>
+                    <filter name="emergency" string="IGD" domain="[('patient_group','=', 'Emergency')]" help="Emergency"/>
+                    <filter name="mcu" string="MCU" domain="[('patient_group','=', 'MCU')]" help="MCU"/>
+                    <separator/>
+                    <filter name="draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft" />
+                    <filter name="confirm" string="Confirm" domain="[('state','=', 'confirmed')]" help="Confirm"/>
+                    <filter name="posted" string="Posted" domain="[('state','=', 'posted')]" help="Posted"/>
+                    <separator/>
+                    <field name="patient_name"/>
+                    <field name="patient_regcode"/>
+                    <field name="odoo_doctor_id"/>
+                    <field name="odoo_primary_id"/>
+                    <field name="reference_no"/>
+                    <field name="admission_no"/>
+                    <field name="bill_no"/>
+                    <field name="service_name"/>
+                    <field name="department_name"/>
+                    <field name="specialise_name"/>
+                    <field name="service_item_name"/>
+                    <field name="patient_type"/>
+                </search>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="mayapada_doctor_fee_others_import_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.others.import.wizard.inherited</field>
+            <field name="model">doctor.fee.others.import.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Doctor Fee Others Import Upload">
+                    <group>
+                        <field name="doctor_fee_id" invisible="1" />
+                        <field name="company_id"/>
+                    </group> 
+                    <p></p>
+                    <ul id="ijp_format">
+                        <li>Microsoft Office Excel (.xlsx) -- <a href="/mayapada/static/Format_Import_Doctor_Fee_Others.xlsx" class="ml4"><i class="fa fa-download mr4"></i>Import Sample Template</a></li>
+                    </ul>
+                    <group col="2">
+                        <field name="attachment_ids" widget="many2many_binary" />
+                    </group>  
+                    <footer>
+                        <button name="upload" type="object" string="Upload File" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="mayapada_doctor_rate_import_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.import.wizard.inherited</field>
+            <field name="model">doctor.rate.import.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Referral Fee to Entries">
+                    <group>
+                        <group>
+                            <field name="company_id" required="1" />
+                            <field name="service_id" domain="[('company_id','=', company_id)]" />
+                            <field name="product_id" domain="[('company_id','=', company_id), ('categ_id','=', service_id)]" />
+                            <field name="package_id" domain="[('company_id','=', company_id)]"/>
+                            <field name="take_out" />
+                            <field name="patient_type" />
+                            <field name="rate" />
+                            <field name="type_rate" />
+                        </group>
+                        <group>
+                            <field name="rate_value" />
+                            <field name="bed_type" />
+                            <field name="bed_type_id" domain="[('company_id','=', company_id)]" />
+                            <field name="is_hospital_sharing" />
+                            <field name="hospital_sharing_amount"/>
+                            <field name="payer_id" domain="[('company_id','=', company_id), ('insurance','=',True)]" />
+                            <field name="user_id" required="1" />
+                        </group>
+                    </group>
+                    <!-- <group>  -->
+                    <field name="doctor_rate_ids" nolabel="1">
+                        <tree>
+                            <field name="doctor_id"/>
+                            <field name="start_date_validity"/>
+                            <field name="start_date_validity"/>
+                            <field name="doctor_id"/>
+                            <field name="doctor_id"/>
+                            <field name="doctor_id"/>
+                            <field name="doctor_id"/>
+                        </tree>
+                    </field>
+                    <!-- </group> -->
+                    <footer>
+                        <button name="import_rate" string="Import" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="mayapada_payout_wipro_wizard_inherited" model="ir.ui.view">
+            <field name="name">payout.wipro.wizard.inherited</field>
+            <field name="model">payout.wipro.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Syncronize Wipro Payout to Odoo">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="start_date" />
+                            <field name="end_date" />
+                        </group>
+                        <group>
+                            <field name="reference_no" />
+                            <field name="billno" />
+                            <field name="admission_no"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate" string="Sync HIS Payout" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_payout_wizard_inherited" model="ir.ui.view">
+            <field name="name">payout.wizard.inherited</field>
+            <field name="model">payout.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Duplicate Billing to Payout Interface">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="billno" />
+                            <field name="admission_no" />
+                        </group>
+                        <group>
+                            <field name="reference_no" />
+                            <field name="start_date" />
+                            <field name="end_date" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate" string="Generate Payout Interface" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mayapada_payout_bulk_update_wizard_inherited" model="ir.ui.view">
+            <field name="name">payout.bulk.update.wizard.inherited</field>
+            <field name="model">payout.bulk.update.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Payout Bulk Update">
+                <group>
+                    <group>
+                        <field name="company_id" />
+                    </group>
+                    <group>
+                        <field name="column_name" />
+                        <field name="analytic_account" domain="[('company_id','=', company_id),('sync_wipro_type','=','doctor_internal')]" attrs="{'invisible':[('column_name','=','analytic_account')]}" />
+                        <field name="price_total" attrs="{'invisible':[('column_name','!=','price_total')]}" />
+                        <field name="service_categ_id" domain="[('company_id','=', company_id),('sync_id_api','!=', '')]" attrs="{'invisible': [('column_name','!=','service_categ_id')]}" />
+                    </group>
+                </group>
+                <group>
+                    <field nolabel="1" colspan="2" name="payout_line_ids" domain="[('company_id','=', company_id)]">
+                        <tree create="true" delete="true">
+                            <field name="reference_no"/>
+                            <field name="account_analytic_id"/>
+                            <field name="order_id"/>
+                            <field name="billno"/>
+                            <field name="product_id"/>
+                            <field name="price_total"/>
+                        </tree>
+                    </field>
+                </group>    
+                <footer>
+                    <button name="bulk_update" string="Update Payout Interface" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+
+		<record id="mayapada_doctor_fee_bpjs_import_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.bpjs.import.wizard.inherited</field>
+            <field name="model">doctor.fee.bpjs.import.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Doctor Fee BPJS Upload">
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="reference_no"/>
+                        </group>
+                        <group>
+                            <field name="year"/>
+                            <field name="month"/>
+                        </group>
+                    </group> 
+
+
+                    <p></p>
+                    <ul id="ijp_format">
+                        <li>Microsoft Office Excel (.xlsx) -- <a href="/mayapada/static/Format_Import_Doctor_Fee_BPJS.xlsx" class="ml4"><i class="fa fa-download mr4"></i>Import Sample Template</a></li>
+                    </ul>
+                    <group col="2">
+                        <field name="attachment_ids" widget="many2many_binary" />
+                    </group>
+                    
+
+                    <footer>
+                        <button name="upload" type="object" string="Upload File" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="mayapada_fee_detail_wizard_inherited" model="ir.ui.view">
+            <field name="name">fee.detail.wizard.inherited</field>
+            <field name="model">fee.detail.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Generate Fee Line">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="year" options="{'format': false}" />
+                            <field name="month" />
+                        </group>
+                        <group>
+                            <field name="reference_no" />
+                            <field name="billno" />
+                            <field name="admission_no"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate" string="Generate Fee Line" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_fee_bpjs_detail_wizard_inherited" model="ir.ui.view">
+            <field name="name">fee.bpjs.detail.wizard.inherited</field>
+            <field name="model">fee.bpjs.detail.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Generate Fee Line">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="reference_no"/>
+                        </group>
+                        <group>
+                            <field name="year" />
+                            <field name="month" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate" string="Generate Fee Line BPJS" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_doctor_fee_bulk_update_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.bulk.update.wizard.inherited</field>
+            <field name="model">doctor.fee.bulk.update.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Fee Doctor Bulk Update">
+                    <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="year"/>
+                            <field name="month"/>
+                        </group>
+                        <group>
+                            <field name="column_name" />
+                            <field name="total" attrs="{'invisible':[('column_name','!=','total')]}" />
+                            <field name="rate" attrs="{'invisible':[('column_name','!=','rate')]}" />
+                            <field name="rate_igd" attrs="{'invisible':[('column_name','!=','rate_igd')]}" />
+                            <field name="rate_p12" attrs="{'invisible':[('column_name','!=','rate_p12')]}" />
+                            <field name="rate_hd" attrs="{'invisible':[('column_name','!=','rate_hd')]}" />
+                            <field name="rate_pot" attrs="{'invisible':[('column_name','!=','rate_pot')]}" />
+                            <field name="rate_pengirim" attrs="{'invisible':[('column_name','!=','rate_pengirim')]}" />
+                            <field name="sharing_gp" attrs="{'invisible':[('column_name','!=','sharing_pot')]}" />
+                            <field name="sharing_pot" attrs="{'invisible':[('column_name','!=','sharing_pot')]}" />
+                            <field name="doctor_id" attrs="{'invisible':[('column_name','!=','doctor_fee_id')]}" domain="[('year','=',year),('month','=',month),('state','=','draft'),('company_id','=', company_id)]" />
+                            <field name="duplicate" attrs="{'invisible':[('column_name','!=','doctor_fee_id')]}"/>
+                        </group>
+                    </group>
+               
+                    <field nolabel="1" name="fee_line_ids" domain="[('year','=',year),('month','=',month),('state','=','draft'),('company_id','=', company_id),('is_pot_sharing','=',False)]">
+                        <tree create="true" delete="true">
+                            <field name="doctor_fee_id"/>
+                            <field name="bill_no"/>
+                            <field name="department_name"/>
+                            <field name="odoo_service_item_id"/>
+                            <field name="total"/>
+                            <field name="rate"/>
+                            <field name="rate_pot"/>
+                        </tree>
+                    </field>
+                </sheet>
+                <footer>
+                    <button name="bulk_update" string="Update Fee Line" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+
+        <record id="mayapada_doctor_fee_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.wizard.inherited</field>
+            <field name="model">doctor.fee.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Compute Fee Per Doctor">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" />
+                            </group>
+                            <group>
+                                <field name="year" />
+                                <field name="month" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fee Doctor">
+                                <field name="doctor_fee_ids" domain="[('company_id','=', company_id), ('year','=', year), ('month','=',month), ('state','=','draft')]"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="create_doctor_fee" string="Compute Fee Per Doctor" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_doctor_pot_import_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.pot.import.wizard.inherited</field>
+            <field name="model">doctor.pot.import.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Doctor Fee POT Upload">
+                    <group>
+                        <group>
+                            
+                            <field name="year"/>
+                            <field name="month"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            
+                            <field name="is_pot_gp"/>
+                            <field name="is_igd"/>
+                            <field name="is_p12"/>
+                        </group>
+                        <group>
+                            <field name="is_hd"/>
+                            <field name="is_pengirim"/>
+                            <field name="is_tnc"/>
+                        </group>
+                    </group> 
+
+
+                    <p></p>
+                    <ul id="ijp_format">
+                        <li>Microsoft Office Excel (.xlsx) -- <a href="/mayapada/static/Format_Import_Doctor_POT_Share.xlsx" class="ml4"><i class="fa fa-download mr4"></i>Import Sample Template</a></li>
+                    </ul>
+                    <group col="2">
+                        <field name="attachment_ids" widget="many2many_binary" />
+                    </group>
+                    
+
+                    <footer>
+                        <button name="upload" type="object" string="Upload POT Share" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_report_doctor_fee_wizard_inherited" model="ir.ui.view">
+            <field name="name">report.doctor.fee.wizard.inherited</field>
+            <field name="model">report.doctor.fee.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Report Fee Per Doctor">
+                    <group>
+                            <group>
+                                <field name="company_id" />
+                                <field name="year" />
+                                <field name="month" />
+                            </group>
+                            <group>
+                                <field name="is_pot_gp" />
+                                <field name="is_dental" />
+                                <field name="is_external" />
+                            </group>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Generate Report" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="mayapada_report_doctor_service_cost_wizard_inherited" model="ir.ui.view">
+            <field name="name">report.doctor.service.cost.wizard.inherited</field>
+            <field name="model">report.doctor.service.cost.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Report Fee Doctor Service Cost">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="year" />
+                            <field name="month" />
+                            <field name="report_type" />
+                            <field name="report_bank" attrs="{'invisible':[('report_type','!=','laporan_bank')], 'required':[('report_type','=','laporan_bank')]}" />
+                        </group>
+                        <group>
+                            <field name="is_pot_gp" />
+                            <field name="is_dental" />
+                            <field name="is_external" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Generate Report" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+
+        <record id="mayapada_doctor_fee_posting_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.fee.posting.wizard.inherited</field>
+            <field name="model">doctor.fee.posting.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Posting Doctor Fee to Entries">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="year" />
+                            <field name="month" />
+                            <field name="posting_type" />
+                            <field name="auto_posting" />
+                        </group>
+                        <group>
+                            <field name="expense_journal_id" domain="[('company_id', '=', company_id)]" />
+                            <field name="expense_date" />
+                            <field name="expense_account_id" domain="[('company_id', '=', company_id),('code', 'like', '510%')]" />
+                            <field name="credit_account_id" domain="[('company_id', '=', company_id),('code', 'like', '210%')]" />
+                            <field name="tax_account_id" domain="[('company_id', '=', company_id),('code', 'like', '2104%')]" />
+                        </group>
+                    </group>
+                    <group attrs="{'invisible': [('posting_type','!=','doctor_fee')]}"> 
+                        <field name="doctor_fee_ids" domain="[('company_id', '=', company_id),('state', '=', 'confirmed'),('year', '=', year),('month', '=', month)]">
+                            <tree>
+                                <field name="year" string="Year"/>
+                                <field name="month" string="Month"/>
+                                <field name="doctor_id"/>
+                                <field name="state"/>
+                                <field name="thp" string="THP" sum="Total" widget="monetary"/>
+                            </tree>
+                        </field>
+                    </group> 
+                    <group invisible="1">
+                        <field name="doctor_fee_others_ids" domain="[('company_id', '=', company_id),('state', '=', 'confirmed'),('year', '=', year),('month', '=', month)]">
+                            <tree>
+                                <field name="year" string="Year"/>
+                                <field name="month" string="Month"/>
+                                <field name="odoo_doctor_id" string="Doctor"/>
+                                <field name="state"/>
+                                <field name="rate" string="Fee Amount" sum="Total" widget="monetary"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="posting" string="Generate Journal" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="mayapada_doctor_rate_bulk_update_wizard_inherited" model="ir.ui.view">
+            <field name="name">doctor.rate.bulk.update.wizard.inherited</field>
+            <field name="model">doctor.rate.bulk.update.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Doctor Rate Bulk Update Wizard">
+                    <group>
+                        <group>
+                            <field name="company_id" required="1" />
+                            <field name="user_id" required="1" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="column_name" required="1" />
+                            <field name="service_id" domain="[('company_id','=', company_id)]" attrs="{'invisible':[('column_name','!=','service_id')]}"/>
+                            <field name="product_id" domain="[('company_id','=', company_id), ('categ_id','=', service_id), ('type','=', 'service')]" attrs="{'invisible':[('column_name','!=','service_id')]}" />
+                            <field name="package_id" domain="[('company_id','=', company_id)]" attrs="{'invisible':[('column_name','!=','package_id')]}"/>
+                            <field name="take_out" attrs="{'invisible':[('column_name','!=','take_out')]}"/>
+                            <field name="patient_type" attrs="{'invisible':[('column_name','!=','patient_type')]}"/>
+                            <field name="rate" attrs="{'invisible':[('column_name','!=','rate')]}"/>
+                            <field name="type_rate" attrs="{'invisible':[('column_name','!=','type_rate')]}"/>
+                            <field name="rate_value" attrs="{'invisible':[('column_name','!=','rate_value')]}"/>
+                            <field name="bed_type" attrs="{'invisible':[('column_name','!=','bed_type')]}"/>
+                            <field name="bed_type_id" domain="[('company_id','=', company_id)]" attrs="{'invisible':[('column_name','!=','bed_type_id')]}"/>
+                            <field name="is_hospital_sharing" attrs="{'invisible':[('column_name','!=','is_hospital_sharing')]}"/>
+                            <field name="hospital_sharing_amount" attrs="{'invisible':[('column_name','!=','hospital_sharing_amount')]}"/>
+                            <field name="payer_id" domain="[('company_id','=', company_id), ('insurance','=',True)]" attrs="{'invisible':[('column_name','!=','payer_id')]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="doctor_rate_line_ids" nolabel="1" colspan="2">
+                            <tree editable="bottom" edit="false">
+                                <field name="service_id"/>
+                                <field name="product_id"/>
+                                <field name="package_id"/>
+                                <field name="take_out" optional="show"/>
+                                <field name="patient_type" optional="hide"/>
+                                <field name="rate"/>
+                                <field name="type_rate"/>
+                                <field name="rate_value"/>
+                                <field name="bed_type" optional="hide"/>
+                                <field name="bed_type_id" optional="hide"/>
+                                <field name="is_hospital_sharing" optional="hide"/>
+                                <field name="hospital_sharing_amount" optional="hide"/>
+                                <field name="payer_id" optional="hide"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="update_rate" string="Update" type="object" class="oe_highlight"/>
+                        <button name="delete_rate" string="Delete" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+
+    </data>
+</odoo>

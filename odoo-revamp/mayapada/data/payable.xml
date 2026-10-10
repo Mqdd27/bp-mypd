@@ -1,0 +1,1030 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="payable_supplier_action">
+            <field name="name">AP Supplier</field>
+            <field name="res_model">payable.supplier</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_supplier_tree" model="ir.ui.view">
+            <field name="name">payable.supplier.tree</field>
+            <field name="model">payable.supplier</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Supplier" delete="0"  duplicate="0">
+                    <field name="supplier_code" />
+                    <field name="supplier_name" />
+                    <field name="supplier_type" />
+                    <field name="supplier_account_payable_id" />
+                    <field name="company_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_supplier_search" model="ir.ui.view">
+            <field name="name">payable.supplier.search</field>
+            <field name="model">payable.supplier</field>
+            <field name="arch" type="xml">
+                <search string="AP Supplier..">
+                    <field name="supplier_code" />
+                    <field name="supplier_name" />
+                    <field name="supplier_type" />
+                    <field name="supplier_account_payable_id" />
+                    <field name="supplier_account_interim_id" />
+                    <field name="company_id" />
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_supplier_view" model="ir.ui.view">
+            <field name="name">payable.supplier.view</field>
+            <field name="model">payable.supplier</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Supplier" duplicate="0" delete="0" edit="1" create="1">
+                    <sheet>
+                         <div class="oe_title">
+                                <label for="supplier_code"/>
+                                <h1>
+                                    <field name="supplier_code" readonly="1" force_save="1" />
+                                </h1>
+                            </div>
+
+                        <group>
+                            <group>
+                                <field name="supplier_type" required="1" />
+                                <field name="supplier_name" required="1" />
+                                <field name="supplier_term_day" required="1" />
+                                <field name="supplier_address" />
+                            </group>
+                            <group>
+                                
+                                <field name="company_id" readonly="1" force_save="1" />
+                                <field name="supplier_account_payable_id" required="1" options="{'no_create': True, 'no_create_edit': True}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False), ('code','like','21%')]" />
+                                <field name="supplier_account_interim_id" required="1" options="{'no_create': True, 'no_create_edit': True}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False)]" />
+                                <field name="supplier_notes" />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Supplier Banks">
+                                <field name="supplier_bank_ids" required="1">
+                                    <tree editable="bottom">
+                                        <field name="supplier_id" invisible="1"/>
+                                        <field name="supplier_bank_id" />
+                                        <field name="supplier_bank_account" />
+                                        <field name="supplier_bank_beneficary" />
+                                        <field name="supplier_bank_branch" />
+                                        <field name="supplier_bank_llg" />
+                                        <field name="supplier_bank_rtgs" />
+                                        <field name="supplier_bank_bifast" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Supplier Mapping">
+                                <field widget="many2many" name="supplier_mapping_ids" domain="[('company_id','=', company_id), ('supplier','=', True)]">
+                                    <tree>
+                                        <field name="id" invisible="1"/>
+                                        <field name="vendor_code" />
+                                        <field name="name" />
+                                        <field name="company_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" />
+                                        <field name="sync_id_api" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_supplier_bank_action">
+            <field name="name">AP Supplier Bank</field>
+            <field name="res_model">payable.supplier.bank</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_supplier_bank_tree" model="ir.ui.view">
+            <field name="name">payable.supplier.bank.tree</field>
+            <field name="model">payable.supplier.bank</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Supplier Bank" delete="false" edit="false" create="false">
+                    <field name="supplier_id" />
+                    <field name="supplier_bank_id" />
+                    <field name="supplier_bank_account" />
+                    <field name="supplier_bank_beneficary" />
+                    <field name="supplier_bank_branch" />
+                    <field name="supplier_bank_llg" />
+                    <field name="supplier_bank_rtgs" />
+                    <field name="supplier_bank_bifast" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_supplier_bank_search" model="ir.ui.view">
+            <field name="name">payable.supplier.bank.search</field>
+            <field name="model">payable.supplier.bank</field>
+            <field name="arch" type="xml">
+                <search string="AP Supplier Bank..">
+                    <field name="supplier_id" />
+                    <field name="supplier_bank_id" />
+                    <field name="supplier_bank_account" />
+                    <field name="supplier_bank_beneficary" />
+                    <field name="supplier_bank_branch" />
+                    <field name="supplier_bank_llg" />
+                    <field name="supplier_bank_rtgs" />
+                    <field name="supplier_bank_bifast" />
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_supplier_bank_view" model="ir.ui.view">
+            <field name="name">payable.supplier.bank.view</field>
+            <field name="model">payable.supplier.bank</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Supplier Bank" delete="0" edit="0" create="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="supplier_id" />
+                                <field name="supplier_bank_id" />
+                                <field name="supplier_bank_account" />
+                                <field name="supplier_bank_beneficary" />
+                            </group>
+                            <group>
+                                <field name="supplier_bank_branch" />
+                                <field name="supplier_bank_llg" />
+                                <field name="supplier_bank_rtgs" />
+                                <field name="supplier_bank_bifast" />
+                            </group>
+                        </group>    
+                        <notebook>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" />
+                                        <field name="sync_id_api" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_invoice_action">
+            <field name="name">AP Invoice</field>
+            <field name="res_model">payable.invoice</field>
+            <field name="context">{'search_default_state_confirm': 1, 'search_default_state_draft':1}</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_invoice_tree" model="ir.ui.view">
+            <field name="name">payable.invoice.tree</field>
+            <field name="model">payable.invoice</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Invoice" duplicate="false" delete="false" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                    <field name="invoice_type"/>
+                    <field name="invoice_no"/>
+                    <field name="invoice_date"/>
+                    <field name="invoice_ref"/>
+                    <field name="supplier_id"/>
+                    <field name="invoice_balance" sum="Total Balance"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_invoice_search" model="ir.ui.view">
+            <field name="name">payable.invoice.search</field>
+            <field name="model">payable.invoice</field>
+            <field name="arch" type="xml">
+                <search string="AP Invoice..">
+                    <filter name="state_draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft"/>
+                    <filter name="state_confirm" string="Confirm" domain="[('state','=', 'confirm')]" help="Confirm"/>
+                    <filter name="state_cancel" string="Cancelled" domain="[('state','=', 'cancel')]" help="Cancelled"/>
+                    <separator/>
+                    <filter name="invoice_type_IB" string="Inbound" domain="[('invoice_type','=', 'INVOICE_IB')]" help="Inbound"/>
+                    <filter name="invoice_type_RF" string="Refund" domain="[('invoice_type','=', 'INVOICE_RF')]" help="Refund"/>
+                    <filter name="invoice_type_DP" string="DownPayment" domain="[('invoice_type','=', 'INVOICE_DP')]" help="DownPayment"/>
+                    <separator/>
+                    <field name="invoice_no"/>
+                    <field name="invoice_type"/>
+                    <field name="invoice_ref"/>
+                    <field name="supplier_id"/>
+                    <field name="invoice_notes"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_invoice_view" model="ir.ui.view">
+            <field name="name">payable.invoice.view</field>
+            <field name="model">payable.invoice</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Invoice" delete="0" duplicate="0">
+                        <header>
+                            <field name="state" widget="statusbar"/>
+                            <button string="Print" name="action_print" type="object" states="confirm" class="oe_highlight"/>
+                            <button string="Compute Total" name="action_compute_total" type="object" states="draft" class="oe_highlight"/> 
+                            <button string="Compute Balance" name="action_compute_balance" type="object" states="confirm" class="oe_highlight"/> 
+                            <button name="action_unconfirm" type="object" string="Unconfirm" states="confirm" class="oe_highlight"/>
+                            <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                            <button name="action_refund" type="object" string="Refund" states="confirm" class="oe_highlight" />
+                            <button name="action_debitnote" type="object" string="DebitNote" states="confirm" class="oe_highlight" />
+                            <button name="action_creditnote" type="object" string="CreditNote" states="confirm" class="oe_highlight" />
+                            <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                                <button class="oe_stat_button" name="button_journal_entries" string="Journal Items" type="object" attrs="{'invisible':[('move_line_ids','=',[])]}" icon="fa-bars" modifiers="{'invisible': [['move_line_ids', '=', []]]}"/>
+                                <field name="move_line_ids" invisible="1" modifiers="{'invisible': true, 'readonly': true}"/>
+                            </div>
+                            <div class="oe_title">
+                                <label for="invoice_no"/>
+                                <h1>
+                                    <field name="invoice_no" readonly="1" force_save="1" />
+                                    
+                                </h1>
+                            </div>
+
+                            <group attrs="{'readonly':[('state','in',['confirm','cancel'])]}">
+                                <group>
+                                    <field name="ctx_readonly" invisible="1"/>
+                                    <field name="company_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" readonly="1" force_save="1" />
+                                    <field name="invoice_type" required="1" attrs="{'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="invoice_reverse_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" attrs="{'invisible': [('invoice_type','in',['INVOICE_IB','INVOICE_DP'])], 'required':[('state','=','draft'),('invoice_type','=', 'INVOICE_RF')], 'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" domain="[('company_id','=', company_id), ('invoice_type','=', 'INVOICE_IB'), ('state','=', 'confirm')]" />
+                                    
+                                    <field name="invoice_date" required="1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="invoice_exchange_date" required="1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="invoice_duedate"  required="1" attrs="{'readonly':['|', ('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="invoice_ref" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="invoice_source" force_save="1" attrs="{'readonly': [('invoice_type','=','INVOICE_RF')], 'invisible':[('invoice_type','=','INVOICE_RF')], 'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="invoice_po_id" options="{'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('invoice_type','!=','INVOICE_DP')], 'required':[('invoice_type','=','INVOICE_DP')], 'readonly':[('state','in',['confirm','cancel'])]}"  domain="[('company_id','=', company_id), ('is_return','=', False), ('state','in', ['done','purchase'])]" />
+                                    <field name="dp_amount" attrs="{'invisible': [('invoice_type','!=','INVOICE_DP')], 'required': [('invoice_type','=','INVOICE_DP')], 'readonly':[('state','in',['confirm','cancel'])]}"  />
+                                    <field name="refund_amount" attrs="{'invisible': [('invoice_type','!=','INVOICE_RF')], 'required': [('invoice_type','=','INVOICE_RF')], 'readonly':[('state','in',['confirm','cancel'])]}"  />
+                                    <field name="invoice_notes" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    
+                                </group>
+                                <group>
+                                    <field name="supplier_type" required="1" attrs="{'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="supplier_id" required="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', company_id), ('supplier_type','=', supplier_type)]" attrs="{'readonly':['|', ('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="supplier_account_payable_id" required="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', company_id), ('parent','=',False), ('deprecated','=',False)]" attrs="{'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />
+                                    <field name="supplier_account_interim_id" required="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', company_id), ('parent','=',False), ('deprecated','=',False)]" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="supplier_term_day" attrs="{'readonly':['|',('state','in',['confirm','cancel']), ('ctx_readonly','=', True)]}" />                
+                                    <field name="efaktur_no" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="efaktur_date" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    <field name="invoice_responsible_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1" />
+                                    <field name="move_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1" />
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="PO" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'invisible':['|',('invoice_source','not in',['PO_HIS','PO_ERP']),('invoice_type','in',['INVOICE_RF','INVOICE_DP'])]}">
+                                    <field name="invoice_purchase_ids" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'required':[('invoice_type','=','INVOICE_IB'), ('state','=','draft'), ('invoice_source','in',['PO_HIS','PO_ERP'])] }" options="{'no_create': True, 'no_create_edit': True}" widget="many2many" domain="[('company_id', '=', company_id), ('state','in', ['done','purchase']), ('payable_invoice_id','=',False)]">
+                                        <tree string="PO" readonly="1" decoration-danger="is_return == True" decoration-success="is_return == False">
+                                            <field name="id" invisible="1"/>
+                                            <field name="title"/>
+                                            <field name="is_return"/>
+                                            <field name="partner_id"/>
+                                            <field name="date_order"/>
+                                            <field name="amount_untaxed" sum="Total"/>
+                                            <field name="total_discount" sum="Total"/>
+                                            <field name="ppn" sum="Total"/>
+                                            <field name="amount_total" sum="Total"/>   
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <page string="Items" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'invisible':[('invoice_type','in',['INVOICE_RF','INVOICE_DP'])]}">
+                                    <field name="invoice_line_ids" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'required':[('invoice_type','=','INVOICE_IB'), ('state','=','draft'), ('invoice_source','in',['WITHOUT_PO'])] }"  context="{'default_item_account_id': supplier_account_interim_id}">
+                                        <tree string="Items" editable="bottom">
+                                            <field name="id" invisible="1"/>
+                                            <field name="payable_invoice_id" invisible="1"/>
+                                            <field name="item_name" required="1" />
+                                            <field name="item_amount" sum="Total" />
+                                            <field name="item_account_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', parent.company_id), ('deprecated','=', False), ('parent','=', False)]" />
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <page string="Deduction" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'invisible':[('invoice_type','in',['INVOICE_RF','INVOICE_DP'])]}">
+                                    <field name="invoice_deduction_ids"
+                                        attrs="{'readonly':[('state','in',['confirm','cancel'])]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                        widget="many2many"
+                                        domain="[('company_id', '=', company_id),
+                                                    ('supplier_id','=', supplier_id),
+                                                    ('invoice_type','in',['INVOICE_DP','INVOICE_RF']),
+                                                    ('invoice_reverse_id','=', False),
+                                                    ('state','=','confirm')]">
+                                        <tree string="Deduction" readonly="1" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                                            <field name="invoice_type"/>
+                                            <field name="invoice_no"/>
+                                            <field name="invoice_date"/>
+                                            <field name="invoice_duedate"/>
+                                            <field name="supplier_id"/>
+                                            <field name="invoice_subtotal" sum="Total"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+
+                                <page string="Credit/Debit Note" attrs="{'readonly':[('state','in',['confirm','cancel'])], 'invisible':[('invoice_type','in',['INVOICE_RF','INVOICE_DP'])]}">
+                                    <field name="invoice_adjustment_ids" readonly="1">
+                                        <tree>
+                                            <field name="adjust_type"/>
+                                            <field name="adjust_no"/>
+                                            <field name="adjust_date"/>
+                                            <field name="adjust_notes"/>
+                                            <field name="adjust_amount" sum="Total"/>
+                                            <field name="state"/>
+                                            <field name="supplier_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                
+
+                                <page string="Payment"  attrs="{'readonly':[('state','in',['confirm','cancel'])], 'invisible':[('invoice_type','=','INVOICE_RF')]}">
+                                    <field name="invoice_payment_ids" readonly="1">
+                                        <tree>
+                                            <field name="payable_payment_id"/>
+                                            <field name="payment_amount" sum="Total"/>
+                                            <field name="invoice_no"/>
+                                            <field name="invoice_date"/>
+                                            <field name="invoice_duedate"/>
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                
+
+                                <page string="Entries">
+                                    <field name="invoice_entries_ids" readonly="1"/>
+                                </page>
+
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="sync_type" readonly="1" />
+                                            <field name="sync_id" readonly="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_main" readonly="1" />
+                                            <field name="sync_consol_id_unit" readonly="1" />
+                                            <field name="sync_consol_date" readonly="1" />
+                                        </group>
+                                    </group>
+                                </page>
+
+                        </notebook>
+
+                        <separator string="Invoice Summary" colspan="4"/>
+
+                        <div style="padding-bottom: 30px;">
+                            <group class="oe_subtotal_footer oe_right" colspan="4" nolabel="1">
+                                <group>
+                                    <field name="invoice_total" readonly="1" widget="monetary"/>
+                                    <field name="invoice_discount" readonly="1" widget="monetary"/>
+                                    <field name="invoice_untaxed" readonly="1" widget="monetary"/>
+                                    <field name="invoice_tax" readonly="1" widget="monetary"/>
+                                </group>
+                                <group>
+                                    <field name="invoice_subtotal" readonly="1" widget="monetary"/>
+                                    <field name="invoice_deduction" readonly="1" widget="monetary"/>
+                                    <field name="invoice_addition" readonly="1" widget="monetary"/>
+                                    <field name="invoice_balance" readonly="1" widget="monetary"/>
+                                </group>
+                            </group>
+                        </div>
+
+                        <separator colspan="4"/>
+                        <div class="oe_clear" style="margin-bottom: 120px;"/>
+
+
+
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_adjustment_action">
+            <field name="name">AP Adjustment</field>
+            <field name="res_model">payable.adjustment</field>
+            <field name="context">{'search_default_state_confirm': 1, 'search_default_state_draft':1}</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_adjustment_tree" model="ir.ui.view">
+            <field name="name">payable.adjustment.tree</field>
+            <field name="model">payable.adjustment</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Adjustment" duplicate="false" delete="false" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                    <field name="adjust_no"/>
+                    <field name="adjust_date"/>
+                    <field name="adjust_type"/>
+                    <field name="adjust_amount" sum="Total"/>
+                    <field name="invoice_id"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_adjustment_search" model="ir.ui.view">
+            <field name="name">payable.adjustment.search</field>
+            <field name="model">payable.adjustment</field>
+            <field name="arch" type="xml">
+                <search string="AP Adjustment..">
+                    <filter name="state_draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft"/>
+                    <filter name="state_confirm" string="Confirm" domain="[('state','=', 'confirm')]" help="Confirm"/>
+                    <filter name="state_cancel" string="Cancelled" domain="[('state','=', 'cancel')]" help="Cancelled"/>
+                    <separator/>
+                    <filter name="adjust_type_CN" string="CreditNote" domain="[('adjust_type','=', 'CN')]" help="CreditNote"/>
+                    <filter name="adjust_type_DN" string="DebitNote" domain="[('adjust_type','=', 'DN')]" help="DebitNote"/>
+                    <separator/>
+                    <field name="adjust_no"/>
+                    <field name="adjust_type"/>
+                    <field name="adjust_notes"/>
+                    <field name="invoice_id"/>
+                    <field name="supplier_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_adjustment_view" model="ir.ui.view">
+            <field name="name">payable.adjustment.view</field>
+            <field name="model">payable.adjustment</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Adjustment" duplicate="0" delete="0">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_unconfirm" type="object" string="Unconfirm" states="confirm" class="oe_highlight"/>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                        <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        
+                        <div class="oe_title">
+                            <label for="adjust_no"/>
+                            <h1>
+                                <field name="adjust_no" readonly="1" force_save="1" />
+                            </h1>
+                        </div>
+
+                        <group attrs="{'readonly':[('state','in',['confirm'])]}">
+                            <group>
+                                <field name="ctx_readonly" invisible="1"/>
+                                <field name="company_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1" />
+                                <field name="adjust_type" required="1" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" />
+                                <field name="adjust_date" required="1" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" />
+                                <field name="adjust_notes" required="1" attrs="{'readonly': [('state','in',['cancel','confirm'])]}" />
+                                <field name="adjust_account_id" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state','in',['cancel','confirm'])]}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False)]" required="1" />
+                                <field name="adjust_amount" required="1" attrs="{'readonly': [('state','in',['cancel','confirm'])]}" />
+                            </group>
+
+                            <group>
+                                <field name="supplier_type" required="1" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" />
+                                <field name="supplier_id" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" domain="[('company_id','=', company_id), ('supplier_type','=', supplier_type)]" required="1" />
+                                <field name="invoice_id" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" domain="[('company_id','=', company_id), ('supplier_id','=', supplier_id), ('invoice_balance','>', 0), ('state','=', 'confirm'), ('invoice_type','in', ['INVOICE_IB','INVOICE_DP'])]" required="1" />
+                                <field name="invoice_date" required="1" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" />
+                                <field name="invoice_duedate" required="1" attrs="{'readonly': ['|',('state','in',['cancel','confirm']), ('ctx_readonly','=', True)]}" />
+                                <field name="adjust_user_id" readonly="1" force_save="1" />
+                                <field name="move_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1" />
+                                
+                            </group>
+                        </group>
+
+                        <notebook>                                
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1" />
+                                        <field name="sync_id" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_payment_action">
+            <field name="name">AP Payment</field>
+            <field name="res_model">payable.payment</field>
+            <field name="context">{'search_default_state_confirm': 1, 'search_default_state_draft':1}</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_payment_tree" model="ir.ui.view">
+            <field name="name">payable.payment.tree</field>
+            <field name="model">payable.payment</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Payment" delete="false" duplicate="false" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                    <field name="payment_no"/>
+                    <field name="payment_date"/>
+                    <field name="payment_account_id"/>
+                    <field name="payment_amount" sum="Total"/>
+                    <field name="supplier_id"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_payment_search" model="ir.ui.view">
+            <field name="name">payable.payment.search</field>
+            <field name="model">payable.payment</field>
+            <field name="arch" type="xml">
+                <search string="AP Payment..">
+                    <filter name="state_draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft"/>
+                    <filter name="state_confirm" string="Confirm" domain="[('state','=', 'confirm')]" help="Confirm"/>
+                    <filter name="state_cancel" string="Cancelled" domain="[('state','=', 'cancel')]" help="Cancelled"/>
+                    <separator/>
+                    <field name="payment_no"/>
+                    <field name="payment_ref"/>
+                    <field name="payment_notes"/>
+                    <field name="supplier_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_payment_view" model="ir.ui.view">
+            <field name="name">payable.payment.view</field>
+            <field name="model">payable.payment</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Payment" delete="0"  duplicate="0">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_print" type="object" string="Print PV" states="draft,confirm" class="oe_highlight"/>
+                        <button name="action_unconfirm" type="object" string="Unconfirm" states="confirm" class="oe_highlight"/>
+                        <button name="action_confirm" type="object" string="Confirm" states="draft" class="oe_highlight"/>
+                        <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="payment_no"/>
+                            <h1>
+                                <field name="payment_no" readonly="1" force_save="1" />
+                            </h1>
+                        </div>
+
+                        <group attrs="{'readonly':[('state','in',['confirm','cancel'])]}">
+                            <group>
+                                <field name="ctx_readonly" invisible="1"/>
+                                <field name="company_id" options="{'no_create': True, 'no_create_edit': True}" force_save="1" readonly="1"/>
+                                <field name="payment_date" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_ref" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_type"  required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_account_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"  required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False), '|',('user_type_id.name','=', 'Bank and Cash'), ('code','like','11090')]" />
+                                <field name="payment_cheque" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_invoice_amount" force_save="1" attrs="{'readonly':True}" />
+                                <field name="payment_amount" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <!--field name="difference_amount" force_save="1" attrs="{'readonly': True, 'invisible':['|',('payment_type','=','WITHOUT_INVOICE'), ('difference_amount','=',0)]}" /-->
+                                <!--field name="difference_handling" attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'required':[('payment_type','=','WITH_INVOICE'),('difference_amount','!=',0)], 'invisible':['|',('payment_type','=','WITHOUT_INVOICE'), ('difference_amount','=',0)]}" /-->
+                                <!--field name="difference_notes" attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'required':[('payment_type','=','WITH_INVOICE'),('difference_handling','=','writeoff')], 'invisible':['|',('payment_type','=','WITHOUT_INVOICE'), ('difference_handling','!=','writeoff')]}" /-->
+                                <field name="payment_notes" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_user_id" readonly="1" force_save="1"/>
+                                <field name="move_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1" />
+                                <field name="payment_group_id" readonly="1"/>
+                            </group>
+
+                            <group>
+                                <field name="supplier_type" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="supplier_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" domain="[('company_id','=', company_id), ('supplier_type','=', supplier_type)]" />
+                                <field name="supplier_account_payable_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False)]" attrs="{'required':[('payment_type','=', 'WITHOUT_INVOICE'),('state','=','draft')], 'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="bank_transfer_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"  attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'required':[('payment_type','=','WITH_INVOICE')] }" domain="[('supplier_id','=', supplier_id)]" />
+                                <field name="bank_transfer_type" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="bank_transfer_fee" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}"/>
+                                <field name="bank_transfer_account_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'invisible':[('bank_transfer_fee','&lt;=',0)], 'required': [('bank_transfer_fee','&gt;',0)]}" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False)]" />
+                                <field name="payment_tax_type" required="1" attrs="{'readonly': [('state','in', ['cancel','confirm'])]}" />
+                                <field name="payment_tax_amount" attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'invisible':[('payment_tax_type','=','NO_TAX')], 'required':[('payment_tax_type','!=','NO_TAX')] }" />
+                                <field name="payment_tax_account_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" attrs="{'readonly': [('state','in', ['cancel','confirm'])], 'invisible':[('payment_tax_type','=','NO_TAX')], 'required':[('payment_tax_type','!=','NO_TAX')] }" domain="[('company_id','=', company_id), ('parent','=', False), ('deprecated','=', False), '|',('code','like', '1107%'), ('code','like', '2104%')]" />
+                                <field name="payment_tax_expense_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" attrs="{'readonly': [('state', 'in', ['cancel', 'confirm'])], 'invisible': ['|', ('payment_tax_type', '=', 'NO_TAX'), ('payment_tax_amount', '&lt;=', 0)], 'required': [('payment_tax_type', '!=', 'NO_TAX'), ('payment_tax_amount', '&gt;', 0)]}" domain="[('company_id','=',company_id),('parent','=',False),('deprecated','=',False)]" />
+                                    
+                                <field name="payment_net_amount" readonly="1" force_save="1" />
+                                                                    
+                            </group>
+                        </group>
+
+                        <notebook>       
+                            <page string="AP Invoices" attrs="{'invisible':[('payment_type','=','WITHOUT_INVOICE')]}">
+                                <group string="Pilih invoice yang ingin dilakukan pembayaran">
+                                    <field name="payment_invoice_ids" options="{'no_create': True, 'no_create_edit': True}"  attrs="{'readonly':[('state','in',['confirm','cancel'])], 'required':[('payment_type','=', 'WITH_INVOICE')] }" domain="[('company_id','=', company_id), ('supplier_id','=', supplier_id), ('state','=', 'confirm'), ('invoice_type','in',['INVOICE_IB','INVOICE_DP']), ('invoice_balance','>', 0)]">
+                                        <tree decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                                            <field name="supplier_id"/>
+                                            <field name="invoice_no"/>
+                                            <field name="invoice_date"/>
+                                            <field name="invoice_duedate"/>
+                                            <field name="invoice_balance" sum="Total Balance" />
+                                            <field name="state"/>
+                                        </tree>
+                                    </field>
+                                </group>
+
+                                <group attrs="{'invisible': [('state','!=','draft')]}">
+                                    <group>
+                                        <field name="settlement_type" on_change="1"/>
+                                        <field name="settlement_rate" on_change="1"/>
+                                    </group>
+                                    <group>
+                                        <button name="action_settlement_fetch" string="Fetch Invoices" type="object" class="oe_highlight"/>
+                                        <button name="action_settlement_apply" string="Apply Settlement" type="object" class="oe_highlight"/>
+                                    </group>
+                                </group>
+
+                                <group string="Adjust nilai pembayaran per invoice">
+                                    <field name="payment_line_ids" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" editable="bottom" options="{'no_open':True}">
+                                        <tree create="0" delete="1" edit="1" editable="bottom" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                                            <field name="invoice_no" readonly="1" force_save="1"/>
+                                            <field name="invoice_date" readonly="1" force_save="1"/>
+                                            <field name="invoice_duedate" readonly="1" force_save="1"/>
+                                            <field name="state" readonly="1" force_save="1" />
+                                            <field name="invoice_balance" readonly="1" force_save="1" sum="Total Balance" />
+                                            <field name="payment_amount" sum="Total Payment"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+
+                            <page string="Items" attrs="{'readonly':[('state','in',['confirm','cancel'])]}">
+                                <field name="payment_item_ids" attrs="{'readonly':[('state','in',['confirm','cancel'])] }"  context="{'default_item_account_id': supplier_account_payable_id}">
+                                    <tree string="Items" editable="bottom">
+                                        <field name="id" invisible="1"/>
+                                        <field name="payable_payment_id" invisible="1"/>
+                                        <field name="item_name" required="1" />
+                                        <field name="item_amount" sum="Total" />
+                                        <field name="item_account_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" domain="[('company_id','=', parent.company_id), ('deprecated','=', False), ('parent','=', False)]" />
+                                    </tree>
+                                </field>
+                            </page>
+
+
+                            <page string="Approval">
+                                <group>
+                                    <group>
+                                        <field name="ttd1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd2" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd3" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="no_approval" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    </group>
+                                    <group>
+                                        <field name="ttd4" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd5" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd6" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1" />
+                                        <field name="sync_id" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_payment_group_action">
+            <field name="name">AP Payment Group</field>
+            <field name="res_model">payable.payment.group</field>
+            <field name="context">{'search_default_state_confirm': 1, 'search_default_state_draft':1}</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="mayapada_payable_payment_group_tree" model="ir.ui.view">
+            <field name="name">payable.payment.group.tree</field>
+            <field name="model">payable.payment.group</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree string="AP Payment Group" duplicate="false" delete="false" decoration-muted="state == 'cancel'" decoration-info="state == 'draft'" decoration-success="state == 'confirm'">
+                    <field name="payment_group_no"/>
+                    <field name="payment_group_date"/>
+                    <field name="payment_group_account_id"/>
+                    <field name="approve_next_store"/>
+                    <field name="payment_amount" sum="Total"/>
+                    <field name="status"/>
+                    <field name="state"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_payment_group_search" model="ir.ui.view">
+            <field name="name">payable.payment.group.search</field>
+            <field name="model">payable.payment.group</field>
+            <field name="arch" type="xml">
+                <search string="AP Payment Group..">
+                    <filter name="state_draft" string="Draft" domain="[('state','=', 'draft')]" help="Draft"/>
+                    <filter name="state_confirm" string="Confirm" domain="[('state','=', 'confirm')]" help="Confirm"/>
+                    <filter name="state_cancel" string="Cancelled" domain="[('state','=', 'cancel')]" help="Cancelled"/>
+                    <separator/>
+                    <field name="payment_group_no"/>
+                    <field name="payment_group_ref"/>
+                    <field name="payment_group_account_id"/>
+                    <field name="payment_group_user_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="mayapada_payable_payment_group_view" model="ir.ui.view">
+            <field name="name">payable.payment.group.view</field>
+            <field name="model">payable.payment.group</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AP Payment Group" delete="0" duplicate="0">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                        <button name="action_print" type="object" string="Print PV" states="draft,confirm" class="oe_highlight"/>
+                        <button name="action_print_xls" type="object" string="Print XLS" states="draft,confirm" class="oe_highlight"/>
+                        <button name="action_approval_sheet" type="object" string="Print Approval Sheet" states="draft,confirm" class="oe_highlight"/>
+                        <button name="action_unconfirm" type="object" string="Unconfirm" states="confirm" class="oe_highlight"/>
+                        <!-- <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible':['|', '|', '|', ('state','in',['cancel','confirm']), '&amp;', ('status', 'not in', ['approved','confirm']), ('no_approval','=', False) ]}" /> -->
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible':['|', ('state', 'in', ['cancel', 'confirm']), '&amp;', ('status', 'not in', ['approved', 'confirm']), ('no_approval', '=', False)]}" />
+                        <button name="action_cancel" type="object" string="Cancel" states="draft" class="oe_highlight"/>
+                        <!-- <button name="ask_approve" string="Ask for Approval" type="object" attrs="{'invisible':['|', '|', '|', ('status','!=', 'draft'), ('state','in',['cancel','confirm']), ('no_approval', '=', True)]}" class="oe_highlight"/> -->
+                        <button name="ask_approve" string="Ask for Approval" type="object" attrs="{'invisible':['|', '|', ('status', '!=', 'draft'), ('state', 'in', ['cancel', 'confirm']), ('no_approval', '=', True)]}" class="oe_highlight"/>
+                        <button name="approve" string="Approve" type="object" attrs="{'invisible': ['|','|',('state','in',['cancel','confirm']), ('no_approval', '=', True), ('approve_next', '=', 'Completed')]}" class="oe_highlight"/>
+                
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="payment_group_no"/>
+                            <h1>
+                                <field name="payment_group_no" readonly="1" force_save="1" />
+                            </h1>
+                        </div>
+
+                        <group attrs="{'readonly':[('state','in',['confirm','cancel'])]}">
+                            <group>
+                                <field name="company_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1" force_save="1"/>
+                                <field name="payment_group_user_id" force_save="1" readonly="1" />
+                                <field name="payment_amount" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="payment_group_account_id" options="{'no_create': True, 'no_create_edit': True}" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" required="1" domain="[('company_id','=', company_id),('parent','=',False), ('deprecated','=', False), ('user_type_id.name','=', 'Bank and Cash')]" />
+                                <field name="payment_group_cheque" required="1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                <field name="payment_group_date" required="1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                <field name="payment_group_ref" required="1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                            </group>                               
+                        </group>
+
+
+                        <group string="Approval" attrs="{'invisible': [('no_approval', '=', 'True')]}">
+                            <group>
+                                <field name="approve_next" />
+                                <field name="end_approval" />
+                                <field name="approve_status"/>
+                                <field name="status"/>
+                            </group>
+                            <group>
+                                <field name="type_id" domain="[('active', '=', True),('purchase_type', '=', 'payment'),('company_id','=',company_id)]" on_change="1" can_create="true" can_write="true" />
+                                <field name="item_type" />
+                                <field name="approved_bool" invisible="1" />
+                                <field name="current_user_position" invisible="1" />
+
+                            </group>
+                        </group>
+                        
+
+                        <notebook>       
+                            <page string="AP Payments">
+                                <field name="payment_ids" widget="many2many" required="0" options="{'no_create': True, 'no_create_edit': True}" domain="[('company_id','=', company_id), ('payment_account_id','=', payment_group_account_id), ('payment_cheque','=', payment_group_cheque), ('state','=','draft')]" attrs="{'readonly':[('state','in',['confirm','cancel'])]}">
+                                    <tree>
+                                        <field name="supplier_id" readonly="1"/>
+                                        <field name="payment_no" readonly="1" force_save="1"/>
+                                        <field name="payment_cheque" readonly="1" />
+                                        <field name="payment_date" readonly="1" force_save="1"/>
+                                        <field name="payment_amount" readonly="1" force_save="1" sum="Payment"/>
+                                        <field name="payment_tax_amount" readonly="1" force_save="1" sum="Tax"/>
+                                        <field name="bank_transfer_fee" readonly="1" force_save="1" sum="Transfer Fee"/>
+                                        <field name="payment_net_amount"  readonly="1" force_save="1" sum="Subtotal"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Approval">
+                                <group>
+                                    <group>
+                                        <field name="ttd1" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd2" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd3" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="no_approval" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    </group>
+                                    <group>
+                                        <field name="ttd4" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd5" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                        <field name="ttd6" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" />
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1" />
+                                        <field name="sync_id" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="payable_report_action">
+            <field name="name">AP Report Compiled</field>
+            <field name="res_model">payable.report.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sequence_payable_supplier" model="ir.sequence">
+            <field name="name">AP Supplier Code Sequence</field>
+            <field name="code">payable.supplier.sequence</field>
+            <field name="prefix">SUPP</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_invoice_inbound" model="ir.sequence">
+            <field name="name">AP Invoice Inbound Sequence</field>
+            <field name="code">payable.invoice.inbound.sequence</field>
+            <field name="prefix">AP-IIB%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_invoice_refund" model="ir.sequence">
+            <field name="name">AP Invoice Refund Sequence</field>
+            <field name="code">payable.invoice.refund.sequence</field>
+            <field name="prefix">AP-IRF%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_invoice_dp" model="ir.sequence">
+            <field name="name">AP Invoice DP Sequence</field>
+            <field name="code">payable.invoice.dp.sequence</field>
+            <field name="prefix">AP-IDP%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_invoice_dp" model="ir.sequence">
+            <field name="name">AP Invoice DP Sequence</field>
+            <field name="code">payable.invoice.dp.sequence</field>
+            <field name="prefix">AP-IDP%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_payment" model="ir.sequence">
+            <field name="name">AP Payment Sequence</field>
+            <field name="code">payable.payment.sequence</field>
+            <field name="prefix">AP-PAY%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_payment_group" model="ir.sequence">
+            <field name="name">AP Payment Group Sequence</field>
+            <field name="code">payable.payment.group.sequence</field>
+            <field name="prefix">AP-PAG%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_creditnote" model="ir.sequence">
+            <field name="name">AP CreditNote Sequence</field>
+            <field name="code">payable.creditnote.sequence</field>
+            <field name="prefix">AP-CN%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+
+        <record id="sequence_payable_debitnote" model="ir.sequence">
+            <field name="name">AP DebitNote Sequence</field>
+            <field name="code">payable.debitnote.sequence</field>
+            <field name="prefix">AP-DN%(y)s%(month)s</field>
+            <!-- <field eval="1" name="number_next"/> -->
+            <field eval="1" name="number_increment"/>
+            <field eval="True" name="use_date_range"/>
+            <field eval="1" name="company_id"/>
+            <field name="padding">6</field>
+        </record>
+    </data>
+</odoo>

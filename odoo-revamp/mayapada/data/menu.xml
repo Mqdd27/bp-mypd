@@ -1,0 +1,421 @@
+<odoo>
+    <data>
+         <!-- Accounting Module  -->  
+            <!-- Doctor Fee -->
+            <menuitem id="doctor_fee_menu" name="Doctor" parent="account.menu_finance" sequence="2"/>
+               <!-- <menuitem id="mcu_dhealth_menu" name="04 - MCU Arcus Worklist" parent="doctor_fee_menu" action="mcu_dhealth_action" sequence="5"/> -->
+               <menuitem id="doctor_tax_menu" name="01 - Master Tax Setting" parent="doctor_fee_menu" action="doctor_tax_action" sequence="1" />
+               <menuitem id="doctor_menu" name="02 - Master Doctor" parent="doctor_fee_menu" action="doctor_menu_action" sequence="2" />
+               <menuitem id="doctor_analytic_menu" name="02 - Master Doctor Analytic" parent="doctor_fee_menu" action="doctor_analytic_menu_action" sequence="2" />   
+               <menuitem id="doctor_rate_menu" name="03 - Master Doctor Rate" parent="doctor_fee_menu" action="doctor_rate_menu_action" sequence="3"/>             
+               <menuitem id="doctor_rate_line_menu" name="03 - Master Doctor Rate Line" parent="doctor_fee_menu" action="doctor_rate_line_menu_action" sequence="3"/>
+               <menuitem id="doctor_rate_import_menu" name="03 - Master Doctor Rate Import" parent="doctor_fee_menu" action="doctor_rate_import_menu_action" sequence="3"/>
+               <menuitem id="doctor_rate_bulk_update_menu" name="03 - Master Doctor Rate Bulk Update" parent="doctor_fee_menu" action="doctor_rate_bulk_update_menu_action" sequence="4"/>
+               <menuitem id="mcu_interface_menu2" name="04 - MCU Wipro Worklist" parent="doctor_fee_menu" action="mcu_package_action" sequence="5"/>
+               <menuitem id="mcu_dhealth_menu" name="04 - MCU Dhealth Worklist" parent="doctor_fee_menu" action="mcu_dhealth_action" sequence="5"/>        
+               <menuitem id="mcu_arcus_menu" name="04 - MCU Arcus Worklist" parent="doctor_fee_menu" action="mcu_arcus_action" sequence="5"/>
+               <menuitem id="generate_payout_wizard_menu2" name="05 - Payout HIS Generate" parent="doctor_fee_menu" action="generate_payout_wipro_action" sequence="6"/>
+               <menuitem id="generate_payout_wizard_menu" name="05 - Payout Dhealth Generate" parent="doctor_fee_menu" action="generate_payout_wizard_action" sequence="7"/>
+               <menuitem id="payout_interface_sub_menu2" name="06 - Payout HIS Worklist" parent="doctor_fee_menu" action="payout_wipro_menu_action" sequence="8"/>
+               <menuitem id="bulk_update_payout_wizard_menu" name="06 - Payout Dhealth Bulk Update" parent="doctor_fee_menu" action="bulk_update_payout_wizard_action" sequence="9"/>
+               <menuitem id="payout_interface_sub_menu" name="07 - Payout Dhealth Worklist" parent="doctor_fee_menu" action="payout_interface_menu_action" sequence="10"/>
+               <menuitem id="doctor_fee_bpjs_import_sub_menu" name="07 - Doctor Fee BPJS Import" parent="doctor_fee_menu" action="doctor_fee_bpjs_import_menu_action" sequence="10"/>
+               <menuitem id="doctor_fee_bpjs_sub_menu" name="07 - Doctor Fee BPJS" parent="doctor_fee_menu" action="doctor_fee_bpjs_menu_action" sequence="10"/>
+               <menuitem id="generate_fee_detail_wizard_menu" name="08 - Fee Line Generate" parent="doctor_fee_menu" action="generate_fee_detail_wizard_action" sequence="11"/>
+               <menuitem id="generate_fee_bpjs_detail_wizard_menu" name="08 - Fee Line BPJS Generate" parent="doctor_fee_menu" action="generate_fee_bpjs_detail_wizard_action" sequence="11"/>
+               <menuitem id="detail_interface_sub_menu" name="09 - Fee Line Worklist" parent="doctor_fee_menu" action="fee_detail_menu_action" sequence="12"/>
+               <menuitem id="bulk_update_doctor_wizard_menu" name="09 - Fee Line Bulk Update" parent="doctor_fee_menu" action="bulk_update_doctor_wizard_action" sequence="13"/>
+               <menuitem id="doctor_fee_wizard_menu" name="10 - Fee Doctor Compute" parent="doctor_fee_menu" action="doctor_fee_wizard_action" sequence="14"/>
+               <menuitem id="doctor_pot_import_menu" name="11 - Doctor POT Import" parent="doctor_fee_menu" action="doctor_pot_import_wizard_action" sequence="15"/>
+               <menuitem id="doctor_fee_sub_menu" name="12 - Fee Doctor Worklist " parent="doctor_fee_menu" action="doctor_fee_sub_menu_action" sequence="16"/>
+               <menuitem id="report_doctor_fee_sub_menu" name="13 - Fee Doctor Report " parent="doctor_fee_menu" action="report_doctor_fee_sub_menu_action" sequence="17"/>
+               <menuitem id="report_doctor_service_cost_sub_menu" name="14 - Fee Doctor Service Cost" parent="doctor_fee_menu" action="report_doctor_service_cost_wizard_action" sequence="18"/>
+               <menuitem id="doctor_service_cost_menu" name="15 - Bulk Syncing Service Cost Fee" parent="doctor_fee_menu" action="doctor_service_cost_wizard_action" sequence="19"/>
+               <menuitem id="doctor_fee_others_detail_menu"  name="16 - Fee Doctor Others Detail Import" parent="doctor_fee_menu" action="doctor_fee_others_detail_action" sequence="20"/>
+               <menuitem id="doctor_fee_posting_menu"  name="17 - Fee Doctor Posting" parent="doctor_fee_menu" action="doctor_fee_posting_action" sequence="21"/>
+               <menuitem id="doctor_fee_send_email_menu"  name="18 - Fee Doctor Email" parent="doctor_fee_menu" action="doctor_fee_send_email_action" sequence="22"/>
+
+            
+            <!-- Payable  -->
+            <menuitem id="account.menu_finance_payables" name="Purchases" parent="account.menu_finance" sequence="3"/>
+               <menuitem id="account.menu_action_move_in_invoice_type" name="AP Vendor Bill" parent="account.menu_finance_payables" sequence="2" action="vendor_bill_action"/>
+               <menuitem id="account.menu_action_account_payments_payable" name="AP Payments" parent="account.menu_finance_payables" action="action_account_payments_payable_new" sequence="1"/>
+               <menuitem id="vendor_bill_analysis_menu" name="AP Vendor Bill Analysis" parent="account.menu_finance_payables" sequence="3" action="vendor_bill_analysis_action"/>
+               <!-- <menuitem id="account_credit_note_mayapada" name="AP Credit Note" parent="account.menu_finance_payables" sequence="4" action="action_account_move_credit_note"/> -->
+               <menuitem id="account.menu_account_supplier" name="AP Vendors" parent="account.menu_finance_payables" sequence="5" action="account.res_partner_action_supplier"/>
+               <menuitem id="bank_menu" name="Bank" parent="account.menu_finance_payables" sequence="6" action="bank_action"/>
+               <menuitem id="bank_information_menu" name="Bank Information" parent="account.menu_finance_payables" sequence="7" action="bank_information_action"/>
+               
+
+            <!-- Account Receivable -->
+            <menuitem id="account.menu_finance_receivables" name="Receivable" parent="account.menu_finance" sequence="4"/>
+               <menuitem id="account.menu_action_move_out_invoice_type" active="False" name="Invoice" parent="account.menu_finance_receivables"/>
+               <menuitem id="account_customer_invoice" name="AR Tenant Invoice" parent="account.menu_finance_receivables" action="account_invoice_action" sequence="1"/>
+               <menuitem id="account_scroll_receipt_cashier" name="AR Cashier Scroll" parent="account.menu_finance_receivables" action="scroll_receipt_cashier_action" sequence="2"/>
+               <menuitem id="account_inpatient_deposit" name="AR Deposit Collection" parent="account.menu_finance_receivables" action="inpatient_deposit_action" sequence="3"/>
+               <menuitem id="account_patient_debt" name="AR Patient Debt" parent="account.menu_finance_receivables" action="patient_debt_action" sequence="4"/>
+
+               <menuitem id="covering_letter_menu" parent="account.menu_finance_receivables" name="AR Covering Letter" action="account_covering_letter_action" sequence="5"/>
+               <menuitem id="bulk_receiving_menu" parent="account.menu_finance_receivables" name="AR Bulk Receiving" action="account_bulk_receiving_menu" sequence="6"/>
+               <menuitem id="credit_note_menu" parent="account.menu_finance_receivables" name="AR Credit Note" action="account_credit_note_action" sequence="7"/>
+               <menuitem id="advance_menu" parent="account.menu_finance_receivables" name="AR Advance" action="account_advance_action" sequence="8"/>
+               <menuitem id="advance_realization_menu" parent="account.menu_finance_receivables" name="AR Advance Realization" action="advance_realization_action" sequence="9"/>
+               <menuitem id="account.menu_action_account_payments_receivable" name="AR Receipt Payment" parent="account.menu_finance_receivables" action="action_account_payments_receivable_new" sequence="10"/>
+               <menuitem id="account_payment_wizard_meny" name="AR Receipt Confirm" parent="account.menu_finance_receivables" action="payment_confirm_wizard_action" sequence="11"/>
+               <!-- <menuitem id="account_unbilled_status_menu" parent="account.menu_finance_receivables" name="AR Unbilled Invoice (HIS)" action="account_unbilled_status_action" sequence="13"/> -->
+               <menuitem id="lock_ar_conf" parent="account.menu_finance_receivables" name="AR Configuration" action="lock_ar_conf_action" sequence="12"/>
+               <menuitem id="change_ar_type" parent="account.menu_finance_receivables" name="AR Customer Type Update" action="change_ar_type_action" sequence="13"/>
+
+               <menuitem id="account.menu_action_move_out_refund_type" active="False" parent="account.menu_finance_receivables" name="Credit Note"/>
+               <menuitem id="account.product_product_menu_sellable" active="False" parent="account.menu_finance_receivables" name="Product"/>
+               <menuitem id="account.menu_account_customer" active="False" parent="account.menu_finance_receivables" name="Customer"/>
+               <menuitem id="l10n_id_efaktur.menu_efaktur_action" active="False" parent="account.menu_finance_receivables" name="e-Faktur"/>
+               
+            <!-- Account Receivable -->
+            <menuitem id="payable_menu" name="Payable" parent="account.menu_finance" sequence="4"/>
+               <menuitem id="payable_supplier_menu" name="01 - AP Supplier" parent="payable_menu" action="payable_supplier_action" sequence="1"/>
+               <menuitem id="payable_supplier_bank_menu" name="02 - AP Supplier Bank" parent="payable_menu" action="payable_supplier_bank_action" sequence="2"/>
+               <menuitem id="payable_invoice_menu" name="03 - AP Invoice" parent="payable_menu" action="payable_invoice_action" sequence="3"/>
+               <menuitem id="payable_creditnote_menu" name="04 - AP Adjustment" parent="payable_menu" action="payable_adjustment_action" sequence="4"/>
+               <menuitem id="payable_payment_menu" name="05 - AP Payment" parent="payable_menu" action="payable_payment_action" sequence="5"/>
+               <menuitem id="payable_payment_group_menu" name="06 - AP Payment Grouping" parent="payable_menu" action="payable_payment_group_action" sequence="6"/>
+               <menuitem id="payable_report_menu" name="07 - AP Report" parent="payable_menu" action="payable_report_action" sequence="7"/>
+
+
+            <!-- Adviser -->
+            <menuitem id="account.menu_finance_entries" name="Adviser" parent="account.menu_finance" sequence="5"/>
+               <menuitem id="general_menu" name="General" parent="account.menu_finance_entries" sequence="3"/> 
+                  <menuitem id="generate_journal_menu" name="Generate Journal" parent="general_menu" sequence="1" action="generate_journal_action"/>
+                  <menuitem id="closing_wizard_menu" name="Year End Closing" parent="general_menu" sequence="2" action="closing_wizard_action"/>
+                  <menuitem id="approval_pv_ap" name="Approval Payment Voucher AP" parent="general_menu" sequence="3" action="approval_payment_voucher_ap"/>
+                  <menuitem id="approval_pv_menu" name="Approval Payment Voucher" parent="general_menu" sequence="4" action="approval_payment_voucher"/>
+
+            <!-- Receivables -->
+            <menuitem id="ar_arcus_menu" name="AR Arcus" parent="account.menu_finance"/>
+            <menuitem id="receivable_bank_name_menu" name="01 - AR Bank Type" parent="ar_arcus_menu" action="receivable_bank_name_action" sequence="1"/>
+            <menuitem id="receivable_payment_mode_menu" name="02 - AR Payment Mode" parent="ar_arcus_menu" action="receivable_payment_mode_action" sequence="2"/>
+            <menuitem id="receivable_scroll_cashier_menu" name="03 - AR Receipt Cashier" parent="ar_arcus_menu" action="receivable_scroll_cashier_action" sequence="3"/>
+            <menuitem id="receivable_patient_deposit_menu" name="04 - AR Patient Deposit" parent="ar_arcus_menu" action="receivable_patient_deposit_action" sequence="4"/>
+            <menuitem id="receivable_invoice_letter_menu" name="05 - AR Invoice Claim" parent="ar_arcus_menu" action="receivable_invoice_letter_action" sequence="5"/>
+            <menuitem id="receivable_writeoff_menu" name="06 - AR Writeoff" parent="ar_arcus_menu" action="receivable_writeoff_action" sequence="6"/>
+            <menuitem id="receivable_credit_note_menu" name="07 - AR Credit Note" parent="ar_arcus_menu" action="receivable_credit_note_action" sequence="7"/>
+            <menuitem id="receivable_advance_menu" name="08 - AR Payor Deposit" parent="ar_arcus_menu" action="receivable_advance_action" sequence="8"/>
+            <menuitem id="receivable_settlement_source_menu" name="09 - AR Settlement" parent="ar_arcus_menu" action="receivable_settlement_source_action" sequence="9"/>
+            <menuitem id="receivable_accrual_menu" name="10 - AR IP Accrual" parent="ar_arcus_menu" action="receivable_accrual_action" sequence="10"/>
+            <menuitem id="receivable_unbilled_menu" name="11 - AR Unbilled Analysis" parent="ar_arcus_menu" action="receivable_unbilled_action" sequence="11"/>
+            <menuitem id="receivable_report_menu" name="12 - AR Report" parent="ar_arcus_menu" action="receivable_report_wizard_action" sequence="12"/>
+            
+            <!-- Consolidation -->
+            <menuitem id="mayapada.console_menu" name="Consolidation Report" parent="account.menu_finance_reports" sequence="2"/>
+               <menuitem id="console_trial_balance_menu" name="Trial Balance" parent="mayapada.console_menu" sequence="1" action="consolidation_tb_audit_trail_action"/>
+               <menuitem id="console_financial_report_menu" name="Console Financial Report" parent="mayapada.console_menu" sequence="2" action="console_report_wizard_action"/>
+               <menuitem id="console_cashflow_report_menu" name="Console Cashflow Report" parent="mayapada.console_menu" sequence="3" action="console_cashflow_report_wizard_action"/>
+               
+
+            <!-- Reporting -->
+            <menuitem id="account.menu_finance_reports" name="Reporting" parent="account.menu_finance" sequence="6"/>
+               <menuitem id="accounting_mayapada_report" name="Mayapada Report" parent="account.menu_finance_reports" sequence="1"/>
+                  <menuitem id="report_aging_ar_wizard_menu" name="AR Report Compiled" parent="accounting_mayapada_report" sequence="1" action="ar_compiled_report_wizard_action"/>
+                  <menuitem id="report_aging_ap_wizard_menu" name="AP Report Compiled" parent="accounting_mayapada_report" sequence="2" action="ap_compiled_report_wizard_action"/>
+                  <menuitem id="report_balance_sheet_wizard_menu" name="Financial Report" parent="accounting_mayapada_report" sequence="3" action="balance_sheet_report_wizard_action" groups="account.group_account_user"/>
+                  <menuitem id="account_standard_report.menu_account_standard_report" name="Standard Report" sequence="4" parent="accounting_mayapada_report" action="account_standard_report.action_account_standard_report" groups="account.group_account_user"/>
+                  <menuitem id="department_cost_report_menu" name="Department Cost Report" parent="accounting_mayapada_report" action="department_cost_report_action"/>
+
+                  <!-- <menuitem id="department_cost_report_menu" name="Department Cost Report" parent="accounting_mayapada_report" action="department_cost_report_action"/> -->
+
+
+
+            <!-- BSL  -->
+            <menuitem id="bsl_menu" name="BSL" parent="account.menu_finance" sequence="7"/>
+               <menuitem id="bsl_mapping_menu" name="BSL Mapping" parent="bsl_menu" sequence="7" action="bsl_mapping_action"/>
+
+            <!-- Profitability -->
+            <menuitem id="profitability_menu" name="Profitability" parent="account.menu_finance" sequence="8"/>
+               <menuitem id="profitability_dimension_menu" name="01 - Profitability Mapping" parent="profitability_menu" sequence="7" action="profitability_dimension_action"/>
+               <menuitem id="profitability_ledger_menu" name="02 - Profitability Ledger" parent="profitability_menu" sequence="8" action="profitability_ledger_action"/>
+               <menuitem id="profitability_bulking_menu" name="03 - Profitability Generate" parent="profitability_menu" sequence="9" action="profitability_bulking_wizard_action"/>  
+               <menuitem id="profitability_wizard_menu" name="04 - Profitability Analysis" parent="profitability_menu" sequence="10" action="profitability_analysis_wizard_action"/>
+               <menuitem id="profitability_spending_menu" name="05 - Profitability Patient Spending" parent="profitability_menu" sequence="11" action="profitability_spending_wizard_action"/>
+
+            
+            <!-- Asset -->
+            <menuitem id="accounting_assets_menu" name="Assets" parent="account.menu_finance" sequence="9"/>
+               <menuitem id="om_account_asset.menu_action_account_asset_asset_form" name="Assets" parent="accounting_assets_menu" sequence="1" action="om_account_asset.action_account_asset_asset_form"/>
+               <menuitem id="om_account_asset.menu_action_account_asset_asset_list_normal_purchase" name="Asset Type" parent="accounting_assets_menu" sequence="2" action="om_account_asset.action_account_asset_asset_list_normal_purchase"/>
+               <menuitem id="account_asset_subcategory_menu" name="Asset SubCategory" parent="accounting_assets_menu" sequence="3" action="asset_subcategory_action"/>
+               <!-- <menuitem id="account_asset_stock_opname_menu" name="Asset Stock Opname" parent="accounting_assets_menu" sequence="4" action="asset_stock_opname_action"/> -->
+               <menuitem id="account_asset_opname_menu" name="Asset Opname" parent="accounting_assets_menu" sequence="5" action="asset_opname_action"/>
+               <menuitem id="om_account_asset.menu_asset_depreciation_confirmation_wizard" name="Generate Assets Entries" parent="accounting_assets_menu" sequence="6" action="om_account_asset.action_asset_depreciation_confirmation_wizard"/>
+               <menuitem id="account_asset_journal_menu" name="Posting Journal Assets" parent="accounting_assets_menu" sequence="7" action="assets_posting_wizard_action"/>
+               <menuitem id="account_asset_checking_menu" name="Checking Assets" parent="accounting_assets_menu" sequence="8" action="asset_checking_wizard_action"/>
+               <menuitem id="account_asset_cip_menu" name="Construction in Progress" parent="accounting_assets_menu" sequence="9" action="action_account_asset_cip_action"/>
+               <menuitem id="account_asset_relocation_menu" name="Asset Relocation" parent="accounting_assets_menu" sequence="10" action="action_asset_relocation_action"/>
+               <menuitem id="account_asset_close_menu" name="Asset Sell/Dispose" parent="accounting_assets_menu" sequence="11" action="action_asset_close_action"/>
+               <menuitem id="account_asset_report_menu" name="Asset Report" parent="accounting_assets_menu" sequence="12" action="action_asset_report_wizard_action"/>
+               <menuitem id="account_asset_seq_menu" name="Asset Sequence" parent="accounting_assets_menu" sequence="13" action="action_asset_seq_action"/>
+               <menuitem id="account_asset_generate_seq_menu" name="Asset Generate Sequence" parent="accounting_assets_menu" sequence="14" action="action_asset_generate_seq_wizard_action"/>
+               <menuitem id="account_asset_date_range_menu" name="Import Date Range Seq" parent="accounting_assets_menu" sequence="15" action="asset_date_range_wizard_action"/>
+               
+            <!-- Budget -->
+            <menuitem id="accounting_budget_menu" name="Budget" parent="account.menu_finance" sequence="10"/>
+               <menuitem id="menu_act_crossovered_budget_view_new" name="Budget" parent="accounting_budget_menu" sequence="1" action="act_crossovered_budget_view_new2"/>
+               <menuitem id="menu_budget_hierarchy" name="Budgetary Hierarchy" parent="accounting_budget_menu" sequence="2" action="budget_hierarchy_action"/>
+               <menuitem id="menu_budget_post_form_new" name="Budgetary Positions" parent="accounting_budget_menu" sequence="3" action="om_account_budget.open_budget_post_form"/>
+               <menuitem id="menu_budget_type" name="Budget Approval Type" parent="accounting_budget_menu" sequence="4" action="budget_type_action"/>
+               <menuitem id="menu_budget_rule" name="Budget Approval Rule" parent="accounting_budget_menu" sequence="5" action="budget_rule_action"/>
+               <menuitem id="menu_budget_exceed" name="Budget Exceed" parent="accounting_budget_menu" sequence="6" action="budget_exceed_action"/>
+               <menuitem id="menu_budget_import" name="Budget Import" parent="accounting_budget_menu" sequence="6" action="budget_import_action"/>
+
+
+            <!-- Salary Expense -->
+            <menuitem id ="account_salary" parent="account.menu_finance" name="Salary" sequence="11"/>
+               <menuitem id="account_salary_menu" parent="account_salary" name="Salary Expense" action="account_salary_action" sequence="1"/>
+               <menuitem id="account_salary_deduction_menu" parent="account_salary" name="Salary Deduction" action="account_salary_deduction_action" sequence="2"/>      
+               <menuitem id="account_salary_import_menu" parent="account_salary" name="Import Salary Expense" action="account_salary_import_action" sequence="3"/> 
+
+
+            <!-- Cost Center -->
+            <menuitem id="cost_center_menu" name="Cost Center" parent="account.menu_finance" sequence="12"/>
+               <menuitem id="master_cost_center_menu" name="Cost Center Master" parent="cost_center_menu" sequence="1" action="cost_center_master_action"/>
+               <menuitem id="import_cost_center_menu" name="Cost Center Import" parent="cost_center_menu" sequence="2" action="cost_center_import_action"/>
+               <menuitem id="dimension_cost_center_menu" name="Cost Center Dimension" parent="cost_center_menu" sequence="3" action="cost_center_dimension_action"/>
+               <menuitem id="cost_center_sum_account_menu" name="Cost Center Sum Account" parent="cost_center_menu" sequence="4" action="cost_center_sum_account_action"/>
+               <menuitem id="cost_center_report_menu" name="Cost Center Report" parent="cost_center_menu" sequence="5" action="account_cost_center_report_wizard_action"/>
+
+            
+            <!-- Cashflow -->
+            <menuitem id="cashflow_config_menu" name="Cashflow" parent="account.menu_finance_reports" sequence="3"/>
+               <menuitem id="cashflow_report_menu" name="Cashflow Report" parent="cashflow_config_menu" sequence="6" action="cashflow_report_wizard_action"/>
+               
+       
+            <!-- Dimension Report  -->
+            <menuitem id="dimensin_config_menu" name="Dimension" parent="account.menu_finance" sequence="14" />
+               <menuitem id="department_cost_report_menu" name="Department Cost" parent="dimensin_config_menu" action="department_cost_report_action"/>
+               <menuitem id="department_report_menu" name="Department" parent="dimensin_config_menu" action="department_report_action"/>
+               <menuitem id="servicegroup_report_menu" name="Service Group" parent="dimensin_config_menu" action="servicegroup_report_action"/>
+               <menuitem id="patientgroup_report_menu" name="Patient Group" parent="dimensin_config_menu" action="patientgroup_report_action"/>
+               <menuitem id="payertype_report_menu" name="Payer Type" parent="dimensin_config_menu" action="payertype_report_action"/>
+
+
+
+            <!--Referral Fee-->
+            <menuitem id="referral_menu" name="Referral Fee" parent="account.menu_finance" sequence="15"/>
+               <menuitem id="referral_agen_menu" name="01 - Referral Agen" parent="referral_menu" action="referral_agen_action" sequence="1"/>
+               <menuitem id="referral_transaction_menu" name="02 - Referral Transaction" parent="referral_menu" action="referral_transaction_action" sequence="2"/>
+               <menuitem id="referral_rate_menu" name="03 - Referral Rate" parent="referral_menu" action="referral_rate_action" sequence="3"/>
+               <menuitem id="referral_remapping_menu" name="04 - Referral Re-Mapping" parent="referral_menu" action="referral_remapping_action" sequence="4"/>
+               <menuitem id="referral_referral_compute_menu" name="05 - Referral Compute Line" parent="referral_menu" action="referral_compute_action" sequence="5"/>
+               <menuitem id="referral_referral_fee_compute_menu" name="06 - Referral Compute Fee" parent="referral_menu" action="referral_fee_compute_action" sequence="6"/>
+               <menuitem id="referral_fee_worklist_menu" name="07 - Referral Fee Worklist" parent="referral_menu" action="referral_fee_worklist_action" sequence="7"/>
+               <menuitem id="referral_fee_report_menu" name="08 - Referral Fee Report" parent="referral_menu" action="referral_fee_report_action" sequence="8"/>
+               <menuitem id="referral_fee_confirm_menu" name="09 - Referral Fee Confirm" parent="referral_menu" action="referral_fee_confirm_action" sequence="9"/> 
+               <menuitem id="referral_fee_posting_menu" name="10 - Referral Fee Posting" parent="referral_menu" action="referral_fee_posting_action" sequence="10"/>
+               
+            <!-- Marketing Fee -->
+            <menuitem id="marketing_fee_menu" name="Marketing Fee" parent="account.menu_finance" sequence="16"/>
+               <menuitem id="marketing_position_menu" name="01 - Position " parent="marketing_fee_menu" action="marketing_position_action" sequence="1" />
+               <menuitem id="marketing_sales_menu" name="02 - Sales Type " parent="marketing_fee_menu" action="marketing_sales_action" sequence="2" />
+               <menuitem id="marketing_employee_menu" name="03 - Marketing Employee" parent="marketing_fee_menu" action="marketing_employee_action" sequence="3" />
+               <menuitem id="marketing_rate_menu" name="04 - Rate of Marketing Fee" parent="marketing_fee_menu" action="marketing_rate_action" sequence="4" />
+               <menuitem id="marketing_rate_personal_menu" name="05 - Rate of Personal Fee" parent="marketing_fee_menu" action="marketing_rate_personal_action" sequence="5" />
+               <menuitem id="marketing_rate_pic_menu" name="06 - Rate of PIC Fee" parent="marketing_fee_menu" action="marketing_rate_pic_action" sequence="6" />
+               <menuitem id="marketing_doctor_fee_menu" name="07 - Bulking Import Fee Doctor" parent="marketing_fee_menu" action="marketing_doctor_fee_action" sequence="7" />
+               <menuitem id="marketing_compute_menu" name="08 - Compute Fee" parent="marketing_fee_menu" action="marketing_compute_action" sequence="8" />
+               <menuitem id="marketing_billing_menu" name="09 - Billing Calculated" parent="marketing_fee_menu" action="marketing_billing_action" sequence="9" />
+               <menuitem id="marketing_worklist_menu" name="10 - Marketing Fee" parent="marketing_fee_menu" action="marketing_fee_action" sequence="10" />
+               <menuitem id="marketing_personal_menu" name="11 - Personal Fee" parent="marketing_fee_menu" action="marketing_personal_action" sequence="11" />
+               <menuitem id="marketing_pic_menu" name="12 - PIC Fee" parent="marketing_fee_menu" action="marketing_pic_action" sequence="12" />
+               <menuitem id="marketing_report_menu" name="13 - Marketing &amp; PIC Report" parent="marketing_fee_menu" action="marketing_report_action" sequence="13" />
+               <menuitem id="marketing_posting_menu" name="14 - Posting Journal" parent="marketing_fee_menu" action="marketing_posting_action" sequence="14" />
+
+
+         <!-- Configuration -->
+            <menuitem id="mayapada_financial_report" name="Financial Report" parent="account.menu_finance_configuration" sequence="8"/>
+               <menuitem id="account_reports_menu" name="Account Reports" parent="mayapada_financial_report" sequence="1" action="account_reports_action" />
+
+            <menuitem id="mayapada_cashflow_report" name="Cashflow Report" parent="account.menu_finance_configuration" sequence="9"/>
+               <menuitem id="cashflow_type_menu" name="Cashflow Type Mapping" parent="mayapada_cashflow_report" sequence="1" action="account_cashflow_type_action"/>
+               <menuitem id="cashflow_exclude_menu" name="Cashflow Exclude Mapping" parent="mayapada_cashflow_report" sequence="2" action="account_cashflow_exclude_action"/>  
+               <menuitem id="console_company_mapping_menu" name="Console Company Mapping" parent="mayapada_cashflow_report" sequence="3" action="account_console_company_mapping_action"/>  
+
+
+         <!-- Purchase Module  -->
+            <!-- Master Data-->
+            <menuitem id="purchase_master_menu" name="Master" parent="purchase.menu_purchase_root" sequence="1" />
+               <menuitem id="purchase.menu_purchase_products" name="Product" parent="purchase_master_menu" sequence="1"/>
+               <menuitem id="purchase.menu_procurement_partner_contact_form" name="Product" parent="purchase.menu_purchase_products" sequence="1"/>
+               <menuitem id="purchase.menu_procurement_management_supplier_name" name="Supplier" parent="purchase_master_menu" sequence="2" action="res_partner_action_supplier" />
+        
+            <!-- Transaction -->
+            <menuitem id="purchase.menu_procurement_management" name="Transaction" parent="purchase.menu_purchase_root" sequence="2"/>
+               <menuitem id="purchase_requisition.menu_purchase_requisition_pro_mgt" name="Purchase Requisition" parent="purchase.menu_procurement_management" sequence="1"/>
+               <menuitem id="menu_purchase_rfq_mayapada" name="Requests for Quotation" parent="purchase.menu_procurement_management" sequence="2" action="purchase_rfq_action"/>
+               <menuitem id="menu_purchase_po_mayapada" name="Purchase Orders" parent="purchase.menu_procurement_management" sequence="3" action="purchase_po_action"/>
+               <menuitem id="menu_purchase_po_his_mayapada" name="Purchase Orders HIS" parent="purchase.menu_procurement_management" sequence="4" action="purchase_po_his_action"/>
+               <menuitem id="purchase_order_analysis_menu" name="Purchase Order Analysis" parent="purchase.menu_procurement_management" sequence="5" action="purchase_order_analysis_normal_action"/>
+               <menuitem id="purchase_request_analysis_menu" name="Purchase Request Analysis" parent="purchase.menu_procurement_management" sequence="6" action="purchase_request_analysis_action"/>
+               
+
+      <menuitem id="menu_purchase_1_form_action" name="Purchase Orders HIS Modification" parent="purchase.menu_procurement_management" sequence="10" action="purchase_1_action"/>
+
+
+
+<menuitem id="account_customer_invoice" name="AR Tenant Invoice" parent="account.menu_finance_receivables" action="account_invoice_action" sequence="1"/>
+               
+
+            <!-- Control-->
+            <menuitem id="menu_purchase_control" name="Control" parent="purchase.menu_purchase_root" sequence="3"/>
+               <menuitem id="purchase_syncing_menu" name="Purchase Syncing Wizard" parent="menu_purchase_control" sequence="9" action="purchase_syncing_action"/>
+               <menuitem id="ask_for_approval_batch_menu" name="Ask for Approval RFQ" parent="menu_purchase_control" action="ask_for_approval_batch_wizard_action"/>
+               <menuitem id="approval_batch_menu" name="Bulk Approval RFQ" parent="menu_purchase_control" action="approval_batch_wizard_action"/>
+               <menuitem id="purchase_bulk_confirm_menu" name="Bulk Confirm RFQ" parent="menu_purchase_control" action="purchase_bulk_confirm_action"/>
+               <menuitem id="menu_action_payment_term_form_inherit" name="Payment Terms" parent="purchase.menu_purchase_config" action="account.action_payment_term_form" sequence="1"/>
+
+                
+
+            <!-- Reporting  -->
+               <menuitem id="report_purchase_requisition_wizard_menu" name="Purchase Request Realization" parent="purchase.purchase_report" action="report_purchase_requisition_wizard_action"/>
+               <menuitem id="report_purchase_response_time_wizard_menu" name="Purchase Response Time" parent="purchase.purchase_report" action="report_purchase_response_time_wizard_action"/>
+               <menuitem id="report_purchase_analyze_wizard_menu" name="Purchase Receipt Analyze" parent="purchase.purchase_report" action="report_purchase_analyze_wizard_action"/>
+               <menuitem id="report_grn_purchase_wizard_menu" name="Purchase Receipt (Stock)" parent="purchase.purchase_report" action="purchase_receipt_wizard_action"/>
+               <menuitem id="picking_receipt_wizard_menu" name="Purchase Receipt (Non Stock)" parent="purchase.purchase_report" action="picking_receipt_wizard_action"/>
+               <menuitem id="picking_return_wizard_menu" name="Purchase Receipt Return (Non Stock)" parent="purchase.purchase_report" action="picking_return_wizard_action"/>
+
+
+
+            <!-- Configuration -->
+               <menuitem id="purchase_approval_rule_menu" name="Approval PO Rule" parent="purchase.menu_purchase_config" action="approval_rule_action" sequence="1"/>
+               <menuitem id="purchase_approval_type_menu" name="Approval PO Type" parent="purchase.menu_purchase_config" action="approval_type_action" sequence="2"/>
+               <menuitem id="purchase_notification_setting_menu" name="Purchase Notification Setting" parent="purchase.menu_purchase_config" action="purchase_notification_setting_action" sequence="3"/>
+               <menuitem id="srb_temporary_menu" name="SRB Temporary" parent="purchase.menu_purchase_config" action="srb_temporary_action" sequence="4"/>
+               <menuitem id="grn_temporary_menu" name="GRN Temporary" parent="purchase.menu_purchase_config" action="grn_temporary_action" sequence="5"/>
+               <menuitem id="menu_product_uom_form_action_inherit" name="Units of Measure" parent="purchase.menu_product_in_config_purchase" action="uom.product_uom_form_action" sequence="6"/>
+               <menuitem id="menu_product_uom_categ_form_action_inherit" name="Units of Measure Categories" parent="purchase.menu_product_in_config_purchase" action="uom.product_uom_categ_form_action" sequence="7"/>
+
+
+
+         <!-- Sales Module -->
+            <!-- Dashboard  -->
+            <menuitem id="sale.report_sales_team" name="Overview Revenue" parent="sale.sale_menu_root" sequence="1" />
+        
+            <!-- Master Data  -->
+            <menuitem id="sale_master_data_menu" name="Master Data" parent="sale.sale_menu_root" sequence="2" />
+               <menuitem id="sale.res_partner_menu" name="Customers" parent="sale_master_data_menu" sequence="1"/>
+               <menuitem id="patient_menu" name="Patient" parent="sale_master_data_menu" sequence="2" action="patient_menu_action"/>
+               <menuitem id="sale.menu_product_template_action" name="Products" parent="sale_master_data_menu" sequence="3" action="product.product_template_action"/>
+               <menuitem id="hospital_group_menu" parent="sale_master_data_menu" name="(HIS) Service Group" action="hospital_group_action" sequence="4"/>
+               <menuitem id="hospital_tariff_menu" parent="sale_master_data_menu" name="(HIS) Tariff" action="hospital_tariff_action" sequence="5"/>
+               <menuitem id="hospital_grade_menu" parent="sale_master_data_menu" name="(HIS) Grade" action="hospital_grade_action" sequence="6"/>
+               <menuitem id="hospital_bed_type_menu" parent="sale_master_data_menu" name="(HIS) BedType" action="hospital_bed_type_action" sequence="7"/>
+               <menuitem id="hospital_discount_type_menu" parent="sale_master_data_menu" name="(HIS) DiscountType" action="hospital_discount_type_action" sequence="8"/>
+               <menuitem id="hospital_room_name" parent="sale_master_data_menu" name="(HIS) Room" action="hospital_room_name_action" sequence="9"/>
+               <menuitem id="hospital_bed_name" parent="sale_master_data_menu" name="(HIS) BedName" action="hospital_bed_name_action" sequence="10"/>
+
+            <!-- Transaction -->
+            <menuitem id="sale.sale_order_menu" name="Transactions" active="True" parent="sale.sale_menu_root"/>
+               <menuitem id="sale.menu_sale_order" name="Draft Billing" parent="sale.sale_order_menu" sequence="1" action="sale.action_orders"/>
+               <menuitem id="sale_order_bill_menu" name="Billing" parent="sale.sale_order_menu" sequence="2" action="sale_order_bill_action" />
+               <menuitem id="sales_order_billing_cob_menu" name="Billing COB" parent="sale.sale_order_menu" sequence="3" action="sales_order_billing_cob"/>
+               <menuitem id="sales_order_analysis_menu" name="Billing Analysis" parent="sale.sale_order_menu" sequence="4" action="sales_order_analysis_normal_action"/>
+               <menuitem id="sale_order_bulk_filter_menu" name="Create Bulk Filter" parent="sale.sale_order_menu" sequence="5" action="sale_order_bulk_filter_action"/>
+               <menuitem id="sale_bulk_update_menu" name="Billing Bulk Update" parent="sale.sale_order_menu" sequence="6" action="sale_bulk_update_action"/>
+               <menuitem id="sale_bulk_merging_menu" name="Billing Bulk Merging" parent="sale.sale_order_menu" sequence="7" action="sale_bulk_merging_action"/>
+               <menuitem id="sale_bulk_closing_menu" name="Billing Bulk Closing" parent="sale.sale_order_menu" sequence="8" action="sale_bulk_closing_action"/>
+               <menuitem id="sale_bulk_syncing_menu" name="Billing Bulk Syncing" parent="sale.sale_order_menu" sequence="9" action="sale_bulk_syncing_action"/>
+               <!-- <menuitem id="sale_doctor_menu" name="Daily Top 15 Doctor Analytic" parent="sale.sale_order_menu" sequence="10" action="sale_doctor_action"/> -->
+               <!-- <menuitem id="sale_spesialisasi_menu" name="Daily Top 15 Specialization Analytic" parent="sale.sale_order_menu" sequence="11" action="sale_spesialisasi_action"/> -->
+               <menuitem id="sale_order_line_dhealth_menu" name="Sale Order Line Dhealth" parent="sale.sale_order_menu" sequence="16" action="sale_order_line_dhealth_action"/>
+               <menuitem id="generate_sale_order_line_dhealth_menu" name="Sale Order Line Dhealth Generate" parent="sale.sale_order_menu" action="generate_sale_order_line_dhealth_action" sequence="17"/>
+               <menuitem id="sales_order_lab_analysis_menu" name="Billing Analysis Lab" parent="sale.sale_order_menu" sequence="18" action="sales_order_lab_analysis_normal_action"/>
+               <menuitem id="sales_order_akasia_analysis_menu" name="Billing Analysis Akasia 365 MC" parent="sale.sale_order_menu" sequence="19" action="sales_order_akasia_analysis_normal_action"/>
+               <menuitem id="sales_order_mec_analysis_menu" name="Billing Analysis Eye Centre" parent="sale.sale_order_menu" sequence="20" action="sales_order_mec_analysis_normal_action"/>
+               <menuitem id="sale.menu_sale_quotations" active="False" name="Quotations" parent="sale.sale_order_menu" sequence="21"/>
+
+            <!-- PMO -->
+            <menuitem id="sales_revenue_pmo_menu" name="PMO" active="True" parent="sale.sale_menu_root"/>
+            <menuitem id="sales_revenue_pl_actual_menu" name="Revenue PL Actual" parent="sales_revenue_pmo_menu" sequence="1" action="sales_revenue_pl_actual_action"/>
+            <menuitem id="sales_revenue_pl_budget_menu" name="Revenue PL Budget" parent="sales_revenue_pmo_menu" sequence="2" action="sales_revenue_pl_budget_action"/>
+            <menuitem id="sales_revenue_payor_actual_menu" name="Revenue Payor Actual" parent="sales_revenue_pmo_menu" sequence="3" action="sales_revenue_payor_actual_action"/>
+            <menuitem id="sales_revenue_payor_budget_menu" name="Revenue Payor Budget" parent="sales_revenue_pmo_menu" sequence="4" action="sales_revenue_payor_budget_action"/>
+            <menuitem id="sales_revenue_tfs_actual_menu" name="Revenue TFS Actual" parent="sales_revenue_pmo_menu" sequence="5" action="sales_revenue_tfs_actual_action"/>
+            <menuitem id="sales_revenue_tfs_budget_menu" name="Revenue TFS Budget" parent="sales_revenue_pmo_menu" sequence="6" action="sales_revenue_tfs_budget_action"/>
+            <menuitem id="sales_revenue_throughtput_actual_menu" name="Throughtput Actual" parent="sales_revenue_pmo_menu" sequence="7" action="sales_revenue_throughtput_actual_action"/>
+            <menuitem id="sales_revenue_throughtput_budget_menu" name="Throughtput Budget" parent="sales_revenue_pmo_menu" sequence="8" action="sales_revenue_throughtput_budget_action"/>
+            <menuitem id="sales_revenue_lock_settings_menu" name="Lock Settings" parent="sales_revenue_pmo_menu" sequence="9" action="sales_revenue_lock_settings_action"/>
+            
+            <!-- Configuration -->
+            <menuitem id="sale_product_categ_menu" name="Product Categories" parent="sale.prod_config_main" sequence="1" action="sale_product_categ_action"/>
+            <menuitem id="sale_uom_menu" name="Unit of Measure" parent="sale.prod_config_main" sequence="2" action="sale_uom_action"/>
+            <menuitem id="sale_uom_category_menu" name="Unit of Measure Categories" parent="sale.prod_config_main" sequence="3" action="sale_uom_category_action"/>
+
+            
+            
+            <!-- Reporting  -->
+            <menuitem id="sale.menu_sale_report" name="Reporting" parent="sale.sale_menu_root" />
+            
+
+
+        
+         <!-- Setting -->
+            <!-- user & Companies  -->
+            <menuitem id="base.menu_users" name="Users &amp; Companies" parent="base.menu_administration" sequence="2"/>
+               <menuitem id="job_position_menu" name="Positions" parent="base.menu_users" sequence="9" action="job_position_action" />
+               <menuitem id="menu_user_block_bulky" name="Users Block Bulky" parent="base.menu_users" action="block_user_bulky_action" sequence="10"/>
+               
+
+
+         <!-- Inventory Module -->
+            <!-- Master Data  -->
+            <menuitem id="stock.menu_stock_inventory_control" name="Master Data" parent="stock.menu_stock_root" sequence="1"/>
+
+            <!-- Operations -->
+            <menuitem id="stock.menu_stock_warehouse_mgmt" name="Operations" parent="stock.menu_stock_root" sequence="2"/>
+               <menuitem id="stock_receiving_menu" name="Receiving Bay" parent="stock.menu_stock_warehouse_mgmt" sequence="1" action="stock_receiving_action"/>
+               <menuitem id="stock_picking_receipt_menu" name="Receiving Notes" parent="stock.menu_stock_warehouse_mgmt" sequence="2" action="stock_picking_receipt_action"/>
+               <menuitem id="stock_picking_return_menu" name="Item Return" parent="stock.menu_stock_warehouse_mgmt" sequence="3" action="stock_picking_return_action"/>
+               <menuitem id="stock.all_picking" name="Stock Movement" parent="stock.menu_stock_warehouse_mgmt" sequence="4"/>
+               <menuitem id="stock.menu_reordering_rules_replenish" active="False" name="Stock Movement" parent="stock.menu_stock_warehouse_mgmt" sequence="5"/>
+               <menuitem id="stock.menu_procurement_compute" active="False" name="Stock Movement" parent="stock.menu_stock_warehouse_mgmt" sequence="6"/>
+
+
+            <!-- Stock Ledger  -->
+            <menuitem id="stock_ledger" name="Stock Ledger" parent="stock.menu_stock_root" sequence="3"/>
+               <menuitem id="stock_ledger_closing_menu" name="Stock Ledger Closing" parent="stock_ledger" sequence="1" action="stock_ledger_closing_action"/>
+               <menuitem id="stock_ledger_analysis_menu" name="Stock Ledger Analysis" parent="stock_ledger" sequence="2" action="stock_ledger_analysis_action"/>
+               <menuitem id="stock_ledger_report_menu" name="Stock Ledger Report" parent="stock_ledger" sequence="3" action="stock_ledger_report_action"/>
+               <menuitem id="stock_ledger_reconcile_menu" name="Stock Ledger Reconcile" parent="stock_ledger" sequence="4" action="stock_ledger_reconcile_action"/>
+
+
+            <!-- Inventory Control  -->
+            <menuitem id="stock_inventory_control_menu" name="Inventory Control" parent="stock.menu_stock_root" sequence="4"/>
+               <menuitem id="stock.menu_stock_scrap" name="Item Consumption" parent="stock_inventory_control_menu" sequence="1"/>
+               <menuitem id="stock_bulk_update_closing" name="Stock Bulk Closing" parent="stock_inventory_control_menu" sequence="2" action="stock_bulk_update_closing_action"/>
+               <menuitem id="stock.stock_move_menu" name="Stock Moves" parent="stock_inventory_control_menu" sequence="3"/>
+               <menuitem id="stock.menu_action_inventory_tree" name="Inventory Adjustments" parent="stock_inventory_control_menu" sequence="4"/>
+
+            <!-- Reporting  -->
+            <menuitem id="account_mayapada_report" name="Mayapada Report" parent="stock.menu_warehouse_report" sequence="1"/>
+               <menuitem id="stock_scrap_compiled_menu" name="Stock Scrap Compiled Report" parent="account_mayapada_report" action="stock_scrap_compiled_action" sequence="122"/>
+               <menuitem id="stock_movement_compiled_menu" name="Stock Movement Compiled Report" parent="account_mayapada_report" action="stock_movement_compiled_action" sequence="123"/>
+               <menuitem id="stock_valuation_compiled_menu" name="Stock Valuation Compiled Report" parent="account_mayapada_report" action="stock_valuation_compiled_action" sequence="124"/>
+
+                <menuitem id="menu_user_audit_root" name="User Audit Logs" sequence="10" parent="base.menu_custom" />
+         <menuitem id="menu_user_audit_logs" name="Logs" parent="menu_user_audit_root" action="action_res_users_log"/>
+
+         
+
+
+         <!-- Hide Purchase RFQ Menu -->
+        <!-- <record id="purchase.menu_purchase_rfq" model="ir.ui.menu">
+            <field name="parent_id" eval="False"/>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_no_one')])]"/>
+        </record> -->
+        
+         
+         <record model="ir.ui.menu" id="stock.stock_picking_type_menu">
+            <field name="name">Dashboard</field>
+         </record>
+         
+
+    </data>
+</odoo>

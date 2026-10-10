@@ -1,0 +1,770 @@
+<odoo>
+    <data>
+        
+            <menuitem id="erp_mdm" name="ERP - MDM" sequence="20"/>
+
+            <menuitem id="erp_mdm_item" name="Item" parent="mayapada.erp_mdm" sequence="1"/>
+            <menuitem id="erp_mdm_item_nonstock" name="Item Non Stock" parent="mayapada.erp_mdm_item" action="action_erp_mdm_item_nonstock" sequence="1"/> 
+            <menuitem id="erp_mdm_item_stockable" name="Item Stockable" parent="mayapada.erp_mdm_item" action="action_erp_mdm_item_stockable" sequence="2"/> 
+
+            <menuitem id="erp_mdm_uom" name="UoM" parent="mayapada.erp_mdm" sequence="2"/>
+            <menuitem id="erp_mdm_uom_uom" name="UoM " parent="mayapada.erp_mdm_uom" action="action_erp_mdm_uom_uom" sequence="1"/> 
+            <menuitem id="erp_mdm_uom_conversion" name="Pack Conversion" parent="mayapada.erp_mdm_uom" action="action_erp_mdm_uom_conversion" sequence="2"/> 
+
+            <menuitem id="erp_mdm_category" name="Category" parent="mayapada.erp_mdm" sequence="3"/>
+            <menuitem id="erp_mdm_category_billing_group" name="Billing Group" parent="mayapada.erp_mdm_category" action="action_erp_mdm_category_billing_group" sequence="1"/> 
+            <menuitem id="erp_mdm_category_order_category" name="Order Category" parent="mayapada.erp_mdm_category" action="action_erp_mdm_category_order_category" sequence="2"/> 
+            <menuitem id="erp_mdm_category_item_category" name="Item Category" parent="mayapada.erp_mdm_category" action="action_erp_mdm_category_item_category" sequence="3"/> 
+
+            <menuitem id="erp_mdm_procurement" name="Procurement" parent="mayapada.erp_mdm" sequence="4"/>
+            <menuitem id="erp_mdm_procurement_manufacture" name="Manufacture" parent="mayapada.erp_mdm_procurement" action="action_erp_mdm_procurement_manufacture" sequence="1"/> 
+            <menuitem id="erp_mdm_procurement_vendor" name="Vendor" parent="mayapada.erp_mdm_procurement" action="action_erp_mdm_procurement_vendor" sequence="2"/>
+            <menuitem id="erp_mdm_procurement_purchase_type" name="Purchase Type" parent="mayapada.erp_mdm_procurement" action="action_erp_mdm_procurement_purchase_type" sequence="3"/> 
+            <menuitem id="erp_mdm_procurement_payment_term" name="Payment Terms" parent="mayapada.erp_mdm_procurement" action="action_erp_mdm_procurement_payment_term" sequence="4"/> 
+            <menuitem id="erp_mdm_procurement_taxes" name="Taxes" parent="mayapada.erp_mdm_procurement" action="action_erp_mdm_procurement_taxes" sequence="5"/> 
+
+            <menuitem id="erp_mdm_stores" name="Stores" parent="mayapada.erp_mdm" sequence="5"/>
+            <menuitem id="erp_mdm_stores_department" name="Department" parent="mayapada.erp_mdm_stores" action="action_erp_mdm_stores_department" sequence="1"/> 
+            <menuitem id="erp_mdm_stores_store" name="Stores" parent="mayapada.erp_mdm_stores" action="action_erp_mdm_stores_store" sequence="2"/> 
+
+            <menuitem id="erp_mdm_costcenter" name="Cost Center" parent="mayapada.erp_mdm" sequence="6"/>
+            <menuitem id="erp_mdm_costcenter_master" name="Cost Center Master" parent="mayapada.erp_mdm_costcenter" action="action_erp_mdm_costcenter_master" sequence="1"/> 
+            <menuitem id="erp_mdm_costcenter_analytic" name="Cost Center Analytic" parent="mayapada.erp_mdm_costcenter" action="action_erp_mdm_costcenter_analytic" sequence="2"/> 
+
+
+            <menuitem id="erp_pmm" name="ERP - PMM" sequence="21"/>
+
+            <menuitem id="erp_pmm_master" name="Master Data" parent="mayapada.erp_pmm" sequence="1"/>
+            <menuitem id="erp_pmm_master_approval_type" name="Approval Type" parent="mayapada.erp_pmm_master" action="action_erp_pmm_master_approval_type" sequence="1"/> 
+            <menuitem id="erp_pmm_master_vendor_agreement" name="Vendor Agreement" parent="mayapada.erp_pmm_master" action="action_erp_pmm_master_vendor_agreement" sequence="2"/> 
+            <menuitem id="erp_pmm_master_orderpoint_rule" name="Orderpoint Rule" parent="mayapada.erp_pmm_master" action="action_erp_pmm_master_orderpoint_rule" sequence="3"/> 
+
+            <menuitem id="erp_pmm_transaction" name="Transaction" parent="mayapada.erp_pmm" sequence="2"/>
+            <menuitem id="erp_pmm_transaction_orderpoint" name="Orderpoint" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_orderpoint_log" sequence="1"/> 
+            <menuitem id="erp_pmm_transaction_purchase_request" name="Purchase Request" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_purchase_request" sequence="2"/> 
+            <menuitem id="erp_pmm_transaction_realization" name="Realization Request" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_request_realize" sequence="3"/> 
+            <menuitem id="erp_pmm_transaction_bid_tabulation" name="Bid Tabulation" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_tabulation" sequence="4"/>
+            <menuitem id="erp_pmm_transaction_request_quotation" name="Request for Quotation" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_request_quotation" sequence="5"/>
+            <menuitem id="erp_pmm_transaction_purchase_order" name="Purchase Order" parent="mayapada.erp_pmm_transaction" action="action_erp_pmm_transaction_purchase_order" sequence="6"/>
+
+            <menuitem id="erp_pmm_reporting" name="Reporting" parent="mayapada.erp_pmm" sequence="3"/>
+            <menuitem id="erp_pmm_reporting_pr_tracking_analysis" name="PR Tracking Analysis" parent="mayapada.erp_pmm_reporting" action="action_erp_pmm_reporting_pr_tracking_analysis" sequence="1"/> 
+            <menuitem id="erp_pmm_reporting_po_tracking_analysis" name="RFQs to PO Tracking Analysis" parent="mayapada.erp_pmm_reporting" action="action_erp_pmm_reporting_po_tracking_analysis" sequence="2"/>
+            <menuitem id="erp_pmm_reporting_purchase_item_analysis" name="Purchase Item Analysis" parent="mayapada.erp_pmm_reporting" action="action_erp_pmm_reporting_purchase_item_analysis" sequence="3"/> 
+            <menuitem id="erp_pmm_budget_analysis" name="Budget Analysis" parent="mayapada.erp_pmm" sequence="5"/>
+            <menuitem id="erp_pmm_reporting_budget_dashboard" name="Budget Dashboard" parent="mayapada.erp_pmm_budget_analysis" action="action_eproc_budget_dashboard_wizard" sequence="1"/>
+            <menuitem id="erp_pmm_reporting_budget_tracking_analysis" name="Budget Tracking Analysis" parent="mayapada.erp_pmm_budget_analysis" action="action_eproc_budget_tracking_wizard" sequence="2"/>
+            <delete id="erp_pmm_reporting_budget_tracking_items_preview" model="ir.ui.menu"/>
+
+            <menuitem id="erp_pmm_budget" name="Budget" parent="mayapada.erp_pmm" sequence="4"/>
+            <menuitem id="erp_pmm_budget_group" name="Budget Group" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_group" sequence="1"/>
+            <menuitem id="erp_pmm_budget_approval_type" name="Budget Approval Type" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_approval_type" sequence="2"/>
+            <menuitem id="erp_pmm_budget_request" name="Budget Request &amp; Re-allocation" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_request" sequence="3"/>
+            <menuitem id="erp_pmm_budget_item" name="Budget Item" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_item" sequence="4"/>
+            <menuitem id="erp_pmm_budget_dashboard" name="Budget Dashboard" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_dashboard_wizard" sequence="5"/>
+            <menuitem id="erp_pmm_budget_tracking_analysis" name="Budget Tracking Analysis" parent="mayapada.erp_pmm_budget" action="action_eproc_budget_tracking_wizard" sequence="6"/>
+            <delete id="erp_pmm_budget_tracking_items_preview" model="ir.ui.menu"/>
+
+            <menuitem id="erp_scm" name="ERP - SCM" sequence="22"/>
+
+            <menuitem id="erp_scm_receiving" name="Receiving" parent="mayapada.erp_scm" sequence="1"/>
+            <menuitem id="erp_scm_receiving_receiving_bay" name="Receiving Bay" parent="mayapada.erp_scm_receiving" action="action_erp_scm_receiving_bay" sequence="1"/> 
+            <menuitem id="erp_scm_receiving_receiving_validation" name="Receiving Validation" parent="mayapada.erp_scm_receiving" action="action_erp_scm_receiving_validation" sequence="2"/> 
+            <menuitem id="erp_scm_receiving_purchase_return" name="Purchase Return" parent="mayapada.erp_scm_receiving" action="action_erp_scm_receiving_return" sequence="3"/> 
+
+            <menuitem id="erp_scm_operation" name="Operations" parent="mayapada.erp_scm" sequence="2"/>
+            <menuitem id="erp_scm_operation_lot" name="Stock Lot" parent="mayapada.erp_scm_operation" action="action_erp_scm_operation_lot" sequence="1"/>
+
+            <menuitem id="erp_scm_inventory" name="Inventory" parent="mayapada.erp_scm" sequence="3"/>
+            <menuitem id="erp_scm_inventory_ledger" name="Stock Ledger" parent="mayapada.erp_scm_inventory" action="action_erp_scm_stock_ledger" sequence="1"/>
+            <menuitem id="erp_scm_inventory_quant" name="Stock Quant" parent="mayapada.erp_scm_inventory" action="action_erp_scm_stock_quant" sequence="2"/> 
+            <menuitem id="erp_scm_inventory_valuation" name="Stock Valuation" parent="mayapada.erp_scm_inventory" action="action_erp_scm_stock_valuation" sequence="3"/>
+            <menuitem id="erp_scm_inventory_costprice" name="Historical Cost Price" parent="mayapada.erp_scm_inventory" action="action_erp_scm_stock_costprice" sequence="4"/>
+
+
+            <menuitem id="dil_mdm" name="DIL - MDM" sequence="23"/>
+
+            <menuitem id="dil_mdm_item" name="Interfacing Item" parent="mayapada.dil_mdm" sequence="1"/>
+            <menuitem id="dil_mdm_item_nonstock" name="Item Non Stock" parent="mayapada.dil_mdm_item" action="action_dil_mdm_item_nonstock" sequence="1"/> 
+            <menuitem id="dil_mdm_item_stockable" name="Item Stockable" parent="mayapada.dil_mdm_item" action="action_dil_mdm_item_storeable" sequence="2"/> 
+            
+            <menuitem id="dil_mdm_uom" name="Interfacing UoM" parent="mayapada.dil_mdm" sequence="2"/>
+            <menuitem id="dil_mdm_uom_uom" name="UoM" parent="mayapada.dil_mdm_uom" action="action_dil_mdm_uom_uom" sequence="1"/> 
+            <menuitem id="dil_mdm_uom_conversion" name="Pack Conversion" parent="mayapada.dil_mdm_uom" action="action_erp_mdm_uom_uom" sequence="2"/> 
+
+            <menuitem id="dil_mdm_category" name="Interfacing Category" parent="mayapada.dil_mdm" sequence="3"/>
+            <menuitem id="dil_mdm_category_billing_group" name="Billing Group" parent="mayapada.dil_mdm_category" action="action_dil_mdm_category_billing_group" sequence="1"/> 
+            <menuitem id="dil_mdm_category_order_category" name="Order Category" parent="mayapada.dil_mdm_category" action="action_dil_mdm_category_order_category" sequence="2"/> 
+            <menuitem id="dil_mdm_category_item_category" name="Item Category" parent="mayapada.dil_mdm_category" action="action_dil_mdm_category_item_category" sequence="3"/> 
+
+            <menuitem id="dil_mdm_procurement" name="Interfacing Procurement" parent="mayapada.dil_mdm" sequence="4"/>
+            <menuitem id="dil_mdm_procurement_manufacture" name="Manufacture" parent="mayapada.dil_mdm_procurement" action="action_dil_mdm_procurement_manufacture" sequence="1"/> 
+            <menuitem id="dil_mdm_procurement_vendor" name="Vendor" parent="mayapada.dil_mdm_procurement" action="action_dil_mdm_procurement_vendor" sequence="2"/> 
+            <menuitem id="dil_mdm_procurement_purchase_type" name="Purchase Type" parent="mayapada.dil_mdm_procurement" action="action_dil_mdm_procurement_purchase_type" sequence="3"/> 
+            <menuitem id="dil_mdm_procurement_payment_term" name="Payment Terms" parent="mayapada.dil_mdm_procurement" action="action_dil_mdm_procurement_payment_term" sequence="4"/> 
+            <menuitem id="dil_mdm_procurement_taxes" name="Taxes" parent="mayapada.dil_mdm_procurement" action="action_dil_mdm_procurement_taxes" sequence="5"/> 
+
+            <menuitem id="dil_mdm_stores" name="Interfacing Stores" parent="mayapada.dil_mdm" sequence="5"/>
+            <menuitem id="dil_mdm_stores_department" name="Department" parent="mayapada.dil_mdm_stores" action="action_dil_mdm_stores_department" sequence="1"/> 
+            <menuitem id="dil_mdm_stores_facility" name="Facility" parent="mayapada.dil_mdm_stores" action="action_dil_mdm_stores_facility" sequence="2"/> 
+
+            <menuitem id="dil_mdm_costcenter" name="Interfacing Cost Center" parent="mayapada.dil_mdm" sequence="6"/>
+            <menuitem id="dil_mdm_costcenter_master" name="Cost Center Master" parent="mayapada.dil_mdm_costcenter" action="action_dil_mdm_costcenter_master" sequence="1"/> 
+            <menuitem id="dil_mdm_costcenter_analytic" name="Cost Center Analytic" parent="mayapada.dil_mdm_costcenter" action="action_dil_mdm_costcenter_analytic" sequence="2"/> 
+            
+            <menuitem id="dil_scm" name="DIL - SCM" sequence="24"/>
+
+            <menuitem id="dil_scm_receiving" name="Receiving" parent="mayapada.dil_scm" sequence="1"/>
+            <menuitem id="dil_scm_receiving_receipt" name="Good Receive" parent="mayapada.dil_scm_receiving" action="action_dil_scm_receiving_receipt" sequence="1"/> 
+            <menuitem id="dil_scm_receiving_return" name="Vendor Return" parent="mayapada.dil_scm_receiving" action="action_dil_scm_receiving_return" sequence="2"/> 
+            <menuitem id="dil_scm_receiving_realize_asset" name="Realize Goods Receipt to Assets" parent="mayapada.dil_scm_receiving" action="action_dil_scm_receiving_realize_assets" sequence="3"/> 
+            <menuitem id="dil_scm_receiving_grn_modification" name="GRN Modification" parent="mayapada.dil_scm_receiving" action="action_dil_scm_grn_modification" sequence="4"/>
+
+            <menuitem id="dil_scm_operation" name="Operation" parent="mayapada.dil_scm" sequence="2"/>
+            <menuitem id="dil_scm_operation_lot" name="Interfacing Lot / Batch" parent="mayapada.dil_scm_operation" action="action_dil_scm_stock_lot" sequence="1"/>
+            <menuitem id="dil_scm_operation_ledger" name="Stock Ledger" parent="mayapada.dil_scm_operation" action="action_dil_scm_stock_ledger" sequence="2"/>
+            <menuitem id="dil_scm_operation_valuation" name="Stock Valuation" parent="mayapada.dil_scm_operation" action="action_dil_scm_stock_valuation" sequence="3"/>
+
+            <menuitem id="dil_scm_balancing" name="Balancing" parent="mayapada.dil_scm" sequence="3"/>
+            <menuitem id="dil_scm_balancing_reconcile" name="Stock Ledger Reconcile" parent="mayapada.dil_scm_balancing" action="action_erp_mdm_uom_uom" sequence="1"/> 
+
+            <menuitem id="dil_tdm" name="DIL - TDM" sequence="25"/>
+
+            <menuitem id="dil_tdm_master" name="Master Data" parent="mayapada.dil_tdm" sequence="1"/>
+            <menuitem id="dil_tdm_master_orderitem" name="Interfacing Order Item" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_orderitem" sequence="1"/> 
+            <menuitem id="dil_tdm_master_bedtype" name="Interfacing Room Type / Billable BedType" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_bedtype" sequence="2"/> 
+            <menuitem id="dil_tdm_master_patient" name="Patient" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_patient" sequence="3"/>
+            <menuitem id="dil_tdm_master_doctor" name="Doctor" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_doctor" sequence="4"/>
+            <menuitem id="dil_tdm_master_doctor_external" name="Doctor External" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_doctor_external" sequence="5"/>
+            <menuitem id="dil_tdm_master_bank" name="Interfacing Bank" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_bank" sequence="6"/> 
+            <menuitem id="dil_tdm_master_payment_mode" name="Interfacing Payment Mode" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_payment_mode" sequence="7"/> 
+            <menuitem id="dil_tdm_master_discount_master" name="Interfacing Discount Master" parent="mayapada.dil_tdm_master" action="action_dil_tdm_master_discount" sequence="8"/> 
+
+            <menuitem id="dil_tdm_transaction" name="Transaction" parent="mayapada.dil_tdm" sequence="2"/>
+            <menuitem id="dil_tdm_transaction_cashier" name="Cashier Collection" parent="mayapada.dil_tdm_transaction" action="action_dil_tdm_transaction_cashier" sequence="1"/>
+            <menuitem id="dil_tdm_transaction_deposit" name="Deposit Collection" parent="mayapada.dil_tdm_transaction" action="action_dil_tdm_transaction_deposit" sequence="2"/>
+            <menuitem id="dil_tdm_transaction_creditnote" name="Credit Note" parent="mayapada.dil_tdm_transaction" action="action_dil_tdm_transaction_creditnote" sequence="3"/>
+            <menuitem id="dil_tdm_transaction_payout" name="Interfacing Payout Doctor" parent="mayapada.dil_tdm_transaction" action="action_erp_mdm_uom_uom" sequence="4"/> 
+            <menuitem id="dil_tdm_transaction_accrual" name="Interfacing IP Payable Accrual" parent="mayapada.dil_tdm_transaction" action="action_dil_tdm_transaction_accrual" sequence="5"/>
+            <menuitem id="dil_tdm_transaction_settlement_billing" name="Interfacing Settlement Billing" parent="mayapada.dil_tdm_transaction" action="action_dil_tdm_transaction_settlement_billing" sequence="6" groups="mayapada.mayapada_all_access,mayapada.mayapada_finance_unit_receivable"/>
+            
+            <menuitem id="acc_tariff" name="Tariff" parent="account.menu_finance" sequence="20"/>
+            <menuitem id="acc_tariff_payor" name="Payor" parent="mayapada.acc_tariff" action="action_acc_tariff_payor" sequence="1"/> 
+            <menuitem id="acc_tariff_tpa" name="TPA" parent="mayapada.acc_tariff" action="action_acc_tariff_tpa" sequence="2"/> 
+            <menuitem id="acc_tariff_tariff" name="Tariff Type" parent="mayapada.acc_tariff" action="action_acc_tariff_tariff" sequence="3"/> 
+            <menuitem id="acc_tariff_pricelist_wizard" name="Tariff Pricelist Wizard" parent="mayapada.acc_tariff" action="action_acc_tariff_pricelist_wizard" sequence="4"/> 
+            <menuitem id="acc_tariff_pricelist" name="Tariff Pricelist" parent="mayapada.acc_tariff" action="action_acc_tariff_pricelist" sequence="5"/> 
+            <menuitem id="acc_tariff_dependency_wizard" name="Tariff Dependency Wizard" parent="mayapada.acc_tariff" action="action_acc_tariff_dependency_wizard" sequence="6"/> 
+            <menuitem id="acc_tariff_dependency" name="Tariff Dependency" parent="mayapada.acc_tariff" action="action_acc_tariff_dependency" sequence="7"/> 
+            <menuitem id="acc_tariff_markup_wizard" name="Tariff Markup Wizard" parent="mayapada.acc_tariff" action="action_acc_tariff_markup_wizard" sequence="8"/> 
+            <menuitem id="acc_tariff_markup" name="Tariff Markup" parent="mayapada.acc_tariff" action="action_acc_tariff_markup" sequence="9"/> 
+            <menuitem id="acc_tariff_selling_price_wizard" name="Tariff Fixed Selling Price Wizard" parent="mayapada.acc_tariff" action="action_acc_tariff_selling_price_wizard" sequence="10"/> 
+            <menuitem id="acc_tariff_selling_price" name="Tariff Fixed Selling Price" parent="mayapada.acc_tariff" action="action_acc_tariff_selling_price" sequence="11"/> 
+            <menuitem id="acc_tariff_aggregation_wizard" name="Tariff BasePrice Aggregation Wizard" parent="mayapada.acc_tariff" action="action_acc_tariff_aggregation_wizard" sequence="12"/> 
+            <menuitem id="acc_tariff_aggregation" name="Tariff BasePrice Aggregation" parent="mayapada.acc_tariff" action="action_acc_tariff_aggregation" sequence="13"/> 
+            <menuitem id="acc_tariff_baseprice_receipt_report" name="Tariff BasePrice vs Latest GRN" parent="mayapada.acc_tariff" action="action_acc_tariff_baseprice_receipt_report_wizard" sequence="14"/>
+            <delete id="acc_tariff_existing_export" model="ir.ui.menu"/>
+            <menuitem id="acc_ar_tenant_invoice" name="AR Tenant Invoice (New)" parent="account.menu_finance_receivables" action="action_acc_ar_tenant_invoice" sequence="14"/>
+            <menuitem id="acc_ar_receipt_settlement" name="AR Receipt Settlement (New)" parent="account.menu_finance_receivables" action="action_acc_ar_receipt_settlement" sequence="15"/>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_mdm
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_mdm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_mdm_item
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_mdm_item" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_mdm_item_nonstock
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_mdm_item_nonstock" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_mdm_item_stockable
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_mdm_item_stockable" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_uom" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_uom_uom" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_uom_conversion" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_category_billing_group" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_category_order_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_category_item_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement_manufacture" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement_vendor" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement_purchase_type" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement_payment_term" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_procurement_taxes" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_stores" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_stores_department" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_stores_store" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_costcenter" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_costcenter_master" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+
+            <record id="mayapada.erp_mdm_costcenter_analytic" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_procurement_corporate'))]"/>
+            </record>
+            <record id="mayapada.erp_pmm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_pr_approval')), (4, ref('mayapada.mayapada_procurement_pr_creation')), (4, ref('mayapada.mayapada_procurement_po_approval')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_master
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_master" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_master_approval_type
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_master_approval_type" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_master_vendor_agreement
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_master_vendor_agreement" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_master_orderpoint_rule
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_master_orderpoint_rule" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <record id="mayapada.erp_pmm_transaction" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_pr_approval')), (4, ref('mayapada.mayapada_procurement_pr_creation')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_transaction_orderpoint
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_transaction_orderpoint" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_po_approval')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_transaction_purchase_request
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_transaction_purchase_request" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_pr_approval')), (4, ref('mayapada.mayapada_procurement_pr_creation')), (4, ref('mayapada.mayapada_procurement_po_approval')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_transaction_realization
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_transaction_realization" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_transaction_bid_tabulation
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_transaction_bid_tabulation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <record id="mayapada.erp_pmm_transaction_request_quotation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_po_approval')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <record id="mayapada.erp_pmm_transaction_purchase_order" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_reporting
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_reporting" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_reporting_pr_tracking_analysis
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_reporting_pr_tracking_analysis" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_reporting_po_tracking_analysis
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_reporting_po_tracking_analysis" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <!-- TODO RES_GROUP_MENU - GROUP NOT FOUND:
+            Requirement menu: erp_pmm_reporting_purchase_item_analysis
+            Required groups: GRP0023 (Procurement - MEC JS)
+            Status: BLOCKED until existing res.groups XML ID is confirmed.
+            -->
+            <record id="mayapada.erp_pmm_reporting_purchase_item_analysis" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_procurement_manager')), (4, ref('mayapada.mayapada_procurement_purchase_view')), (4, ref('mayapada.mayapada_procurement_corporate')), (4, ref('mayapada.mayapada_procurement_mec_js'))]"/>
+            </record>
+
+            <record id="mayapada.erp_pmm_budget" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada.mayapada_all_access'), ref('mayapada.mayapada_finance_configuration'), ref('mayapada.mayapada_procurement_manager'), ref('mayapada.mayapada_procurement_corporate')])]"/>
+            </record>
+
+            <record id="mayapada.erp_scm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_pharmacy_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_receiving" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_pharmacy_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_receiving_receiving_bay" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_pharmacy_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_receiving_receiving_validation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_pharmacy_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_receiving_purchase_return" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_pharmacy_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_operation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_operation_lot" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_inventory" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_inventory_ledger" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_inventory_quant" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_inventory_valuation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.erp_scm_inventory_costprice" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_item" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_item_nonstock" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_item_stockable" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_uom" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_uom_uom" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_uom_conversion" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_category_billing_group" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_category_order_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_category_item_category" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_payable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement_manufacture" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement_vendor" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_payable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement_purchase_type" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_payable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement_payment_term" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_payable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_procurement_taxes" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_payable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_stores" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_stores_department" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_stores_facility" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_costcenter" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_costcenter_master" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_mdm_costcenter_analytic" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_finance_staff_asset'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_receiving" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_finance_staff_asset'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_receiving_receipt" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_finance_staff_asset'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_receiving_return" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_finance_staff_asset'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_receiving_realize_asset" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory')), (4, ref('mayapada.mayapada_finance_staff_asset'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_operation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_operation_lot" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_operation_ledger" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_operation_valuation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_balancing" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_scm_balancing_reconcile" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_payable')), (4, ref('mayapada.mayapada_finance_unit_inventory'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_orderitem" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_bedtype" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_patient" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_doctor" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_doctor_external" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_bank" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_payment_mode" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_master_discount_master" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_cashier" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_deposit" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_creditnote" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_payout" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable')), (4, ref('mayapada.mayapada_finance_fee_doctor'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_accrual" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.dil_tdm_transaction_settlement_billing" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_payor" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_tpa" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_tariff" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_pricelist_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_pricelist" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_dependency_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_dependency" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_markup_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_markup" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_selling_price_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_selling_price" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_tariff_aggregation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting'))]"/>
+            </record>
+
+            <record id="mayapada.acc_ar_tenant_invoice" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <record id="mayapada.acc_ar_receipt_settlement" model="ir.ui.menu">
+                <field name="groups_id" eval="[(4, ref('mayapada.mayapada_all_access')), (4, ref('mayapada.mayapada_finance_configuration')), (4, ref('mayapada.mayapada_finance_corporate')), (4, ref('mayapada.mayapada_finance_corporate_view_only')), (4, ref('mayapada.mayapada_finance_manager')), (4, ref('mayapada.mayapada_finance_unit_accounting')), (4, ref('mayapada.mayapada_finance_unit_receivable'))]"/>
+            </record>
+
+            <!-- Keep this block after additive updates; (6, 0, [...]) replaces the complete group list. -->
+            <!-- Restrict ACC Tariff menus bridge. -->
+            <record id="acc_tariff" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager'), ref('mayapada_finance_unit_receivable')])]"/>
+            </record>
+            <record id="acc_tariff_payor" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager'), ref('mayapada_finance_unit_receivable')])]"/>
+            </record>
+            <record id="acc_tariff_tpa" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager'), ref('mayapada_finance_unit_receivable')])]"/>
+            </record>
+            <record id="acc_tariff_tariff" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_pricelist" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_dependency" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_markup" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_selling_price" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_aggregation" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_pricelist_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_dependency_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_markup_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_selling_price_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting'), ref('mayapada_all_access'), ref('mayapada_finance_corporate'), ref('mayapada_finance_corporate_view_only'), ref('mayapada_finance_manager')])]"/>
+            </record>
+            <record id="acc_tariff_aggregation_wizard" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting')])]"/>
+            </record>
+            <record id="acc_tariff_baseprice_receipt_report" model="ir.ui.menu">
+                <field name="groups_id" eval="[(6, 0, [ref('mayapada_finance_configuration'), ref('mayapada_finance_unit_accounting')])]"/>
+            </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,233 @@
+<odoo>
+    <data>
+    
+        <record model="ir.module.category" id="mayapada_module">
+            <field name="name">Mayapada</field>
+            <field name="description">User access levels for Mayapada module</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="mayapada_all_access" model="res.groups">
+            <field name="name">All Access</field>
+            <field name="comment">Mayapada All Access</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_finance_corporate_view_only" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Corporate VIEW ONLY</field>
+            <field name="comment">Finance &amp; Accounting - Corporate VIEW ONLY</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_finance_configuration" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Configuration</field>
+            <field name="comment">Finance &amp; Accounting - Configuration</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        <record id="mayapada_finance_corporate" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Corporate</field>
+            <field name="comment">Finance &amp; Accounting - Corporate</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        
+        <record id="mayapada_finance_manager" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Dept Accounting &amp; Finance</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Dept Accounting &amp; Finance</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        <record id="mayapada_finance_unit_accounting" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Unit Accounting</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Unit Accounting</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        <record id="mayapada_finance_unit_payable" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Unit Finance Account Payable</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Unit Finance Account Payable</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+
+        <record id="mayapada_finance_unit_receivable" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Unit Finance Account Receivable</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Unit Finance Account Receivable</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <!-- GRP0013: assign this XML ID to the existing operational group before upgrading. -->
+        <record id="mayapada_finance_staff_asset" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Staff Asset</field>
+            <field name="comment">Finance &amp; Accounting - Staff Asset</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_finance_unit_general_storage" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Unit General Storage</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Unit General Storage</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_finance_unit_inventory" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Ka.Unit Inventory</field>
+            <field name="comment">Finance &amp; Accounting - Ka.Unit Inventory</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_pharmacy_unit_inventory" model="res.groups">
+            <field name="name">Pharmacy - Ka.Unit Inventory</field>
+            <field name="comment">Pharmacy - Ka.Unit Inventory</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_procurement_corporate" model="res.groups">
+            <field name="name">Procurement - Corporate</field>
+            <field name="comment">Procurement - Corporate</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+
+        <record id="mayapada_finance_fee_doctor" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Staff Fee Doctor</field>
+            <field name="comment">Finance &amp; Accounting - Staff Fee Doctor</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+
+        <record id="mayapada_finance_staff_mcu" model="res.groups">
+            <field name="name">Finance &amp; Accounting - Staff MCU</field>
+            <field name="comment">Finance &amp; Accounting - Staff MCU</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_general_akasia_365" model="res.groups">
+            <field name="name">Billing Analysis Akasia 365</field>
+            <field name="comment">Billing Analysis Akasia 365</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        
+        <!-- GRP0003: assign this XML ID to the existing operational group before upgrading. -->
+        <record id="mayapada_general_eye_centre" model="res.groups">
+            <field name="name">Billing Analysis Eye Centre</field>
+            <field name="comment">Billing Analysis Eye Centre</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <record id="mayapada_general_laboratory" model="res.groups">
+            <field name="name">Billing Analysis Laboratorium</field>
+            <field name="comment">Billing Analysis Laboratorium</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        
+        <record id="mayapada_general_marketing" model="res.groups">
+            <field name="name">Ka. Marketing - Billing Analysis</field>
+            <field name="comment">Ka. Marketing - Billing Analysis</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        
+        <record id="mayapada_general_human_capital" model="res.groups">
+            <field name="name">Human Capital</field>
+            <field name="comment">Human Capital</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        
+
+        <record id="mayapada_general_it_support" model="res.groups">
+            <field name="name">IT Support</field>
+            <field name="comment">IT Support</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_purchase_view" model="res.groups">
+            <field name="name">Procurement - Ka. Dept Purchasing View Only</field>
+            <field name="comment">Procurement - Ka. Dept Purchasing View Only</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_manager" model="res.groups">
+            <field name="name">Procurement - Ka.Dept Purchasing</field>
+            <field name="comment">Procurement - Ka.Dept Purchasing</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_supervisor" model="res.groups">
+            <field name="name">Procurement - Ka.Unit Purchasing</field>
+            <field name="comment">Procurement - Ka.Unit Purchasing</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        <record id="mayapada_general_pv_approval" model="res.groups">
+            <field name="name">PV Approval</field>
+            <field name="comment">PV Approval</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+        
+        <record id="mayapada_procurement_po_approval" model="res.groups">
+            <field name="name">PR/PO Approval</field>
+            <field name="comment">PR/PO Approval</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_pr_approval" model="res.groups">
+            <field name="name">PR Approval</field>
+            <field name="comment">PR Approval</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_pr_creation" model="res.groups">
+            <field name="name">PR Creation</field>
+            <field name="comment">PR Creation</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+        
+        <record id="mayapada_procurement_staff" model="res.groups">
+            <field name="name">Procurement - Staff Purchasing</field>
+            <field name="comment">Procurement - Staff Purchasing</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+
+
+        <!-- GRP0023: assign this XML ID to the existing operational group before upgrading. -->
+        <record id="mayapada_procurement_mec_js" model="res.groups">
+            <field name="name">Procurement - MEC JS</field>
+            <field name="comment">Procurement - MEC JS</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+        <!-- GRP0029: assign this XML ID to the existing operational group before upgrading. -->
+        <record id="mayapada_general_staff_intern" model="res.groups">
+            <field name="name">Staff Intern</field>
+            <field name="comment">Staff Intern</field>
+            <field name="category_id" ref="mayapada_module"/>
+        </record>
+
+    </data>
+</odoo>

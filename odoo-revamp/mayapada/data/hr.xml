@@ -1,0 +1,102 @@
+<odoo>
+    <data>
+        <record id="mayapada_hr_department_inherited" model="ir.ui.view">
+            <field name="name">hr.department.inherited</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position='replace'>
+                    <form string="department">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_user"/>
+                                </group>
+                                <group>
+                                    <!-- <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/> -->
+                                    <field name="company_id"/>
+                                    <field name="head_id"/>
+                                    <field name="is_his" readonly="1"/>
+                                </group>
+                            </group>
+
+                            <notebook colspan="4">
+                                <page string="Cost Center">
+                                    <field name="cost_center_ids" domain="[('company_id','=', company_id)]">
+                                        <tree editable="bottom">
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                            <field name="company_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Job Positions">
+                                    <field name="jobs_ids" />
+                                </page>
+                                <page string="Sub Department">
+                                    <field name="child_ids" domain="[('company_id','=', company_id)]">
+                                        <tree editable="bottom">
+                                            <field name="display_name"/>
+                                            <field name="manager_id"/>
+                                            <field name="is_user"/>
+                                            <field name="is_store"/>
+                                            <field name="company_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Member of Departments">
+                                    <field name="member_ids">
+                                        <tree editable="bottom">
+                                            <field name="display_name"/>
+                                            <field name="position_id"/>
+                                            <field name="company_id"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <page string="Information">
+                                    <group>
+                                        <group>
+                                            <field name="is_store"/>
+                                            <field name="is_mainstore"/>
+                                            <field name="is_substore"/>
+                                        </group>
+                                        <group>
+                                            <field name="is_cartstore"/>
+                                            <field name="location_type"/>
+                                            <field name="wipro_block"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="trigger_create" invisible="1"/>
+                                            <field name="trigger_write" invisible="1"/>
+                                            <field name="sync_type" readonly="1"/>
+                                            <field name="sync_id" readonly="1"/>
+                                            <field name="sync_id_api" readonly="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="sync_date" readonly="1"/>
+                                            <field name="sync_consol_date" readonly="1"/>
+                                            <field name="sync_consol_id_unit" readonly="1"/>
+                                            <field name="sync_consol_id_main" readonly="1"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                           
+                        </sheet>
+                         <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

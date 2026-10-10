@@ -1,0 +1,346 @@
+
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="referral_agen_action">
+            <field name="name">Referral Agen</field>
+            <field name="res_model">referral.agen</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_transaction_action">
+            <field name="name">Referral Transaction</field>
+            <field name="res_model">referral.transaction</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_rate_action">
+            <field name="name">Referral Rate</field>
+            <field name="res_model">referral.rate</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_remapping_action">
+            <field name="name">Referral Re-Mapping</field>
+            <field name="res_model">referral.remapping.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_compute_action">
+            <field name="name">Referral Compute Line</field>
+            <field name="res_model">referral.compute.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_fee_compute_action">
+            <field name="name">Referral Compute Fee</field>
+            <field name="res_model">referral.fee.compute.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_fee_worklist_action">
+            <field name="name">Referral Fee Worklist</field>
+            <field name="res_model">referral.fee</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_fee_report_action">
+            <field name="name">Referral Fee Report</field>
+            <field name="res_model">referral.fee.report.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_fee_confirm_action">
+            <field name="name">Referral Fee Confirm</field>
+            <field name="res_model">referral.fee.confirm.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="referral_fee_posting_action">
+            <field name="name">Referral Fee Posting Entries</field>
+            <field name="res_model">referral.fee.posting.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="mayapada_referral_rate_view" model="ir.ui.view">
+            <field name="name">referral.rate.view</field>
+            <field name="model">referral.rate</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Referral Rate">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" />
+                                <field name="referral_type" />
+                                <field name="external_id" attrs="{'invisible': [('referral_type', '=', '2')]}" domain="[('company_id', '=', company_id)]" />
+                                <field name="referral_category" attrs="{'invisible': [('referral_type', '=', '1')]}" />
+                            </group>
+                            <group>    
+                                <field name="start_date_validity" />
+                                <field name="end_date_validity" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fee Per Item">
+                                <field name="rate_item_ids">
+                                    <tree string="Product" editable="bottom">
+                                        <field name="rate_id" invisible="1" />
+                                        <field name="service_id" domain="[('sync_type','=',parent.sync_type)]" />
+                                        <field name="product_id" domain="[('categ_id','=',service_id)]" />
+                                        <field name="patient_type" />
+                                        <field name="takeout" />
+                                        <field name="is_odc" />
+                                        <field name="rate_percent" />
+                                        <field name="rate_value" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Fee Per Bill">
+                                <field name="rate_bill_ids">
+                                    <tree string="Bill" editable="bottom">
+                                        <field name="patient_type" />
+                                        <field name="min_amount" />
+                                        <field name="max_amount" />
+                                        <field name="inc_fee_doctor" />
+                                        <field name="rate_percent" />
+                                        <field name="rate_value" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Fee Per Bill (Service Mapping)">
+                                <field name="rate_service_ids">
+                                    <tree string="Service" editable="bottom">
+                                        <field name="service_id" domain="[('sync_type','=',parent.sync_type)]" />
+                                        <field name="takeout" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Fee Per Visit">
+                                <field name="rate_visit_ids">
+                                    <tree string="Visit" editable="bottom">
+                                        <field name="patient_type" />
+                                        <field name="min_visit" />
+                                        <field name="max_visit" />
+                                        <field name="rate_percent" />
+                                        <field name="rate_value" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Mapping Payer" editable="bottom">
+                                <field name="rate_payer_ids">
+                                    <tree string="Payer" editable="bottom">
+                                        <field name="payer_id" />
+                                        <field name="takeout" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Mapping Payer Discount" editable="bottom">
+                                <field name="rate_payer_discount_ids">
+                                    <tree string="Payer" editable="bottom">
+                                        <field name="payer_id" />
+                                        <field name="rate_percent" />
+                                        <field name="takeout" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Mapping Tariff">
+                                <field name="rate_tariff_ids">
+                                    <tree string="Tariff" editable="bottom">
+                                        <field name="tariff_id" domain="[('sync_type','=',parent.sync_type)]"/>
+                                        <field name="takeout" />
+                                        <field name="remark" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group >
+                                        <field name="sync_type" />
+                                        <field name="sync_id" readonly="1" />
+                                        <field name="sync_id_api" readonly="1" />
+                                        <field name="sync_date" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mayapada_referral_fee_view" model="ir.ui.view">
+            <field name="name">referral.fee.view</field>
+            <field name="model">referral.fee</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Referral Fee Worklist" delete="false">
+                    <header>
+                        <field name="state" widget="statusbar" />
+                        <button string="Compute" name="compute" type="object" states="draft" class="oe_highlight"/>
+                        <button string="Confirm" name="confirm" type="object" states="draft" class="oe_highlight"/>
+                        <button string="UnConfirm" name="cancel" type="object" states="confirm" class="oe_highlight"/>
+                        <button string="UnPosted" name="unpost" type="object" states="posted" class="oe_highlight"/>
+                        <button string="Print PDF" name="print_pdf" type="object" states="draft,confirm,posted" class="oe_highlight"/>
+                        <button string="Print XLS" name="print_xls" type="object" states="draft,confirm,posted" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group attrs="{'readonly':[('state','in',['confirm'])]}">
+                            <group attrs="{'readonly':[('state','in',['confirm'])]}">
+                                <field name="sync_type" invisible="1" />
+                                <field name="company_id" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="external_id" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="category_id" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="year" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="month" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="bruto" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="journal_id" readonly="1"/>
+                            </group>
+                            <group attrs="{'readonly':[('state','in',['confirm'])]}">
+                                <field name="fee" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="others" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="total_fee" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="pph" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="deduction" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                                <field name="net_fee" attrs="{'readonly':[('state','in',['confirm'])]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Fee Lines" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                <field name="fee_line_ids" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                    <tree string="Fee Lines">
+                                        <field name="fee_type" readonly="1" />
+                                        <field name="bill_no" readonly="1" />
+                                        <field name="admission_no" readonly="1" invisible="1" />
+                                        <field name="patient_id" readonly="1" />
+                                        <field name="referral_number" readonly="1" />
+                                        <field name="is_merge_bill" readonly="1" />
+                                        <field name="product_id" readonly="1" />
+                                        <field name="patient_type" readonly="1" />
+                                        <field name="odoo_total_bill" readonly="1" />
+                                        <field name="nett_amount" readonly="1" />
+                                        <field name="fee_rate" readonly="1" />
+                                        <field name="fee_amount" readonly="1" />
+                                    </tree>
+                                    <form string="Referral Rate Item">
+                                        <sheet>
+                                            <group>
+                                                <group string="General">
+                                                    <field name="company_id" />
+                                                    <field name="referral_number" />
+                                                    <field name="is_merge_bill" />
+                                                    <field name="patient_type" />
+                                                    <field name="patient_id" />
+                                                    <field name="payer_id" />
+                                                    <field name="service_id" />
+                                                    <field name="product_id" domain="[('categ_id','=',service_id)]"/>
+                                                    <field name="state" invisible="1" />
+                                                </group>
+                                                <group string="Admission">
+                                                    <field name="odoo_admission_id" domain="[('sync_type','=',parent.sync_type)]" />
+                                                    <field name="admission_id" invisible="1" />
+                                                    <field name="admission_no" />
+                                                    <field name="admit_date" />
+                                                    <field name="nett_amount" />
+                                                </group>
+                                                <group string="Billing">
+                                                    <field name="odoo_bill_id" domain="[('admission_id','=', odoo_admission_id)]" />
+                                                    <field name="bill_id" invisible="1" />
+                                                    <field name="bill_no" />
+                                                    <field name="bill_date" />
+                                                    <field name="total_bill" />
+                                                </group>
+                                                <group string="Fee">
+                                                    <field name="fee_id" domain="[('id','=',parent.id)]" />
+                                                    <field name="fee_type" />
+                                                    <field name="total_feedoctor" />
+                                                    <field name="fee_rate" />
+                                                    <field name="fee_amount" />
+                                                    <field name="inc_fee_doctor" />
+                                                </group>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Others" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                <field name="fee_other_ids" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                    <tree string="Others" editable="bottom">
+                                        <field name="item" />
+                                        <field name="remark" />
+                                        <field name="amount" />
+                                        <field name="state" readonly="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Deduction" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                <field name="fee_deduction_ids" attrs="{'readonly':[('state','in',['confirm'])]}">
+                                    <tree string="Deduction" editable="bottom">
+                                        <field name="item" />
+                                        <field name="remark" />
+                                        <field name="amount" />
+                                        <field name="state" readonly="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <field name="sync_type" />
+                                    <field name="sync_consol_id_main" readonly="1" />
+                                    <field name="sync_consol_id_unit" readonly="1" />
+                                    <field name="sync_consol_date" readonly="1" />
+                                    <field name="sync_id" readonly="1" invisible="1" />
+                                    <field name="sync_id_api" readonly="1" invisible="1" />
+                                </group>
+                            </page>
+                            <page string="Consol API Status">
+                                <group>
+                                    <group>
+                                        <field name="api_confirm_status" readonly="1" />
+                                        <field name="api_confirm_payload" readonly="1" />
+                                        <field name="api_confirm_response" readonly="1" />
+                                        <field name="api_confirm_datetime" readonly="1" />
+                                        <button string="Resend" type="object" name="action_confirm_api" attrs="{'invisible':[('api_confirm_status','=','done')]}" class="oe_highlight"/>
+                                    </group>  
+                                    <group>
+                                        <field name="api_cancel_status" readonly="1" />
+                                        <field name="api_cancel_payload" readonly="1" />
+                                        <field name="api_cancel_response" readonly="1" />
+                                        <field name="api_cancel_datetime" readonly="1" />
+                                        <button string="Resend" type="object" name="action_cancel_api" attrs="{'invisible':[('api_cancel_status','=','done')]}" class="oe_highlight"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

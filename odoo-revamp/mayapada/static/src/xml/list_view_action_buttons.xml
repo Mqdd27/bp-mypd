@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="mayapada.ListViewActionButtons"
+       t-inherit="web.ListView.Buttons"
+       t-inherit-mode="extension"
+       owl="1">
+
+        <xpath expr="//div[contains(@class, 'o_list_buttons')]/t[@t-if='props.showButtons']"
+               position="inside">
+
+            <!-- OPEN WIZARD -->
+            <button t-if="!model.root.editedRecord and hasListViewWizardButton()"
+                    type="button"
+                    class="btn btn-secondary ms-1 o_list_view_open_wizard_button"
+                    t-on-click="onOpenListViewWizard">
+
+                <t t-esc="getListViewWizardLabel()"/>
+
+            </button>
+
+            <!-- EXPORT -->
+            <button t-if="!model.root.editedRecord and hasListViewExportButton()"
+                    type="button"
+                    class="btn btn-secondary ms-1 o_list_view_export_button"
+                    t-on-click="onOpenListViewExport">
+
+                <i class="fa fa-download me-1"/>
+
+                <t t-esc="getListViewExportLabel()"/>
+
+            </button>
+
+            <!-- IMPORT -->
+            <button t-if="!model.root.editedRecord and hasListViewImportButton()"
+                    type="button"
+                    class="btn btn-secondary ms-1 o_list_view_import_button"
+                    t-on-click="onOpenListViewImport">
+
+                <t t-esc="getListViewImportLabel()"/>
+
+            </button>
+
+        </xpath>
+
+    </t>
+
+</templates>

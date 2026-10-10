@@ -1,0 +1,2641 @@
+<odoo>
+    <data>
+
+
+        <!-- UoM -->
+        <record id="action_erp_mdm_uom_uom" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - UoM</field>
+            <field name="res_model">uom.uom</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_uom_search"/>
+            <field name="domain">[('is_eproc', '=', 1)]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1   }</field>
+        </record>
+
+        <record id="action_dil_mdm_uom_uom" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - UoM</field>
+            <field name="res_model">uom.uom</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1)]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_uom_search"/>
+        </record>
+
+        <record id="action_erp_mdm_uom_uom_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_uom_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_uom_uom"/>
+        </record>
+
+        <record id="action_erp_mdm_uom_uom_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_uom_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_uom_uom"/>
+        </record>
+
+        <record id="action_erp_mdm_uom_uom_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_uom_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_uom_uom"/>
+        </record>
+
+
+        <!-- Order Category Master -->
+        <record id="action_erp_mdm_category_order_category" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - Order Category</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_order_category_search"/>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'order_category')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'default_eproc_type':'order_category'}</field>
+        </record>
+
+        <record id="action_dil_mdm_category_order_category" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Order Category</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'order_category')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_order_category_search"/>
+        </record>
+
+        <record id="action_erp_mdm_category_order_category_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_order_category_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_order_category"/>
+        </record>
+
+        <record id="action_erp_mdm_category_order_category_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_order_category_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_order_category"/>
+        </record>
+
+        <record id="action_erp_mdm_category_order_category_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_order_category_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_order_category"/>
+        </record>
+
+
+        <!-- Pharmacy Category Master / Item Category -->
+        <record id="action_erp_mdm_category_item_category" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - Item Category</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_item_category_search"/>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'item_category')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'default_eproc_type':'item_category'  }</field>
+        </record>
+
+        <record id="action_dil_mdm_category_item_category" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Item Category</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'item_category')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_item_category_search"/>
+        </record>
+
+        <record id="action_erp_mdm_category_item_category_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_item_category_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_item_category"/>
+        </record>
+
+        <record id="action_erp_mdm_category_item_category_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_item_category_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_item_category"/>
+        </record>
+
+        <record id="action_erp_mdm_category_item_category_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_item_category_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_item_category"/>
+        </record>
+
+
+        <!-- Billing Group Master -->
+        <record id="action_erp_mdm_category_billing_group" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - Billing Group</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_billing_group_search"/>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'billing_group')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'default_eproc_type':'billing_group'}</field>
+        </record>
+
+        <record id="action_dil_mdm_category_billing_group" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Billing Group</field>
+            <field name="res_model">product.category</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'billing_group')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_billing_group_search"/>
+        </record>
+
+        <record id="action_erp_mdm_category_billing_group_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_billing_group_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_billing_group"/>
+        </record>
+
+        <record id="action_erp_mdm_category_billing_group_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_billing_group_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_billing_group"/>
+        </record>
+
+        <record id="action_erp_mdm_category_billing_group_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_billing_group_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_category_billing_group"/>
+        </record>
+
+
+        <!-- Vendor Master -->
+        <record id="action_erp_mdm_procurement_vendor" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - Vendor</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_vendor_search"/>
+            <field name="domain">[('is_eproc', '=', 1), ('supplier', '=', True)]</field>
+            <field name="context">{ 'erp_mdm_vendor_master': True, 'default_is_eproc':1, 'default_search_is_eproc':1, 'default_supplier':1}</field>
+        </record>
+
+        <record id="action_dil_mdm_procurement_vendor" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Vendor</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1),('supplier','=',True)]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_vendor_search"/>
+        </record>
+
+        <record id="action_erp_mdm_procurement_vendor_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_vendor_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_procurement_vendor"/>
+        </record>
+
+        <record id="action_erp_mdm_procurement_vendor_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_vendor_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_procurement_vendor"/>
+        </record>
+
+        <record id="action_erp_mdm_procurement_vendor_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_vendor_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_procurement_vendor"/>
+        </record>
+
+
+    <!-- Manufacture Master -->
+    <record id="action_erp_mdm_procurement_manufacture" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Manufacture</field>
+        <field name="res_model">eproc.manufacture</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_manufacture_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="action_dil_mdm_procurement_manufacture" model="ir.actions.act_window">
+        <field name="name">ACT DIL MDM - Manufacture</field>
+        <field name="res_model">eproc.manufacture</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', 1)]</field>
+        <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+        <field name="search_view_id" ref="view_erp_mdm_manufacture_search"/>
+    </record>																																																																						 -->
+
+    <record id="action_erp_mdm_procurement_manufacture_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_manufacture_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_manufacture"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_manufacture_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_manufacture_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_manufacture"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_manufacture_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_manufacture_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_manufacture"/>
+    </record>
+
+
+    <!-- Purchase Type Master (Reguler/CITO/Consignment) -->
+    <record id="action_erp_mdm_procurement_purchase_type" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Purchase Type</field>
+        <field name="res_model">eproc.type</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_purchase_type_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="action_dil_mdm_procurement_purchase_type" model="ir.actions.act_window">
+        <field name="name">ACT DIL MDM - Purchase Type</field>
+        <field name="res_model">eproc.type</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', 1)]</field>
+        <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edt':False, 'delete':False, 'duplicate':False   }</field>
+        <field name="search_view_id" ref="view_erp_mdm_purchase_type_search"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_purchase_type_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_purchase_type_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_purchase_type"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_purchase_type_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_purchase_type_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_purchase_type"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_purchase_type_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_purchase_type_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_purchase_type"/>
+    </record>
+
+
+    <!-- DIL TDM Order Item -->
+    <record id="action_dil_tdm_master_orderitem" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Order Item</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_item_nonstock_search"/>
+        <field name="domain">[('is_eproc', '=', True), ('eproc_type', '=', 'non_stock')]</field>
+        <field name="context">{'default_is_eproc': True, 'default_eproc_type': 'non_stock', 'default_eproc_subtype': 'procedure', 'create': False, 'delete': False, 'duplicate': False, 'disable_order_item_archive': True}</field>
+    </record>
+
+    <record id="action_dil_tdm_master_orderitem_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_dil_tdm_order_item_tree"/>
+        <field name="act_window_id" ref="action_dil_tdm_master_orderitem"/>
+    </record>
+
+    <record id="action_dil_tdm_master_orderitem_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_dil_tdm_order_item_form"/>
+        <field name="act_window_id" ref="action_dil_tdm_master_orderitem"/>
+    </record>
+
+    <record id="action_dil_tdm_master_orderitem_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_item_nonstock_pivot"/>
+        <field name="act_window_id" ref="action_dil_tdm_master_orderitem"/>
+    </record>
+
+    <!-- Room -->			
+    <record id="action_dil_tdm_master_bedtype" model="ir.actions.act_window">																											
+        <field name="name">ACT DIL TDM - BedType</field>																										
+        <field name="res_model">hospital.bed.type</field>																										
+        <field name="view_mode">tree,form,pivot</field>																										
+        <field name="domain">[('is_eproc','=', True)]</field>																										
+        <field name="context">{'create':0, 'delete':0, 'duplicate':0, 'edit':0 }</field>																										
+    </record>
+    <!-- Room -->
+    <record id="action_dil_tdm_master_bedtype" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - BedType</field>
+        <field name="res_model">hospital.bed.type</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc','=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+    </record>
+
+    <record id="action_dil_tdm_master_bank" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Bank Master</field>
+        <field name="res_model">receivable.bank.name</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+    </record>
+
+    <record id="action_dil_tdm_master_payment_mode" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Payment Mode</field>
+        <field name="res_model">receivable.payment.mode</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+    </record>
+
+    <record id="action_dil_tdm_master_discount" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Discount Master</field>
+        <field name="res_model">hospital.discount.type</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+    </record>
+
+    <record id="action_dil_tdm_transaction_cashier" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Cashier Collection</field>
+        <field name="res_model">receivable.scroll.receipt.cashier</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+    </record>
+
+    <record id="action_dil_tdm_transaction_deposit" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Deposit Collection</field>
+        <field name="res_model">receivable.patient.deposit</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+    </record>
+
+    <record id="action_dil_tdm_transaction_creditnote" model="ir.actions.act_window">
+        <field name="name">ACT DIL TDM - Credit Note</field>
+        <field name="res_model">receivable.credit.note</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+    </record>
+
+    <!-- Store Location -->
+    <record id="action_erp_mdm_stores_store" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Store</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_erp_mdm_stores_store_search"/>
+        <field name="domain">[('is_eproc', '=', 1)]</field>
+        <field name="context">{'default_is_eproc':1, 'default_search_is_eproc':1, 'create':0, 'edit':0, 'delete':0}</field>
+    </record>
+
+    <record id="action_erp_mdm_stores_store_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_stores_store_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_stores_store"/>
+    </record>
+
+    <record id="action_erp_mdm_stores_store_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_stores_store_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_stores_store"/>
+    </record>
+
+    <record id="action_erp_mdm_stores_store_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_stores_store_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_stores_store"/>
+    </record>
+
+    <record id="action_dil_mdm_stores_facility" model="ir.actions.act_window">
+        <field name="name">ACT DIL MDM - Facility</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'default_is_eproc': True, 'default_search_is_eproc': True, 'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_hide_archive_unarchive': True}</field>
+        <field name="search_view_id" ref="view_erp_mdm_stores_store_search"/>
+    </record>
+
+    <record id="action_dil_mdm_stores_facility_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_stores_store_tree"/>
+        <field name="act_window_id" ref="action_dil_mdm_stores_facility"/>
+    </record>
+
+    <record id="action_dil_mdm_stores_facility_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_dil_mdm_stores_facility_form"/>
+        <field name="act_window_id" ref="action_dil_mdm_stores_facility"/>
+    </record>
+
+    <record id="action_dil_mdm_stores_facility_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_stores_store_pivot"/>
+        <field name="act_window_id" ref="action_dil_mdm_stores_facility"/>
+    </record>
+
+
+    <!-- Taxes -->
+    <record id="action_erp_mdm_procurement_taxes" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Taxes</field>
+        <field name="res_model">eproc.taxes</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <!-- <field name="search_view_id" ref="view_erp_mdm_taxes_search"/>                                                                                  -->
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="action_dil_mdm_procurement_taxes" model="ir.actions.act_window">
+        <field name="name">ACT DIL MDM - Taxes</field>
+        <field name="res_model">eproc.taxes</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', 1)]</field>
+        <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+        <!-- <field name="search_view_id" ref="view_erp_mdm_taxes_search"/>																																					 -->
+    </record>
+
+    <record id="action_erp_mdm_procurement_taxes_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_taxes_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_taxes"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_taxes_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_taxes_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_taxes"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_taxes_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_taxes_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_taxes"/>
+    </record>
+
+    <!-- Payment Term -->
+    <record id="action_erp_mdm_procurement_payment_term" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Payment Term</field>
+        <field name="res_model">eproc.term</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <!-- <field name="search_view_id" ref="view_erp_mdm_payment_term_search"/>                                                                                                       -->
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="action_dil_mdm_procurement_payment_term" model="ir.actions.act_window">
+        <field name="name">ACT DIL MDM - Payment Term</field>
+        <field name="res_model">eproc.term</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc', '=', 1)]</field>
+        <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edt':False, 'delete':False, 'duplicate':False   }</field>
+        <!-- <field name="search_view_id" ref="view_erp_mdm_payment_term_search"/>																																 -->
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+        <record id="action_erp_pmm_master_vendor_agreement" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Vendor Agreement</field>
+            <field name="res_model">eproc.agreement</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_master_vendor_agreement_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'default_is_eproc': 1, 'default_search_is_eproc': 1}</field>
+        </record>
+
+
+    <!-- Payment Term -->
+    <record id="action_erp_mdm_procurement_payment_term" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Payment Term</field>
+        <field name="res_model">eproc.term</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_payment_term_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{ }</field>
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+    <record id="action_erp_mdm_procurement_payment_term_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_payment_term_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_procurement_payment_term"/>
+    </record>
+
+
+        <record id="action_erp_pmm_master_vendor_agreement" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Vendor Agreement</field>
+            <field name="res_model">eproc.agreement</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_master_vendor_agreement_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'default_is_eproc': 1, 'default_search_is_eproc': 1}</field>
+        </record>
+
+        <record id="action_erp_pmm_master_vendor_agreement_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_pmm_master_vendor_agreement_tree"/>
+            <field name="act_window_id" ref="action_erp_pmm_master_vendor_agreement"/>
+        </record>
+
+        <record id="action_erp_pmm_master_vendor_agreement_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_master_vendor_agreement_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_master_vendor_agreement"/>
+        </record>
+
+        <record id="action_erp_pmm_master_vendor_agreement_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_pmm_master_vendor_agreement_pivot"/>
+            <field name="act_window_id" ref="action_erp_pmm_master_vendor_agreement"/>
+        </record>
+        <record id="action_erp_scm_receiving_bay" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Receiving Bay</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_bay_search"/>
+            <field name="domain">[('receipt_type', '=', 'PO'), ('receipt_revise', '=', 0)]</field>
+            <field name="context">{'default_receipt_type': 'PO', 'search_default_my_department': 1}</field>
+        </record>
+
+        <record id="action_erp_scm_receiving_bay_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_receiving_bay_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_bay"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_bay_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_receiving_bay_form"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_bay"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_bay_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_receiving_bay_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_bay"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_validation" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Receiving Validation</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_search"/>
+            <field name="domain">[('receipt_revise', '=', 0), '|', ('receipt_type', '=', 'WO'), '&amp;', ('receipt_type', '=', 'PO'), ('state', 'not in', ['draft','cancelled'])]</field>
+            <field name="context">{'default_receipt_type': 'WO', 'search_default_my_department': 1}</field>
+        </record>
+
+        <record id="action_erp_scm_receiving_validation_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_receiving_validation_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_validation"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_validation_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_receiving_validation_form"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_validation"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_validation_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_receiving_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_validation"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_receipt" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - Purchase Receipt</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_search"/>
+            <field name="domain">[('receipt_type', 'in', ['PO','WO']), ('receipt_revise', '=', 0)]</field>
+            <field name="context">{
+                'create': False,
+                'edit': False,
+                'delete': False,
+                'duplicate': False,
+                'from_dil_goods_receiving_view': True,
+                'search_default_state_done': 1
+            }</field>
+        </record>
+
+        <record id="action_dil_scm_receiving_receipt_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_scm_receiving_receipt_tree"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_receipt"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_receipt_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_scm_receiving_receipt_form"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_receipt"/>
+        </record>
+
+
+        <record id="action_dil_scm_receiving_return" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - Purchase Return</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_search"/>
+            <field name="domain">[('receipt_type', 'in', ['RT']), ('receipt_revise', '=', 0)]</field>
+            <field name="context">{
+                'create': False,
+                'edit': False,
+                'delete': False,
+                'duplicate': False,
+                'from_dil_vendor_return_view': True
+            }</field>
+        </record>
+
+        <record id="action_dil_scm_receiving_return_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_scm_receiving_return_tree"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_return"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_return_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_scm_receiving_return_form"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_return"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_return_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_receiving_pivot"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_return"/>
+        </record>
+
+        <record id="action_dil_scm_grn_modification" model="ir.actions.act_window">
+            <field name="name">GRN Modification</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_search"/>
+            <field name="domain">[
+                ('company_id', 'in', context.get('allowed_company_ids', [])),
+                ('receipt_revise', '&gt;', 0),
+                ('receipt_ref_id', '!=', False),
+                ('receipt_type', 'in', ['PO', 'WO'])
+            ]</field>
+            <field name="context">{
+                'create': True,
+                'edit': True,
+                'delete': False,
+                'duplicate': False,
+                'from_dil_grn_modification_view': True
+            }</field>
+        </record>
+
+        <record id="action_dil_scm_grn_modification_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_scm_grn_modification_tree"/>
+            <field name="act_window_id" ref="action_dil_scm_grn_modification"/>
+        </record>
+
+        <record id="action_dil_scm_grn_modification_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_scm_grn_modification_form"/>
+            <field name="act_window_id" ref="action_dil_scm_grn_modification"/>
+        </record>
+
+
+        <record id="action_dil_scm_receiving_realize_assets" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - GRN Realize to Assets</field>
+            <field name="res_model">eproc.asset.realize</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_scm_asset_realize_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{
+                'delete': False,
+                'duplicate': False
+            }</field>
+        </record>
+
+        <record id="action_dil_scm_receiving_realize_assets_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_scm_asset_realize_tree"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_realize_assets"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_realize_assets_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_scm_asset_realize_form"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_realize_assets"/>
+        </record>
+
+        <record id="action_dil_scm_receiving_realize_assets_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_scm_asset_realize_pivot"/>
+            <field name="act_window_id" ref="action_dil_scm_receiving_realize_assets"/>
+        </record>
+
+
+        <record id="action_erp_scm_receiving_return" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Purchase Return</field>
+            <field name="res_model">eproc.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_search"/>
+            <field name="domain">[('receipt_type', '=', 'RT'), ('receipt_revise', '=', 0)]</field>
+            <field name="context">{'default_receipt_type': 'RT', 'search_default_my_department': 1}</field>
+        </record>
+
+        <record id="action_erp_scm_receiving_return_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_receiving_return_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_return"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_return_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_receiving_return_form"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_return"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_return_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_receiving_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_receiving_return"/>
+        </record>
+
+        <record id="action_erp_scm_receiving_line" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Receiving Lines</field>
+            <field name="res_model">eproc.receipt.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_receiving_line_search"/>
+        </record>
+
+        <template id="report_eproc_receiving_bay">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>RECEIVING BAY</h2>
+                            <table class="table table-sm o_main_table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Receiving No</strong></td>
+                                        <td><span t-field="o.receipt_no"/></td>
+                                        <td><strong>Receiving Date</strong></td>
+                                        <td><span t-field="o.receipt_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Reference</strong></td>
+                                        <td><span t-field="o.receipt_ref"/></td>
+                                        <td><strong>Origin</strong></td>
+                                        <td><span t-field="o.receipt_origin"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Supplier</strong></td>
+                                        <td><span t-field="o.supplier_id"/></td>
+                                        <td><strong>Destination Location</strong></td>
+                                        <td><span t-field="o.location_receipt_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Department</strong></td>
+                                        <td><span t-field="o.department_id"/></td>
+                                        <td><strong>State</strong></td>
+                                        <td><span t-field="o.state"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Receiving Items</h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Product</th>
+                                        <th>Description</th>
+                                        <th>Batch/Lot</th>
+                                        <th>Pack Type</th>
+                                        <th class="text-end">Order</th>
+                                        <th class="text-end">Processed</th>
+                                        <th class="text-end">Available</th>
+                                        <th class="text-end">Receipt</th>
+                                        <th>UoM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.line_ids" t-as="line">
+                                        <td><span t-field="line.sequence"/></td>
+                                        <td><span t-field="line.product_tmpl_id"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.lot_name"/></td>
+                                        <td><span t-field="line.pack_id"/></td>
+                                        <td class="text-end"><span t-field="line.pack_order"/></td>
+                                        <td class="text-end"><span t-field="line.pack_processed"/></td>
+                                        <td class="text-end"><span t-field="line.pack_available"/></td>
+                                        <td class="text-end"><span t-field="line.pack_receipt"/></td>
+                                        <td><span t-field="line.uom_id"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_eproc_receiving_validation">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>GOODS RECEIPT NOTE</h2>
+                            <table class="table table-sm o_main_table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Receiving Valid No</strong></td>
+                                        <td><span t-field="o.receipt_valid_no"/></td>
+                                        <td><strong>Receiving Date</strong></td>
+                                        <td><span t-field="o.receipt_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Receiving Bay No</strong></td>
+                                        <td><span t-field="o.receipt_no"/></td>
+                                        <td><strong>Valid Date</strong></td>
+                                        <td><span t-field="o.receipt_valid_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Supplier</strong></td>
+                                        <td><span t-field="o.supplier_id"/></td>
+                                        <td><strong>Destination Location</strong></td>
+                                        <td><span t-field="o.location_receipt_id"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Receiving Items</h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Product</th>
+                                        <th>Description</th>
+                                        <th>Batch/Lot</th>
+                                        <th>Pack Type</th>
+                                        <th class="text-end">Receipt</th>
+                                        <th class="text-end">Pack Price</th>
+                                        <th class="text-end">Discount %</th>
+                                        <th class="text-end">Taxes</th>
+                                        <th class="text-end">Total Net</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.line_ids" t-as="line">
+                                        <td><span t-field="line.sequence"/></td>
+                                        <td><span t-field="line.product_tmpl_id"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.lot_name"/></td>
+                                        <td><span t-field="line.pack_id"/></td>
+                                        <td class="text-end"><span t-field="line.pack_receipt"/></td>
+                                        <td class="text-end"><span t-field="line.pack_price"/></td>
+                                        <td class="text-end"><span t-field="line.disc_rate"/></td>
+                                        <td class="text-end"><span t-esc="', '.join(line.tax_ids.mapped('name'))"/></td>
+                                        <td class="text-end"><span t-field="line.total_netprice"/></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="9" class="text-end"><strong>Total Net</strong></td>
+                                        <td class="text-end"><strong><span t-field="o.total_netprice"/></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                            <h4>Approvals</h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Seq</th>
+                                        <th>Position</th>
+                                        <th>Approver</th>
+                                        <th>Action User</th>
+                                        <th>Approval Date</th>
+                                        <th>State</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.approval_ids" t-as="approval">
+                                        <td><span t-field="approval.sequence"/></td>
+                                        <td><span t-field="approval.position_id"/></td>
+                                        <td><span t-field="approval.user_id"/></td>
+                                        <td><span t-field="approval.action_user_id"/></td>
+                                        <td><span t-field="approval.approval_date"/></td>
+                                        <td><span t-field="approval.state"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_eproc_purchase_return">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>PURCHASE RETURN</h2>
+                            <table class="table table-sm o_main_table">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Return No</strong></td>
+                                        <td><span t-field="o.receipt_valid_no"/></td>
+                                        <td><strong>Return Date</strong></td>
+                                        <td><span t-field="o.receipt_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Reference</strong></td>
+                                        <td><span t-field="o.receipt_ref"/></td>
+                                        <td><strong>Origin</strong></td>
+                                        <td><span t-field="o.receipt_origin"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Supplier</strong></td>
+                                        <td><span t-field="o.supplier_id"/></td>
+                                        <td><strong>Source Location</strong></td>
+                                        <td><span t-field="o.location_receipt_id"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>Return Items</h4>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Product</th>
+                                        <th>Description</th>
+                                        <th>Batch/Lot</th>
+                                        <th>Pack Type</th>
+                                        <th class="text-end">Received Available</th>
+                                        <th class="text-end">Qty Return</th>
+                                        <th>UoM</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.line_ids" t-as="line">
+                                        <td><span t-field="line.sequence"/></td>
+                                        <td><span t-field="line.product_tmpl_id"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.lot_name"/></td>
+                                        <td><span t-field="line.pack_id"/></td>
+                                        <td class="text-end"><span t-field="line.pack_available"/></td>
+                                        <td class="text-end"><span t-field="line.pack_receipt"/></td>
+                                        <td><span t-field="line.uom_id"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_eproc_receiving_bay" model="ir.actions.report">
+            <field name="name">Print SRB</field>
+            <field name="model">eproc.receipt</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mayapada.report_eproc_receiving_bay</field>
+            <field name="report_file">mayapada.report_eproc_receiving_bay</field>
+            <field name="binding_model_id" ref="model_eproc_receipt"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_eproc_receiving_validation" model="ir.actions.report">
+            <field name="name">Print GRN</field>
+            <field name="model">eproc.receipt</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mayapada.report_eproc_receiving_validation</field>
+            <field name="report_file">mayapada.report_eproc_receiving_validation</field>
+            <field name="binding_model_id" ref="model_eproc_receipt"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_eproc_purchase_return" model="ir.actions.report">
+            <field name="name">Print Purchase Return</field>
+            <field name="model">eproc.receipt</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">mayapada.report_eproc_purchase_return</field>
+            <field name="report_file">mayapada.report_eproc_purchase_return</field>
+            <field name="binding_model_id" ref="model_eproc_receipt"/>
+            <field name="binding_type">report</field>
+        </record>
+        <!-- Department/Room -->
+        <record id="action_erp_mdm_stores_department" model="ir.actions.act_window">
+            <field name="name">ACT ERP MDM - Department</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_mdm_stores_department_search"/>
+            <field name="domain">[('is_eproc', '=', 1)]</field>
+            <field name="context">{'default_is_eproc':1, 'default_search_is_eproc':1, 'create':0, 'edit':0, 'delete':0}</field>
+        </record>
+
+        <record id="action_erp_mdm_stores_department_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_stores_department_tree"/>
+            <field name="act_window_id" ref="action_erp_mdm_stores_department"/>
+        </record>
+
+        <record id="action_erp_mdm_stores_department_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_stores_department_form"/>
+            <field name="act_window_id" ref="action_erp_mdm_stores_department"/>
+        </record>
+
+        <record id="action_erp_mdm_stores_department_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_stores_department_pivot"/>
+            <field name="act_window_id" ref="action_erp_mdm_stores_department"/>
+        </record>
+
+        <record id="action_dil_mdm_stores_department" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Department</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', True)]</field>
+            <field name="context">{'default_is_eproc': True, 'default_search_is_eproc': True, 'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_hide_archive_unarchive': True}</field>
+            <field name="search_view_id" ref="view_erp_mdm_stores_department_search"/>
+        </record>
+
+        <record id="action_dil_mdm_stores_department_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_stores_department_tree"/>
+            <field name="act_window_id" ref="action_dil_mdm_stores_department"/>
+        </record>
+
+        <record id="action_dil_mdm_stores_department_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_mdm_stores_department_form"/>
+            <field name="act_window_id" ref="action_dil_mdm_stores_department"/>
+        </record>
+
+        <record id="action_dil_mdm_stores_department_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_stores_department_pivot"/>
+            <field name="act_window_id" ref="action_dil_mdm_stores_department"/>
+        </record>
+
+
+
+    <record id="action_erp_mdm_item_stockable" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Item Stockable</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('is_eproc','=', True), ('eproc_type','=','stock')]</field>
+        <field name="context">{'create': True, 'delete': False, 'default_eproc_type': 'stock', 'default_is_eproc': True}</field>
+                <field name="search_view_id" ref="view_erp_mdm_item_stockable_search"/>
+    </record>
+
+
+    <record id="action_erp_mdm_item_stockable_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_item_stockable_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_stockable"/>
+    </record>
+
+    <record id="action_erp_mdm_item_stockable_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_item_stockable_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_stockable"/>
+    </record>
+
+    <record id="action_erp_mdm_item_stockable_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_item_stockable_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_stockable"/>
+    </record>
+
+    <record id="product.action_product_template_price_list_report" model="ir.actions.server">
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_erp_mdm_item_nonstock" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Item Nonstock</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_item_nonstock_search"/>
+        <field name="domain">[('is_eproc','=', True), ('eproc_type','=','non_stock')]</field>
+        <field name="context">{'create': True, 'delete': False, 'default_eproc_type': 'non_stock', 'default_is_eproc': True}</field>
+
+    </record>
+
+
+    <record id="action_erp_mdm_item_nonstock_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_item_nonstock_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_nonstock"/>
+    </record>
+
+    <record id="action_erp_mdm_item_nonstock_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_item_nonstock_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_nonstock"/>
+    </record>
+
+    <record id="action_erp_mdm_item_nonstock_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_item_nonstock_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_item_nonstock"/>
+    </record>
+
+
+    <record id="action_erp_mdm_uom_conversion" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Pack Conversion</field>
+        <field name="res_model">eproc.pack</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_erp_mdm_uom_conversion_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1   }</field>
+    </record>
+
+    <record id="action_erp_mdm_uom_conversion_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_uom_conversion_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_uom_conversion"/>
+    </record>
+
+
+    <record id="action_erp_mdm_uom_conversion_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_uom_conversion_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_uom_conversion"/>
+    </record>
+
+
+    <record id="action_erp_mdm_uom_conversion_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_uom_conversion_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_uom_conversion"/>
+    </record>
+
+
+
+    <record id="action_erp_pmm_master_orderpoint_rule" model="ir.actions.act_window">
+        <field name="name">ACT ERP PMM - Orderpoint Rule</field>
+        <field name="res_model">eproc.orderpoint</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_orderpoint_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_erp_pmm_master_orderpoint_rule_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_orderpoint_tree"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_orderpoint_rule"/>
+    </record>
+
+    <record id="action_erp_pmm_master_orderpoint_rule_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_orderpoint_form"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_orderpoint_rule"/>
+    </record>
+
+
+    <record id="action_erp_pmm_master_orderpoint_rule_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_orderpoint_pivot"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_orderpoint_rule"/>
+    </record>
+
+
+
+    <record id="action_erp_mdm_costcenter_master" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Cost Master</field>
+        <field name="res_model">cost.center.master</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_costcenter_master_search"/>
+        <field name="domain">[('is_eproc', '=', True)]</field>
+        <field name="context">{'default_is_eproc':True, 'default_search_is_eproc':True, 'create':True, 'edit':False, 'delete':False}</field>
+    </record>
+
+
+    <record id="action_erp_mdm_costcenter_master_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_master_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_master"/>
+    </record>
+
+
+    <record id="action_erp_mdm_costcenter_master_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_master_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_master"/>
+    </record>
+
+    <record id="action_erp_mdm_costcenter_master_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_master_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_master"/>
+    </record>
+
+
+
+    <record id="action_erp_mdm_costcenter_analytic" model="ir.actions.act_window">
+        <field name="name">ACT ERP MDM - Cost Master</field>
+        <field name="res_model">account.analytic.account</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_mdm_costcenter_analytic_search"/>
+        <field name="domain">[('sync_wipro_type','=', 'cost_center')]</field>
+        <field name="context">{'default_is_eproc':True, 'default_search_is_eproc':True, 'default_sync_wipro_type': 'cost_center',  'create':True, 'edit':False, 'delete':False}</field>
+    </record>
+
+
+    <record id="action_erp_mdm_costcenter_analytic_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_analytic_tree"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_analytic"/>
+    </record>
+
+
+    <record id="action_erp_mdm_costcenter_analytic_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_analytic_form"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_analytic"/>
+    </record>
+
+
+    <record id="action_erp_mdm_costcenter_analytic_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_mdm_costcenter_analytic_pivot"/>
+        <field name="act_window_id" ref="action_erp_mdm_costcenter_analytic"/>
+    </record>
+
+
+
+
+    <record id="action_erp_pmm_master_approval_type" model="ir.actions.act_window">
+        <field name="name">ACT ERP PMM - Approval Type</field>
+        <field name="res_model">eproc.approval.type</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="search_view_id" ref="view_erp_pmm_master_approval_type_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'default_is_eproc':True, 'default_search_is_eproc':True}</field>
+    </record>
+
+    <record id="action_erp_pmm_master_approval_type_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_erp_pmm_master_approval_type_tree"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_approval_type"/>
+    </record>
+
+
+
+    <record id="action_erp_pmm_master_approval_type_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_erp_pmm_master_approval_type_form"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_approval_type"/>
+    </record>
+
+
+
+    <record id="action_erp_pmm_master_approval_type_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_erp_pmm_master_approval_type_pivot"/>
+        <field name="act_window_id" ref="action_erp_pmm_master_approval_type"/>
+    </record>
+
+
+
+        <record id="action_erp_pmm_reporting_pr_tracking_analysis" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - PR Tracking Analysis</field>
+            <field name="res_model">eproc.request.tracking.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_reporting_pr_tracking_analysis_form"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_erp_pmm_reporting_po_tracking_analysis" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - RFQs to PO Tracking Analysis</field>
+            <field name="res_model">eproc.order.tracking.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_reporting_po_tracking_analysis_form"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_erp_pmm_reporting_purchase_item_analysis" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Purchase Item Analysis</field>
+            <field name="res_model">eproc.item.tracking.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_reporting_purchase_item_analysis_form"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_request" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Purchase Request</field>
+            <field name="res_model">eproc.request</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_transaction_purchase_request_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'default_is_eproc': 1, 'default_search_is_eproc': 1}</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_request_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_request_tree"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_request"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_request_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_request_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_request"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_request_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_request_pivot"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_request"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_orderpoint_log" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Orderpoint Logs Suggestion</field>
+            <field name="res_model">eproc.orderpoint.log</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_transaction_orderpoint_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'create': False, 'delete': False}</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_orderpoint_log_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_orderpoint_tree"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_orderpoint_log"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_orderpoint_log_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_orderpoint_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_orderpoint_log"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_orderpoint_log_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_orderpoint_pivot"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_orderpoint_log"/>
+        </record>
+
+        <record id="action_eproc_orderpoint_realize_wizard" model="ir.actions.act_window">
+            <field name="name">Realize to New PR</field>
+            <field name="res_model">eproc.orderpoint.realize.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_orderpoint_realize_form"/>
+            <field name="target">new</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+            <field name="binding_model_id" ref="model_eproc_orderpoint_log"/>
+            <field name="binding_view_types">list</field>
+        </record>
+
+        <!-- Interfacing Cost Center Master -->
+        <record id="action_dil_mdm_costcenter_master" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Cost Center Master</field>
+            <field name="res_model">cost.center.master</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('sync_wipro_type','=','cost_center')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_costcenter_master_search"/>
+        </record>
+
+        <!-- <record id="action_dil_mdm_costcenter_master_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_master_tree"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_master"/>
+        </record>
+
+        <record id="action_dil_mdm_costcenter_master_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_master_form"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_master"/>
+        </record>
+
+        <record id="action_dil_mdm_costcenter_master_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_master_pivot"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_master"/>
+        </record>																																 -->
+
+
+        <!-- Interfacing Cost Center Analytic -->
+        <record id="action_dil_mdm_costcenter_analytic" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Cost Center Anaytic</field>
+            <field name="res_model">account.analytic.account</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('sync_wipro_type','=','cost_center')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_costcenter_analytic_search"/>
+        </record>
+
+        <!-- <record id="action_dil_mdm_costcenter_analytic_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_analytic_tree"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_analytic"/>
+        </record>
+
+        <record id="action_dil_mdm_costcenter_analytic_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_analytic_form"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_analytic"/>
+        </record>
+
+        <record id="action_dil_mdm_costcenter_analytic_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_costcenter_analytic_pivot"/>
+            <field name="act_window_id" ref="action_dil_mdm_costcenter_analytic"/>
+        </record>																												 -->
+        <record id="action_erp_pmm_transaction_request_quotation" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Request for Quotation</field>
+            <field name="res_model">eproc.order</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_transaction_purchase_order_search"/>
+            <field name="domain">[('state', 'in', ['draft', 'tender', 'approval', 'rejected', 'cancelled'])]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_request_quotation_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_tree"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_request_quotation"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_request_quotation_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_request_quotation"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_request_quotation_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_pivot"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_request_quotation"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_order" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Purchase Order</field>
+            <field name="res_model">eproc.order</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_transaction_purchase_order_search"/>
+            <field name="domain">[('state', 'in', ['purchase','partial','done','expired'])]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_order_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_tree"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_order"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_order_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_order"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_order_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_purchase_order_pivot"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_purchase_order"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_purchase_order_line" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Purchase Order Line</field>
+            <field name="res_model">eproc.order.line</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_pmm_transaction_purchase_order_line_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'create': False, 'delete': False}</field>
+        </record>
+
+
+        <record id="action_dil_mdm_item_nonstock" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Item Non Stock</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'non_stock'), ('eproc_subtype','!=','procedure')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_item_nonstock_search"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_nonstock_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_item_nonstock_tree"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_nonstock"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_nonstock_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_item_nonstock_form"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_nonstock"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_nonstock_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_item_nonstock_pivot"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_nonstock"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_storeable" model="ir.actions.act_window">
+            <field name="name">ACT DIL MDM - Item Storeable</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1), ('eproc_type','=', 'stock')]</field>
+            <field name="context">{ 'default_is_eproc':1, 'default_search_is_eproc':1, 'create':False, 'edit':False, 'delete':False, 'duplicate':False   }</field>
+            <field name="search_view_id" ref="view_erp_mdm_item_stockable_search"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_storeable_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_mdm_item_stockable_tree"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_storeable"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_storeable_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_mdm_item_stockable_form"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_storeable"/>
+        </record>
+
+
+        <record id="action_dil_mdm_item_storeable_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_mdm_item_stockable_pivot"/>
+            <field name="act_window_id" ref="action_dil_mdm_item_storeable"/>
+        </record>
+
+        <record id="action_erp_scm_operation_lot" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Stock Lot / Batch</field>
+            <field name="res_model">eproc.stock.lot</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_operation_stock_lot_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_erp_scm_operation_lot_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_operation_stock_lot_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_operation_lot"/>
+        </record>
+        <record id="action_erp_scm_operation_lot_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_operation_stock_lot_form"/>
+            <field name="act_window_id" ref="action_erp_scm_operation_lot"/>
+        </record>
+        <record id="action_erp_scm_operation_lot_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_operation_stock_lot_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_operation_lot"/>
+        </record>
+
+        <record id="action_dil_scm_stock_lot" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - Stock Lot</field>
+            <field name="res_model">eproc.stock.lot</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[]</field>
+            <field name="context">
+                {
+                    'create': False,
+                    'edit': False,
+                    'delete': False,
+                    'duplicate': False
+                }
+            </field>
+        </record>
+
+        <record id="action_erp_scm_stock_ledger" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Stock Ledger</field>
+            <field name="res_model">eproc.stock.move.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_stock_move_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_dil_scm_stock_ledger" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - Stock Ledger Analysis</field>
+            <field name="res_model">eproc.stock.move.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_erp_scm_stock_quant" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Stock Quant</field>
+            <field name="res_model">eproc.stock.quant</field>
+            <field name="view_mode">tree,pivot,form</field>
+            <field name="search_view_id" ref="view_erp_scm_stock_quant_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_internal_stock': 1, 'search_default_group_product': 1, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_erp_scm_stock_quant_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_stock_quant_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_quant"/>
+        </record>
+
+        <record id="action_erp_scm_stock_quant_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_stock_quant_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_quant"/>
+        </record>
+
+        <record id="action_erp_scm_stock_quant_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_stock_quant_form"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_quant"/>
+        </record>
+
+        <record id="action_erp_scm_stock_valuation" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Stock Valuation</field>
+            <field name="res_model">eproc.stock.inventory.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_stock_inventory_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_dil_scm_stock_valuation" model="ir.actions.act_window">
+            <field name="name">ACT DIL SCM - Stock Valuation Analysis</field>
+            <field name="res_model">eproc.stock.inventory.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="target">current</field>
+        </record>
+
+        <record id="action_erp_scm_stock_costprice" model="ir.actions.act_window">
+            <field name="name">ACT ERP SCM - Historical Cost Price</field>
+            <field name="res_model">eproc.cost.price.historical</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_erp_scm_cost_price_historical_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_group_product': 1}</field>
+        </record>
+
+        <record id="action_erp_scm_stock_costprice_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_erp_scm_cost_price_historical_tree"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_costprice"/>
+        </record>
+
+        <record id="action_erp_scm_stock_costprice_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_scm_cost_price_historical_form"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_costprice"/>
+        </record>
+
+        <record id="action_erp_scm_stock_costprice_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_erp_scm_cost_price_historical_pivot"/>
+            <field name="act_window_id" ref="action_erp_scm_stock_costprice"/>
+        </record>
+
+        <record id="action_erp_pmm_transaction_request_realize" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Realization</field>
+            <field name="res_model">eproc.request.realize.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_request_realize_form"/>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_tabulation" model="ir.actions.act_window">
+            <field name="name">ACT ERP PMM - Bid Tabulation</field>
+            <field name="res_model">eproc.tabulation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_erp_pmm_transaction_tabulation_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_erp_pmm_transaction_tabulation_form"/>
+            <field name="act_window_id" ref="action_erp_pmm_transaction_tabulation"/>
+        </record>
+
+        <record id="action_acc_ar_tenant_invoice" model="ir.actions.act_window">
+            <field name="name">ACT AR - Tenant Invoice</field>
+            <field name="res_model">receivable.invoice</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_receivable_invoice_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_acc_ar_tenant_invoice_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_receivable_invoice_tree"/>
+            <field name="act_window_id" ref="action_acc_ar_tenant_invoice"/>
+        </record>
+
+        <record id="action_acc_ar_tenant_invoice_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_receivable_invoice_form"/>
+            <field name="act_window_id" ref="action_acc_ar_tenant_invoice"/>
+        </record>
+
+        <record id="action_acc_ar_tenant_invoice_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_receivable_invoice_pivot"/>
+            <field name="act_window_id" ref="action_acc_ar_tenant_invoice"/>
+        </record>
+
+        <record id="action_acc_ar_receipt_settlement" model="ir.actions.act_window">
+            <field name="name">ACT AR - Receipt Settlement</field>
+            <field name="res_model">receivable.receipt</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_receivable_receipt_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="action_acc_ar_receipt_settlement_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_receivable_receipt_tree"/>
+            <field name="act_window_id" ref="action_acc_ar_receipt_settlement"/>
+        </record>
+
+        <record id="action_acc_ar_receipt_settlement_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_receivable_receipt_form"/>
+            <field name="act_window_id" ref="action_acc_ar_receipt_settlement"/>
+        </record>
+
+        <record id="action_acc_ar_receipt_settlement_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_receivable_receipt_pivot"/>
+            <field name="act_window_id" ref="action_acc_ar_receipt_settlement"/>
+        </record>
+
+        <!-- Feature 081: DIL TDM Patient -->
+        <record id="action_dil_tdm_master_patient" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Patient</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_master_patient_search"/>
+            <field name="domain">[('is_eproc', '=', True), ('patient', '=', True)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_patient_export_only': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_master_patient_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_master_patient_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_patient"/>
+        </record>
+
+        <record id="action_dil_tdm_master_patient_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_master_patient_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_patient"/>
+        </record>
+
+        <record id="action_dil_tdm_master_patient_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_master_patient_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_patient"/>
+        </record>
+
+        <!-- Feature 078: DIL TDM Doctor Internal -->
+        <record id="action_dil_tdm_master_doctor" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Doctor Internal</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_master_doctor_search"/>
+            <field name="domain">[('is_eproc', '=', True), ('doctor', '=', True), ('type_doctor', 'ilike', 'internal')]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_doctor_internal_export_only': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor"/>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor"/>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor"/>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_external" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Doctor External</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_master_doctor_search"/>
+            <field name="domain">[('is_eproc', '=', True), ('doctor', '=', True), ('type_doctor', 'not ilike', 'internal')]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_doctor_external_export_only': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_external_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor_external"/>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_external_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor_external"/>
+        </record>
+
+        <record id="action_dil_tdm_master_doctor_external_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_master_doctor_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_master_doctor_external"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_cashier" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Cashier Collection</field>
+            <field name="res_model">receivable.scroll.receipt.cashier</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_transaction_cashier_search"/>
+            <field name="domain">[('is_eproc', '=', True)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_cashier_readonly': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_transaction_cashier_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_cashier_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_cashier"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_cashier_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_cashier_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_cashier"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_cashier_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_cashier_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_cashier"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_deposit" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Deposit Collection</field>
+            <field name="res_model">receivable.patient.deposit</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_transaction_deposit_search"/>
+            <field name="domain">[('is_eproc', '=', True)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_deposit_readonly': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_transaction_deposit_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_deposit_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_deposit"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_deposit_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_deposit_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_deposit"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_deposit_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_deposit_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_deposit"/>
+        </record>
+        <record id="action_dil_tdm_transaction_creditnote" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - Credit Note</field>
+            <field name="res_model">receivable.credit.note</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_transaction_creditnote_search"/>
+            <field name="domain">[('is_eproc', '=', True)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False, 'dil_tdm_creditnote_readonly': True, 'dil_tdm_interfacing_view': True, 'disable_interfacing_archive': True}</field>
+        </record>
+
+        <record id="action_dil_tdm_transaction_creditnote_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_creditnote_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_creditnote"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_creditnote_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_creditnote_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_creditnote"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_creditnote_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_creditnote_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_creditnote"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_accrual" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - IP Payable Accrual</field>
+            <field name="res_model">sale.order.line.accrual</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_transaction_accrual_search"/>
+            <field name="domain">[('is_eproc', '=', True)]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_dil_tdm_transaction_accrual_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_accrual_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_accrual"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_accrual_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_accrual_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_accrual"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_accrual_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_transaction_accrual_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_accrual"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_settlement_billing" model="ir.actions.act_window">
+            <field name="name">ACT DIL TDM - AR Settlement Billing</field>
+            <field name="res_model">receivable.receipt.settlement</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_dil_tdm_settlement_billing_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_dil_tdm_transaction_settlement_billing_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_dil_tdm_settlement_billing_tree"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_settlement_billing"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_settlement_billing_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_dil_tdm_settlement_billing_form"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_settlement_billing"/>
+        </record>
+
+        <record id="action_dil_tdm_transaction_settlement_billing_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_dil_tdm_settlement_billing_pivot"/>
+            <field name="act_window_id" ref="action_dil_tdm_transaction_settlement_billing"/>
+        </record>
+
+        <record id="action_acc_tariff_payor" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Payor</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_payor_search"/>
+            <field name="domain">[('is_eproc', '=', True), ('insurance', '=', True), ('is_tpa', '=', False)]</field>
+            <field name="context">{'default_is_eproc': True, 'default_insurance': True, 'payor_master_view': True, 'create': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_payor_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_payor_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_payor"/>
+        </record>
+
+        <record id="action_acc_tariff_payor_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_payor_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_payor"/>
+        </record>
+
+        <record id="action_acc_tariff_payor_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_payor_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_payor"/>
+        </record>
+
+        <record id="action_acc_tariff_tpa" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - TPA</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_payor_search"/>
+            <field name="domain">[('is_eproc', '=', True), ('insurance', '=', True), ('is_tpa', '=', True)]</field>
+            <field name="context">{'default_is_eproc': True, 'default_insurance': True, 'default_is_tpa': True, 'tpa_master_view': True, 'create': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_tpa_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_payor_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_tpa"/>
+        </record>
+
+        <record id="action_acc_tariff_tpa_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_payor_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_tpa"/>
+        </record>
+
+        <record id="action_acc_tariff_tpa_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_payor_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_tpa"/>
+        </record>
+
+        <record id="action_acc_tariff_tariff" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Tariff Type</field>
+            <field name="res_model">hospital.tariff</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="domain">[('is_eproc', '=', 1)]</field>
+            <field name="context">{'default_is_eproc': True, 'default_active': True, 'eproc_tariff_type_view': True, 'create': False, 'delete': False, 'edit': False, 'duplicate': False}</field>
+        </record>
+
+
+        <record id="action_acc_tariff_pricelist_import_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Pricelist Import</field>
+            <field name="res_model">tariff.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_import_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'default_import_type': 'pricelist', 'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="access_tariff_existing_export_wizard_all_access" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - All Access</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_all_access"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+        <record id="access_tariff_existing_export_wizard_finance_configuration" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - Finance Configuration</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_finance_configuration"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_tariff_existing_export_wizard_finance_corporate" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - Finance Corporate</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_finance_corporate"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_tariff_existing_export_wizard_finance_corporate_view_only" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - Finance Corporate View Only</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_finance_corporate_view_only"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_tariff_existing_export_wizard_finance_manager" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - Finance Manager</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_finance_manager"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <record id="access_tariff_existing_export_wizard_finance_unit_accounting" model="ir.model.access">
+            <field name="name">Existing Tariff Export Wizard - Finance Unit Accounting</field>
+            <field name="model_id" ref="model_tariff_existing_export_wizard"/>
+            <field name="group_id" ref="mayapada_finance_unit_accounting"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <delete id="action_acc_tariff_existing_export_wizard" model="ir.actions.act_window"/>
+
+        <record id="action_acc_tariff_pricelist_existing_export_wizard" model="ir.actions.act_window">
+            <field name="name">Export Existing Pricelist</field>
+            <field name="res_model">tariff.existing.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_existing_export_wizard"/>
+            <field name="target">new</field>
+            <field name="context">{'default_export_type': 'pricelist'}</field>
+        </record>
+
+        <record id="action_acc_tariff_dependency_existing_export_wizard" model="ir.actions.act_window">
+            <field name="name">Export Existing Dependency</field>
+            <field name="res_model">tariff.existing.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_existing_export_wizard"/>
+            <field name="target">new</field>
+            <field name="context">{'default_export_type': 'dependency'}</field>
+        </record>
+
+        <record id="action_acc_tariff_markup_existing_export_wizard" model="ir.actions.act_window">
+            <field name="name">Export Existing Markup</field>
+            <field name="res_model">tariff.existing.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_existing_export_wizard"/>
+            <field name="target">new</field>
+            <field name="context">{'default_export_type': 'markup'}</field>
+        </record>
+
+        <record id="action_acc_tariff_dependency_import_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Dependency Import</field>
+            <field name="res_model">tariff.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_import_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'default_import_type': 'dependency', 'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_markup_import_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Markup Import</field>
+            <field name="res_model">tariff.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_import_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'default_import_type': 'markup', 'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_pricelist_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Pricelist Wizard</field>
+            <field name="res_model">tariff.pricelist.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_pricelist_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_pricelist" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Pricelist</field>
+            <field name="res_model">tariff.pricelist</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_pricelist_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_group_tariff': 1, 'search_default_group_patient_type': 1, 'search_default_group_category': 1, 'search_default_group_bedtype': 1, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_pricelist_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_pricelist_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_pricelist"/>
+        </record>
+
+        <record id="action_acc_tariff_pricelist_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_pricelist_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_pricelist"/>
+        </record>
+
+        <record id="action_acc_tariff_pricelist_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_pricelist_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_pricelist"/>
+        </record>
+
+
+
+
+        <record id="action_acc_tariff_dependency_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Dependency Wizard</field>
+            <field name="res_model">tariff.dependency.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_dependency_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_dependency" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Dependency</field>
+            <field name="res_model">tariff.dependency</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_dependency_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_group_tariff': 1, 'search_default_group_patient_type': 1, 'search_default_group_bedtype': 1, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_dependency_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_dependency_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_dependency"/>
+        </record>
+
+        <record id="action_acc_tariff_dependency_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_dependency_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_dependency"/>
+        </record>
+
+        <record id="action_acc_tariff_dependency_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_dependency_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_dependency"/>
+        </record>
+
+        <record id="action_acc_tariff_markup_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Markup Wizard</field>
+            <field name="res_model">tariff.markup.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_markup_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_markup" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Markup</field>
+            <field name="res_model">tariff.markup</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_markup_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_group_tariff': 1, 'search_default_group_patient_type': 1, 'search_default_group_bedtype': 1, 'search_default_group_category': 1, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_markup_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_markup_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_markup"/>
+        </record>
+
+        <record id="action_acc_tariff_markup_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_markup_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_markup"/>
+        </record>
+
+        <record id="action_acc_tariff_markup_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_markup_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_markup"/>
+        </record>
+
+
+
+        <record id="action_acc_tariff_selling_price_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Fixed Selling Price Wizard</field>
+            <field name="res_model">tariff.pricelist.fixed.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_selling_price_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_selling_price" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - Fixed Selling Price</field>
+            <field name="res_model">tariff.pricelist.fixed</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_selling_price_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_group_tariff': 1, 'search_default_group_bedtype': 1, 'search_default_group_category': 1, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_selling_price_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_selling_price_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_selling_price"/>
+        </record>
+
+        <record id="action_acc_tariff_selling_price_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_selling_price_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_selling_price"/>
+        </record>
+
+        <record id="action_acc_tariff_selling_price_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_selling_price_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_selling_price"/>
+        </record>
+
+
+        <record id="action_acc_tariff_aggregation_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - BasePrice Aggregation Wizard</field>
+            <field name="res_model">tariff.aggregation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_aggregation_wizard"/>
+            <field name="target">new</field>
+            <field name="domain">[]</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_baseprice_receipt_report_wizard" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - BasePrice vs Latest GRN</field>
+            <field name="res_model">tariff.aggregation.report.baseprice.receipt.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_baseprice_receipt_report_wizard"/>
+            <field name="target">new</field>
+            <field name="context">{'dialog_size': 'extra-large'}</field>
+        </record>
+
+        <record id="action_acc_tariff_aggregation" model="ir.actions.act_window">
+            <field name="name">ACT ACC Tariff - BasePrice Aggregation</field>
+            <field name="res_model">tariff.aggregation</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="search_view_id" ref="view_acc_tariff_aggregation_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_state_pending': 1, 'search_default_group_changes_type': 1, 'search_default_group_category': 2, 'create': False, 'edit': False, 'delete': False, 'duplicate': False}</field>
+        </record>
+
+        <record id="action_acc_tariff_aggregation_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_acc_tariff_aggregation_tree"/>
+            <field name="act_window_id" ref="action_acc_tariff_aggregation"/>
+        </record>
+
+        <record id="action_acc_tariff_aggregation_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_acc_tariff_aggregation_form"/>
+            <field name="act_window_id" ref="action_acc_tariff_aggregation"/>
+        </record>
+
+        <record id="action_acc_tariff_aggregation_pivot" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_acc_tariff_aggregation_pivot"/>
+            <field name="act_window_id" ref="action_acc_tariff_aggregation"/>
+        </record>
+
+        <record id="action_acc_tariff_aggregation_realize" model="ir.actions.server">
+            <field name="name">Realize to BasePrice</field>
+            <field name="model_id" ref="model_tariff_aggregation"/>
+            <field name="binding_model_id" ref="model_tariff_aggregation"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_realize_wizard()</field>
+        </record>
+        <record id="action_acc_tariff_selling_price_export_wizard" model="ir.actions.act_window">
+            <field name="name">Export Fixed Selling Price</field>
+            <field name="res_model">tariff.pricelist.fixed.export</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_tariff_pricelist_fixed_export_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="action_eproc_budget_group" model="ir.actions.act_window">
+            <field name="name">Budget Group</field>
+            <field name="res_model">eproc.budget.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'default_type':'group', 'create': 1, 'edit': 1, 'duplicate': 0, 'delete': 0}</field>
+        </record>
+        <record id="action_eproc_budget_approval_type" model="ir.actions.act_window">
+            <field name="name">Budget Approval Type</field>
+            <field name="res_model">eproc.approval.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','budget')]</field>
+            <field name="context">{'default_type': 'budget'}</field>
+            <field name="search_view_id" ref="view_erp_pmm_master_approval_type_search"/>
+            <field name="view_id" ref="view_erp_pmm_master_approval_type_tree"/>
+        </record>
+        <record id="action_eproc_budget_category" model="ir.actions.act_window">
+            <field name="name">Budget Categories</field>
+            <field name="res_model">eproc.budget.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type','=','category')]</field>
+            <field name="context">{'default_type':'category', 'create': 1, 'edit': 1, 'duplicate': 0, 'delete': 0}</field>
+        </record>
+        <record id="action_eproc_budget_request" model="ir.actions.act_window">
+            <field name="name">Budget Request &amp; Re-allocation</field>
+            <field name="res_model">eproc.budget.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_eproc_budget_request_search"/>
+            <field name="context">{'search_default_my_queue':1, 'create': 1, 'edit': 1, 'duplicate': 0, 'delete': 0}</field>
+        </record>
+
+        <record id="action_eproc_budget_item" model="ir.actions.act_window">
+            <field name="name">Budget Items</field>
+            <field name="res_model">eproc.budget.item</field>
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_id" ref="view_eproc_budget_item_tree"/>
+            <field name="search_view_id" ref="view_eproc_budget_item_search"/>
+            <field name="context">{'search_default_validated': 1, 'create': 1, 'edit': 1, 'duplicate': 0, 'delete': 0}</field>
+        </record>
+        <record id="action_eproc_budget_item_cancel" model="ir.actions.server">
+            <field name="name">Cancel Budget Items</field>
+            <field name="model_id" ref="model_eproc_budget_item"/>
+            <field name="binding_model_id" ref="model_eproc_budget_item"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="groups_id" eval="[(6, 0, [ref('mayapada_all_access'), ref('mayapada_procurement_manager'), ref('mayapada_procurement_corporate')])]"/>
+            <field name="state">code</field>
+            <field name="code">records.action_cancel()</field>
+        </record>
+        <record id="action_eproc_budget_item_archive" model="ir.actions.server">
+            <field name="name">Archive Budget Items</field>
+            <field name="model_id" ref="model_eproc_budget_item"/>
+            <field name="binding_model_id" ref="model_eproc_budget_item"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="groups_id" eval="[(6, 0, [ref('mayapada_all_access'), ref('mayapada_procurement_manager'), ref('mayapada_procurement_corporate')])]"/>
+            <field name="state">code</field>
+            <field name="code">records.action_archive()</field>
+        </record>
+        <record id="action_eproc_budget_dashboard_wizard" model="ir.actions.act_window">
+            <field name="name">Budget Dashboard</field>
+            <field name="res_model">eproc.budget.dashboard.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_eproc_budget_dashboard_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+        <delete id="ir_cron_eproc_budget_dashboard_cleanup" model="ir.cron"/>
+    </data>
+</odoo>

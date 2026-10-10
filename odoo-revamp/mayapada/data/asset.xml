@@ -1,0 +1,1011 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="asset_subcategory_action">
+            <field name="name">Asset SubCategory</field>
+            <field name="res_model">account.asset.subcategory</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_account_asset_subcategory_view" model="ir.ui.view">
+            <field name="name">account.asset.subcategory.view</field>
+            <field name="model">account.asset.subcategory</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Asset Sub Category">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="category_id" />
+                            </group>
+                            <group>
+                                <field name="sequence_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1" />
+                                        <field name="sync_date" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="asset_stock_opname_action">
+            <field name="name">Asset Stock Opname</field>
+            <field name="res_model">account.asset.stock.opname</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="asset_opname_action">
+            <field name="name">Asset Opname</field>
+            <field name="res_model">account.asset.opname</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_account_asset_opname_view" model="ir.ui.view">
+            <field name="name">account.asset.opname.view</field>
+            <field name="model">account.asset.opname</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Asset Opname">
+                    <header>
+                        <button name="confirm" states="draft" string="Confirm" type="object" class="oe_highlight"/>
+                        <button name="post" states="progress" string="Post" type="object" class="oe_highlight"/>
+                        <button name="set_to_draft" states="progress" string="Set to Draft" type="object" />
+                        <button name="action_print" states="progress,posted" string="Print" type="object" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,posted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="SO No."/>
+                            <h1>
+                                <field name="name" readonly="1" />
+                            </h1>
+                        </div>
+                            <group>
+                                <group>
+                                    <field name="company_id" />
+                                    <field name="date" />
+                                    <field name="location_id" required="1" />
+                                </group>
+                                <group>
+                                    <field name="reference" required="1" />
+                                    <field name="user_id" />
+                                    <field name="link" widget="qr_code" />
+                                </group>
+                            </group>
+                        <notebook>
+                            <page string="Asset">
+                                <field name="opname_ids" nolabel="1" attrs="{'readonly': [('state', '=', 'posted')]}">
+                                    <tree editable="bottom">
+                                        <field name="asset_id" />
+                                        <field name="asset_category_id" readonly="1"/>
+                                        <field name="location_id" domain="[('company_id','=',parent.company_id)]" readonly="1"/>
+                                        <field name="confirmed"/>
+                                        <field name="update_location_id" domain="[('company_id','=',parent.company_id)]"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="asset_checking_wizard_action">
+            <field name="name">Checking Asset</field>
+            <field name="res_model">account.asset.checking.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_asset_generate_seq_wizard_action">
+            <field name="name">Asset Generate Sequence</field>
+            <field name="res_model">asset.generate.seq.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="mayapada_asset_generate_seq_wizard_view" model="ir.ui.view">
+            <field name="name">asset.generate.seq.wizard.view</field>
+            <field name="model">asset.generate.seq.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Asset Generate Sequence">
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="implementation" />
+                        </group>
+                        <group>
+                            <field name="code" readonly="0" />
+                            <field name="active" />
+                            <field name="company_id" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sequence">
+                            <group>
+                                <group>
+                                    <field name="prefix" />
+                                    <field name="suffix" />
+                                    <field name="use_date_range" />
+                                </group>
+                                <group>
+                                    <field name="padding" />
+                                    <field name="number_increment" />
+                                    <field name="number_next_actual" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="generate_seq" invisible="0" string="Generate Seq" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="asset_modify_wizard_action">
+            <field name="name">Modify Deprecation</field>
+            <field name="res_model">account.asset.modify.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_asset_cip_action">
+            <field name="name">Construction in Progress</field>
+            <field name="res_model">account.asset.cip</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_account_asset_cip_view" model="ir.ui.view">
+            <field name="name">account.asset.cip.view</field>
+            <field name="model">account.asset.cip</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Asset Construction in Progress" delete="0">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
+                    <!-- <script type="text/javascript" src="/mayapada/static/src/js/print_pop_up.js"></script> -->
+                    <script type="text/javascript" src="/mayapada/static/src/js/print_pop_up.js"></script>
+                    <!-- <script type="text/javascript" src="https://10.2.1.113/mayapada/static/src/js/print_pop_up.js" /> -->
+                    <header>
+                        <button string="Posting Asset" name="post" type="object" states="draft,progress" class="oe_highlight"/>
+                        <button string="Mark as Completed" name="confirm" type="object" states="progress" class="oe_highlight"/>
+                        <button string="Print PDF" name="print_qrcode_pdf" type="object" class="oe_highlight"/>
+                        <button string="Print Qrcode" name="qrcode_print" type="object" class="oe_highlight print_js" />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                                <label for="number" string="CIP No."/>
+                                <h1>
+                                    <field name="number" readonly="1"/>
+                                </h1>
+                            </div>
+                        <group>
+                            <group>
+                                <field name="name" attrs="{'readonly': [('state', '=', 'posted')]}" />
+                                <field name="date" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="reference_no" required="1" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="classification" required="1" attrs="{'readonly': [('state', '=', 'posted')]}" />
+                                <field name="account_type" required="1" domain="[('company_id','=',company_id), ('code','ilike','12030103%')]" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="estimation" attrs="{'readonly': [('state', '=', 'posted')]}" />
+                                
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                                <field name="total_value" readonly="1" />
+                                <field name="total_realization" readonly="1" />
+                                <field name="total_pending" readonly="1" />
+                                <field name="file_src" nolabel="1" readonly="1" class="content_js" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="CIP Movement">
+                                <field name="move_ids" readonly="1">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="move_id"/>
+                                        <field name="account_id"/>
+                                        <field name="name"/>
+                                        <field name="ref"/>
+                                        <field name="debit" sum="Total"/>
+                                        <field name="credit" sum="Total"/>
+                                        <field name="balance" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Asset Journal">
+                                <field name="asset_move_ids" readonly="1" />
+                            </page>
+
+                            <page string="Asset Items">
+                                <field name="asset_ids" readonly="1">
+                                    <tree string="Asset">
+                                        <field name="name" />
+                                        <field name="type" />
+                                        <field name="subcategory_id" />
+                                        <field name="location_id" />
+                                        <field name="value" />
+                                        <field name="state" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <!--page string="Sub Ledger">
+                                <group>
+                                    <group>
+                                        <field name="asset_id" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="move_id" readonly="1" />
+                                    </group>
+                                </group>
+                            </page-->
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_consol_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_asset_relocation_action">
+            <field name="name">Asset Relocation</field>
+            <field name="res_model">asset.relocation</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_asset_relocation_view" model="ir.ui.view">
+            <field name="name">asset.relocation.view</field>
+            <field name="model">asset.relocation</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Asset Relocation">
+                    <header>
+                        <button string="Post" name="post" type="object" states="draft" class="oe_highlight"/>
+                        <button string="Return Asset" name="completed" type="object" states="posted" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="trans_no" string="Trans No."/>
+                            <h1>
+                                <field name="trans_no" readonly="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="ref" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="location_id" required="1" domain="[('company_id','=',company_id)]" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                            </group>
+                            <group>
+                                <field name="remarks" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="user_id" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Asset Outcome">
+                                <field name="asset_ids" domain="[('asset_status','=','inplace'), ('state','=', 'open')]" attrs="{'readonly': [('state', '=', 'posted')]}">
+                                    <tree string="Asset Outcome" editable="bottom">
+                                        <field name="code" readonly="1" />
+                                        <field name="name" readonly="1"/>
+                                        <field name="location_id" readonly="1" domain="[('company_id','=',parent.company_id)]"/>
+                                        <field name="loan_date" />
+                                        <field name="return_date" />
+                                        <field name="relocation_charge" />
+                                        <field name="account_id" string="Debit Account" domain="[('company_id','=',parent.company_id), ('parent','=',False)]" attrs="{'readonly': [('relocation_charge', '=', 0)]}" />
+                                        <field name="credit_account_id" string="Credit Account" domain="[('company_id','=',parent.company_id), ('parent','=',False)]" attrs="{'readonly': [('relocation_charge', '=', 0)]}" />
+                                        <field name="asset_status" readonly="1" />
+                                        <field name="state" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Asset Return">
+                                <field name="asset_return_ids">
+                                    <form string="Asset Return">
+                                        <group>
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                            <field name="location_id" string="Current Location"/>
+                                            <field name="origin_location_id" string="Return to"/>
+                                            <field name="asset_status" invisible="1"/>
+                                            <field name="state" invisible="1" />
+                                        </group>
+                                        <footer>
+                                            <button name="return_asset" confirm="This Asset on Loaned...!!! Click yes to Return location?" string="Return" type="object" class="oe_highlight"/>
+                                        </footer>
+                                    </form>
+                                    <tree string="Asset Return" delete="false" create="false" edit="false">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                        <field name="location_id"/>
+                                        <field name="asset_status"/>
+                                        <field name="state" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Entries">
+                                <field name="move_ids" readonly="1" />
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_consol_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                    </group>
+                                </group>
+                                </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_asset_close_action">
+            <field name="name">Asset Sell/Dispose</field>
+            <field name="res_model">account.asset.close</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_account_asset_close_view" model="ir.ui.view">
+            <field name="name">account.asset.close.view</field>
+            <field name="model">account.asset.close</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Sell or Dispose">
+                    <header>
+                        <button string="Post" name="post" type="object" states="draft" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="trans_no" string="Trans No."/>
+                            <h1>
+                                <field name="trans_no" readonly="1" />
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="journal_id" domain="[('company_id','=',company_id), ('is_matic','=',False)]" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="ref" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="remarks" />
+                            </group>
+                            <group>
+                                <field name="company_id" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                                <field name="user_id" attrs="{'readonly': [('state', '=', 'posted')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Asset List">
+                                <field name="asset_ids" domain="[('company_id','=',company_id), ('state','in', ['open']), ('asset_status','!=', 'loaned')]" attrs="{'readonly': [('state', '=', 'posted')]}">
+                                    <tree editable="bottom">
+                                        <field name="code" string="Kode" readonly="1" />
+                                        <field name="name" string="Nama" readonly="1" />
+                                        <field name="category_id" string="Category" invisible="1" />
+                                        <field name="value" string="Harga Perolehan" readonly="1" />
+                                        <field name="salvage_value" string="Total Salvage" readonly="1" />
+                                        <field name="value_depreciation" string="Total Depresiasi" />
+                                        <field name="value_residual" string="Nilai Sisa" />
+                                        <field name="item_status" string="Type"/>
+                                        <field name="selling_price" string="Harga Jual" attrs="{'readonly':[('item_status','!=','sell')]}"/>
+                                        <field name="account_id" string="Account" domain="[('company_id','=',parent.company_id), ('parent','=',False)]"/>
+                                        <field name="item_status_desc"  invisible="1" />
+                                        <field name="state" invisible="0" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Journal Entries">
+                                <field name="move_ids" readonly="1">
+                                    <tree string="Journal Entries">
+                                        <field name="name"/>
+                                        <field name="journal_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="ref"/>
+                                        <field name="state" invisible="1" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_consol_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_asset_report_wizard_action">
+            <field name="name">Asset Report</field>
+            <field name="res_model">asset.report.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="mayapada_asset_report_wizard_view" model="ir.ui.view">
+            <field name="name">asset.report.wizard.view</field>
+            <field name="model">asset.report.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="AR Report Compiled">
+                    <group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="type_report" required="1" />
+                            
+                        </group>
+                        <group>
+                            <field name="start_date" attrs="{'invisible': [('type_report','in',['category','subcategory'])], 'required': [('type_report','in', ['item','opname'])]}"/>
+                            <field name="end_date" attrs="{'invisible': [('type_report','in',['category','subcategory'])], 'required': [('type_report','in', ['item','opname'])]}"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('type_report','!=','item')]}">
+                        <page string="Category">
+                            <field nolabel="1" name="category_ids" domain="[('company_id','=',company_id)]">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="print_asset" string="Print" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="asset_print_qrcode_wizard_action">
+            <field name="name">Print QRCode</field>
+            <field name="res_model">account.asset.print.qrcode.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <record model="ir.actions.act_window" id="action_asset_cip_posting_action">
+            <field name="name">Posting Construction in Progress</field>
+            <field name="res_model">account.asset.cip.posting.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="mayapada_account_asset_cip_posting_wizard" model="ir.ui.view">
+            <field name="name">account.asset.cip.posting.wizard.view</field>
+            <field name="model">account.asset.cip.posting.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="CIP Posting">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" invisible="1" />
+                                <field name="cip_id" invisible="1" />
+                                <field name="cip_no" readonly="1"  force_save="1" />
+                                <field name="cip_name" readonly="1" force_save="1" />
+                                <field name="classification" readonly="1" force_save="1" />
+                                <field name="total_value" readonly="1"  force_save="1"/>
+                                <field name="total_realization" readonly="1"  force_save="1"/>
+                                <field name="total_pending" readonly="1"  force_save="1"/>
+                                <field name="location_id" domain="[('company_id', '=', company_id)]" required="1" />
+                            </group>
+                            <group>
+                                <field name="asset_name" required="1" />
+                                <field name="depreciation_number" invisible="1" required="1" />
+                                <field name="asset_categ_id" domain="[('company_id', '=', company_id)]" required="1" />
+                                <field name="asset_subcateg_id" domain="[('category_id', '=', asset_categ_id)]" required="1" />
+                                <field name="accounting_date" required="1" />
+                                <field name="account_id" string="CIP Account" domain="[('company_id','=',company_id), ('code','ilike','12030103%')]" />
+                                <field name="total_asset"/>
+                                <field name="qty"/>
+                                <field name="value" />
+                                
+                            </group>
+                        </group>
+                        <notebook invisible="1">
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type" readonly="1"/>
+                                        <field name="sync_consol_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="post" string="Posting" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="assets_posting_wizard_action">
+            <field name="name">Posting Journal Assets</field>
+            <field name="res_model">account.asset.move.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <record id="mayapada_account_asset_asset_inherited" model="ir.ui.view">
+            <field name="name">account.asset.asset.inherited</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="om_account_asset.view_account_asset_asset_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Asset" delete="true">
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
+                        <!-- <script type="text/javascript" src="/mayapada/static/src/js/print_pop_up.js"></script> -->
+                        <script type="text/javascript" src="/mayapada/static/src/js/print_pop_up.js"></script>
+                        <!-- <script type="text/javascript" src="https://10.2.1.113/mayapada/static/src/js/print_pop_up.js" /> -->
+                        <header>
+                            <button name="validate" states="draft" string="Confirm" type="object" class="oe_highlight"/>
+                            <button name="qrcode_print" invisible="1" string="Print" type="object" class="print_js" />
+                            <button name="print_asset_pdf" string="Print" type="object" />
+                            <button type="object" name="compute_depreciation_board" string="Compute Depreciation" states="draft"/>
+                            <button name="set_to_close" states="open" string="Sell or Dispose" type="object" class="oe_highlight" invisible="1" />
+                            <button name="set_to_draft" string="Set to Draft" type="object" attrs="{'invisible': ['|', ('entry_count', '!=', 0), ('state', '!=', 'open')]}"/>
+                            <button name="set_to_modify" attrs="{'invisible': ['|', ('state', '!=', 'open'), ('modify_enabled', '=', False)]}" string="Modify Depreciation" type="object" class="oe_highlight"/>
+                            <!--button name="401" states="open" string="Modify Depreciation" type="action"/-->
+                            <field name="state" widget="statusbar" statusbar_visible="draft,open"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                                <button class="oe_stat_button" name="open_entries" type="object" icon="fa-pencil">
+                                    <field string="Items" name="entry_count" widget="statinfo"/>
+                                </button>
+                            </div>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" placeholder="e.g. Laptop iBook" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </h1>
+                                <h3>
+                                    <field name="sequence" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </h3>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="category_id" domain="[('type', '=', 'purchase'), ('company_id','=', company_id)]" context="{'default_type': 'purchase'}" help="Category of asset"/>
+                                    <field name="subcategory_id" domain="[('category_id', '=', category_id)]" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="code" string="Asset Code" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="vendor_ref" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="date" required="0" help="Date of asset" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="type" invisible="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="calibration_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="guarantee_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="qty" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="brand" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="type_char" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="status" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="remarks" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="location_id" string="Location" domain="[('company_id','=',company_id)]" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                    <field name="file_src" invisible="1" nolabel="1" readonly="1" class="content_js" force_save="1" />
+                                    <field name="modify_enabled" invisible="1" />
+                                </group>
+                                <group>
+                                    <field name="currency_id" groups="base.group_multi_currency"/>
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="value" widget="monetary" options="{'currency_field': 'currency_id'}" help="Gross value of asset"/>
+                                    <field name="salvage_value" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'invisible': [('type','=','sale')]}"/>
+                                    <field name="value_residual" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="partner_id" string="Vendor" domain="[('supplier', '=', True)]"/>
+
+                                </group>
+                            </group>
+                            <!--notebook colspan="4"-->
+                            <notebook>
+                                <page string="Depreciation Board">
+                                    <field name="depreciation_line_ids" attrs="{'readonly':[('state','!=','draft')]}" mode="tree" options="{'reload_whole_on_button': true}">
+                                        <tree string="Depreciation Lines" decoration-info="(move_check == False)" create="false">
+                                            <field name="depreciation_date" string="Tgl Depresiasi" />
+                                            <field name="depreciated_value" string="Kumulatif Depresiasi" readonly="1"/>
+                                            <field name="amount" widget="monetary" string="Depresiasi"/>
+                                            <field name="remaining_value" readonly="1" widget="monetary" string="Nilai Sisa"/>
+                                            <field name="move_check" invisible="1"/>
+                                            <field name="move_posted_check" invisible="1"/>
+                                            <field name="parent_state" invisible="1"/>
+                                            <button name="create_move" type="object" widget="widgetonbutton"/>
+                                        </tree>
+                                        <form string="Depreciation Lines"> 
+                                            <group>
+                                                <group>
+                                                    <field name="parent_state" invisible="1"/>
+                                                    <field name="name"/>
+                                                    <field name="sequence"/>
+                                                    <field name="move_id"/>
+                                                    <field name="move_check"/>
+                                                    <field name="parent_state" invisible="1"/>
+                                                </group>
+                                                <group>
+                                                    <field name="amount" widget="monetary"/>
+                                                    <field name="depreciation_date"/>
+                                                    <field name="depreciated_value"/>
+                                                    <field name="remaining_value"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                                <page string="Depreciation Information">
+                                    <group>
+                                        <field name="method" widget="radio" attrs="{'invisible': [('type','=','sale')]}"/>
+                                        <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')], 'required':[('method','=','degressive')]}"/>
+                                        <field name="method_time" string="Time Method Based On" widget="radio" attrs="{'invisible': [('type','!=','purchase')]}"/>
+                                        <field name="prorata" attrs="{'invisible': [('method_time','=','end')]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="method_number" attrs="{'invisible':[('method_time','=','end')], 'required':[('method_time','=','number')]}"/>
+                                        <field name="method_period"/>
+                                        <field name="method_end" attrs="{'required': [('method_time','=','end')], 'invisible':[('method_time','=','number')]}"/>
+                                    </group>
+                                </page>
+                                <page string="Location History">
+                                    <field name="location_history_ids" readonly="1">
+                                        <tree>
+                                            <field name="location_id"/>
+                                            <field name="source_id"/>
+                                            <field name="date_modified"/>
+                                            <field name="create_date" />
+                                            
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Additional">
+                                    <group>
+                                        <group>
+                                            <field name="cip_id" readonly="1" />
+                                            <field name="picking_id" options="{'no_create': True}" readonly="1" />
+                                        </group>
+                                        <group>
+                                            <field name="relocation_id" readonly="1" />
+                                            <field name="close_id" readonly="1" />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="sync_type" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                            <field name="sync_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_main" readonly="1" />
+                                            <field name="sync_consol_id_unit" readonly="1" />
+                                            <field name="sync_consol_date" readonly="1" />
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                            
+                        </sheet>
+
+                        <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mayapada_account_asset_category_inherited" model="ir.ui.view">
+            <field name="name">account.asset.category.inherited</field>
+            <field name="model">account.asset.category</field>
+            <field name="inherit_id" ref="om_account_asset.view_account_asset_category_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Asset category" delete="1">
+                        <sheet>
+                            <div class="oe_title">
+                                <label for="name" string="Asset Type"/>
+                                <label for="name" string="Deferred Revenue Type" class="oe_edit_only" attrs="{'invisible': [('type','==','purchase')]}" modifiers="{'invisible': [['type', '==', 'purchase']]}"/>
+                                <h1>
+                                    <field name="name" placeholder="e.g. Computers" modifiers="{'required': true}"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group string="Journal Entries">
+                                    <field name="type" attrs="{'invisible': 1}" on_change="1" modifiers="{'invisible': 1, 'required': true}"/>
+                                    <field name="company_id" options="{'no_create': True}" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                
+                                    <field name="journal_id" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                    <field name="parent_id" invisible="1" />
+                                    <field name="account_asset_id" attrs="{'invisible': [('type','=', False)]}" domain="[('company_id', '=', company_id)]" on_change="1" can_create="true" can_write="true" modifiers="{'invisible': [['type', '=', false]], 'required': true}" options="{'no_create':True}"/>
+                                    <field name="account_depreciation_id" domain="[('company_id', '=', company_id)]" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                    <field name="account_depreciation_expense_id" domain="[('company_id', '=', company_id)]" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                    <field name="account_analytic_id" domain="[('company_id', '=', company_id), ('type_analytic', '=', 'expense')]" can_create="false" can_write="false"/>
+                                    <field name="expense_analytic_id" domain="[('company_id', '=', company_id), ('type_analytic', '=', 'expense')]" can_create="false" can_write="false"/>
+                                    <field name="cost_master_id" domain="[('company_id', '=', company_id)]" can_create="false" can_write="false"/>
+                                </group>
+                                <group string="Periodicity">
+                                    <field name="method_time" string="Time Method Based On" widget="radio" attrs="{'invisible': [('type','!=','purchase')]}" on_change="1" modifiers="{'invisible': [['type', '!=', 'purchase']], 'required': true}"/>
+                                    <!-- <field name="method_number" string="Number of Entries" attrs="{'invisible':['|',('method_time','!=','number'),'&amp;',('type','=', False)], 'required':[('method_time','=','number')]}" modifiers="{'invisible': ['|', ['method_time', '!=', 'number'], '&amp;', ['type', '=', false]], 'required': [['method_time', '=', 'number']]}"/> -->
+                                    <field name="method_number" string="Number of Entries"/>
+                                    <label for="method_period" string="One Entry Every"/>
+                                    <div>
+                                        <field name="method_period" nolabel="1" attrs="{'invisible': [('type','=', False)]}" class="oe_inline" modifiers="{'invisible': [['type', '=', false]], 'required': true}"/> months
+                                    </div>
+                                    <field name="method_end" attrs="{'required': [('method_time','=','end')], 'invisible':[('method_time','!=','end')]}" modifiers="{'invisible': [['method_time', '!=', 'end']], 'required': [['method_time', '=', 'end']]}"/>
+                                    <field name="sequence_id" invisible="0" domain="[('company_id','=', company_id)]"/>
+                                </group>
+                                <group string="Additional Options">
+                                    <field name="open_asset"/>
+                                    <field name="group_entries"/>
+                                </group>
+                                <group attrs="{'invisible': [('type','=','sale')]}" string="Depreciation Method" modifiers="{'invisible': [['type', '=', 'sale']]}">
+                                    <field name="method" widget="radio" modifiers="{'required': true}"/>
+                                    <field name="method_progress_factor" attrs="{'invisible':[('method','=','linear')], 'required':[('method','=','degressive')]}" modifiers="{'invisible': [['method', '=', 'linear']], 'required': [['method', '=', 'degressive']]}"/>
+                                    <field name="prorata" attrs="{'invisible': [('method_time','=','end')]}" modifiers="{'invisible': [['method_time', '=', 'end']]}"/>
+                                </group>
+                                
+                            </group>
+                            <notebook>
+                                <page string="Sub Category">
+                                    <field name="subcateg_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="name" />
+                                            <field name="category_id" invisible="1" />
+                                            <field name="sequence_id" domain="[('name','ilike','asset'),('company_id','=', company_id)]" />
+                                            <field name="company_id" invisible="1" />
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="sync_type"/>
+                                            <field name="sync_consol_date" readonly="1" modifiers="{'readonly': true}"/>
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_unit" readonly="1" modifiers="{'readonly': true}"/>
+                                            <field name="sync_consol_id_main" readonly="1" modifiers="{'readonly': true}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mayapada_asset_depreciation_confirmation_wizard_inherited" model="ir.ui.view">
+            <field name="name">asset.depreciation.confirmation.wizard.inherited</field>
+            <field name="model">asset.depreciation.confirmation.wizard</field>
+            <field name="inherit_id" ref="om_account_asset.view_asset_depreciation_confirmation_wizard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="inside">
+                    <group>
+                        <field name="company_id" />
+                        <field name="post_move" />
+                    </group>
+                    <group>
+                        <field name="date_start" />
+                        <field name="date_end" />
+                    </group>
+                </xpath>
+                <xpath expr="//form/group" position="after">
+                    <field name="category_ids" domain="[('company_id', '=', company_id)]">
+                        <tree>
+                            <field name="name"/>
+                            <field name="company_id"/>
+                        </tree>
+                    </field>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mayapada_account_asset_move_wizard_view" model="ir.ui.view">
+            <field name="name">account.asset.move.wizard.view</field>
+            <field name="model">account.asset.move.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Generate Journal">
+                    <group>
+                        <field name="move_ids" domain="[('state', '=', 'draft'), ('asset_depreciation_ids', '!=', False)]" />
+                    </group>
+                    <group>
+                    </group>
+                    <footer>
+                        <button name="post" string="Post Journal" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mayapada_account_asset_checking_wizard_view" model="ir.ui.view">
+            <field name="name">account.asset.checking.wizard.view</field>
+            <field name="model">account.asset.checking.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Checking Asset">
+                    <group>
+                        <group>
+                            <field name="link" nolabel="0" widget="qrcode_opencam" options="{'need_confirm': false, 'select':true, 'mobile_dialog':true}" />
+                            <field name="account_asset_id" invisible="1" />
+                            <field name="category_id" readonly="1" />
+                            <field name="vendor_ref" readonly="1" />
+                            <field name="date" readonly="1" />
+                            <field name="location_id" readonly="1" />
+                            <field name="calibration_date" readonly="1" />
+                            <field name="guarantee_date" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="qty" invisible="1" readonly="1" />
+                            <field name="brand" readonly="1" />
+                            <field name="type_char" readonly="1" />
+                            <field name="status" readonly="1" />
+                            <field name="remarks" readonly="1" />
+                            <field name="currency_id" invisible="1" readonly="1" />
+                            <field name="company_id" readonly="1" />
+                            <field name="value" readonly="1" invisible="1" />
+                            <field name="salvage_value" readonly="1" invisible="1" />
+                            <field name="value_residual" readonly="1" invisible="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="picking_id" readonly="1" />
+                            <button name="action_show_asset" invisible="1" string="Open Asset" type="object" class="oe_highlight"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_show_asset" invisible="1" string="Open Asset" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="mayapada_asset_print_qrcode_view" model="ir.ui.view">
+            <field name="name">account.asset.print.qrcode.wizard.view</field>
+            <field name="model">account.asset.print.qrcode.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Print QRCode">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/print-js/1.6.0/print.js"></script>
+                    <!-- <script type="text/javascript" src="/mayapada/static/src/js/print/print_pop_up.js" /> -->
+                    <script type="text/javascript" src="http://10.2.1.112/mayapada/static/src/js/print_pop_up.js" />
+                    <!-- <script type="text/javascript" src="https://10.2.1.113/mayapada/static/src/js/print_pop_up.js" /> -->
+                    <group>
+                        <field name="company_id" />
+                        <field name="picking_id" readonly="1" force_save="1"/>
+                        <field name="file_src" nolabel="1" readonly="1" force_save="1" class="content_js" />
+                    </group>
+                    <!-- <group> -->
+                    <field name="account_asset_ids" domain="[('company_id', '=', company_id),('picking_id','=',picking_id)]" nolabel="1" />
+                    <!-- </group> -->
+                    <footer>
+                        <button name="print_qrcode_pdf" string="PRINT PDF" type="object" class="oe_highlight"/>
+                        <button name="print_qrcode_termal" string="PRINT QRCODE" type="object" class="oe_highlight print_js"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_print_asset_pdf_wizard_form" model="ir.ui.view">
+            <field name="name">print.asset.pdf.wizard.form</field>
+            <field name="model">print.asset.pdf.wizard</field>
+            <field name="arch" type="xml">
+                <form string="PDF Preview" create="false" edit="false">
+                    <field name="pdf_file" invisible="1"/>
+                    <field name="pdf_filename" invisible="1"/>
+                    <field name="iframe_code" nolabel="1" readonly="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_asset_seq_action">
+            <field name="name">Asset Sequence</field>
+            <field name="res_model">ir.sequence</field>
+            <field name="domain">[('code', 'like', 'fixed.asset')]</field>
+            <!-- <field name="create">False</field> -->
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="asset_date_range_wizard_action">
+            <field name="name">Import Date Range Seq</field>
+            <field name="res_model">account.asset.date.range.wizard</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="mayapada_account_asset_date_range_wizard_view" model="ir.ui.view">
+            <field name="name">account.asset.date.range.wizard</field>
+            <field name="model">account.asset.date.range.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Closing Journal">
+                    <group>
+                        <field name="company_id" />
+                        <field name="start_date" />
+                        <field name="end_date" />
+                    </group>
+                    <notebook>
+                        <page string="Sub Category">
+                            <field nolabel="1" name="date_range_ids" domain="[('company_id','=',company_id)]">
+                                <tree>
+                                    <field name="category_id"/>
+                                    <field name="name"/>
+                                    <field name="sequence_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="imports" string="Imports" type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

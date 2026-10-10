@@ -1,0 +1,769 @@
+<odoo>
+    <data>
+        <record id="ir_cron_budget_refresh_chatter" model="ir.cron">
+            <field name="name">Budget: post SQL refresh tracking</field>
+            <field name="model_id" ref="model_eproc_budget_item"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_post_budget_refresh_tracking()</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="job_position_action" model="ir.actions.act_window">
+            <field name="name">Job Position</field>
+            <field name="res_model">res.position</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_res_position_inherited" model="ir.ui.view">
+            <field name="name">res.position.inherited</field>
+            <field name="model">res.position</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <form string="Job Position" delete="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="department_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Subordinates">
+                                <field name="child_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="parent_id"/>
+                                        <field name="department_id"/>
+                                        <field name="sync_type"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Users">
+                                <field name="user_ids"/>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_log"/>
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" readonly="1"/>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+
+        <record id="mayapada_crossovered_budget_tree_inherited" model="ir.ui.view">
+            <field name="name">Crossovered Budget Tree Inherit</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+                <tree  string="Budgets">
+                    <field name="name" colspan="1"/>
+                    <field name="type_id" />
+		    <field name="company_id"/>
+		    <field name="state"/>
+
+                </tree>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="act_crossovered_budget_view_new2">
+            <field name="name">Crossovered Budget</field>
+            <field name="res_model">crossovered.budget</field>
+            <field name="view_mode">tree,form,pivot</field>
+
+            
+        </record>
+
+
+
+
+
+
+        <record id="crossovered_budget_view_tree_new2" model="ir.ui.view">
+            <field name="name">Crossovered Budget Tree</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_tree"/>
+            <field name="arch" type="xml">
+               <xpath expr="//tree" position="replace">
+                   <tree>
+                    <field name="name" colspan="1"/>
+                    <field name="type_id" />
+                    <field name="total_budget"/>
+                    <field name="date_from" />
+                    <field name="date_to" />
+                    <field name="creating_user_id" invisible="1" />
+                    <field name="state" />
+                    <field name="company_id" />
+                </tree>
+               </xpath>
+            </field>
+        </record>
+
+
+
+
+
+
+
+        <record id="crossovered_budget_view_form_new2" model="ir.ui.view">
+            <field name="name">Crossovered Budget Form</field>
+            <field name="model">crossovered.budget</field>
+            <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="replace">
+                   <form string="Budget" delete="0">
+                <header>
+                    <button name="act_new" string="Next Fiscal Year" type="object"/>
+                    <button name="budget_compute_balance" string="Compute Budget" type="object" />
+                    <button string="Validate" name="action_budget_validate" states="draft" type="object" class="oe_highlight" />
+                    <button string="Done" name="action_budget_done" states="validate" type="object" class="oe_highlight" />
+                    <button string="Reset to Draft" name="action_budget_draft" states="cancel" type="object" />
+                    <button string="Cancel Budget" name="action_budget_cancel" states="draft,confirm,validate" type="object" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,done" />
+                </header>
+                <sheet string="Budget">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="id" invisible="1"/>
+                            <field name="company_id" />
+                            <field name="parent_id" domain="[('company_id','=', company_id)]"/>
+                            <field name="creating_user_id" />
+                            <field name="year"/>
+                            <label for="date_from" string="Period"/>
+                            <div>
+                                <field name="date_from" class="oe_inline" />
+                                 - 
+                                <field name="date_to" class="oe_inline"  nolabel="1" />
+                            </div>
+                            <field name="remarks"/>
+                            <field name="type_id" domain="[('company_id','=',company_id)]" />
+                        </group>
+                        <group>
+                            <field name="total_budget"/>          
+                            <field name="remaining_budget"/>
+                            <field name="remaining_amount" />
+                            <field name="allocated_amount" />
+                            <field name="used_percent" string="Already Spent" widget="progressbar" />
+                            <field name="allocated_percent" widget="progressbar" />
+                        </group>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Budget Lines">
+                            <field name="crossovered_budget_line" context="{'default_crossovered_budget_id': id, 'default_date_from': date_from, 'default_date_to': date_to}" colspan="4" nolabel="1" attrs="{'readonly':[('state','!=','draft')]}" on_change="1" modifiers="{'readonly': [['state', '!=', 'draft']]}">
+                                <tree>
+                                    <field name="crossovered_budget_id" invisible="1"/>
+                                    <field name="analytic_account_id"/>
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="paid_date" invisible="1"/>
+                                    <field name="planned_amount" string="Budget Planned" sum="Total" widget="monetary"/>
+                                    <field name="exceed_amount" string="Budget Exceed" sum ="Total" widget="monetary"/>
+                                    <field name="remain_amount" sum="Total" widget="monetary"/>
+                                    <field name="actual_amount" sum="Total" widget="monetary"/>
+                                    
+                                    <field name="percent" invisible="1"/>
+                                    <field name="actual_percent"/>
+                                    
+                                    <field name="other_amount" sum="Total" widget="monetary"/>
+                                    <field name="paid_amount" sum="Total" widget="monetary"/>
+                                    <field name="practical_amount" sum="Total" widget="monetary"/>
+                                    <field name="grn_amount" sum="Total" widget="monetary"/>
+                                    <field name="po_amount" sum="Total" widget="monetary"/>
+                                    <field name="pr_amount" sum="Total" widget="monetary"/>
+                                    <field name="trigger_create" invisible="0"/>
+                                    <field name="trigger_write" invisible="0"/>
+                                </tree>
+
+                                <form string="Budget Lines">
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="crossovered_budget_id" invisible="1"/>
+                                                <field name="analytic_account_id"/>
+                                                <field name="general_budget_id"/>
+                                                <field name="date_from"/>
+                                                <field name="date_to"/>
+                                                <field name="paid_date"/>
+                                            </group>
+                                            <group>
+                                                <field name="company_id" groups="base.group_multi_company"/>
+                                                <field name="planned_amount" widget="monetary"/>
+                                                <field name="remain_amount" widget="monetary"/>
+                                                <field name="theoritical_amount" widget="monetary"/>
+                                                <field name="percentage"/>
+                                                <field name="exceed_amount"/>
+                                            </group>
+                                        </group>
+
+                                        <notebook>
+                                        <page string="PR Line">
+                                            <field name="pr_line_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="requisition_id"/>
+                                                <field name="price_subtotal"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                        <page string="PO Line">
+                                            <field name="po_line_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="order_id"/>
+                                                <field name="price_subtotal"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                        <page string="GRN">
+                                            <field name="stock_move_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="name"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Invoice Not Paid">
+                                            <field name="invoice_line_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="invoice_id"/>
+                                                <field name="price_subtotal"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                        <page string="Invoice Paid">
+                                            <field name="invoice_line_paid_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="invoice_id"/>
+                                                <field name="price_subtotal"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                        
+                                        <page string="Other">
+                                            <field name="other_ids" nolabel="1">
+                                                <tree create="true" delete="true">
+                                                <field name="move_id"/>
+                                                <field name="debit"/>
+                                            </tree>
+                                            </field>
+                                        </page>
+                                         <page string="Technical">
+                                            <group>
+                                                <group>
+
+                                                    <field name="sync_type"/>
+                                                    <field name="sync_consol_id_main" readonly="1" />
+                                                </group>
+                                                <group>
+                                                    <field name="sync_consol_id_unit" readonly="1" />
+                                                    <field name="sync_consol_date" readonly="1"/>
+                                                </group>
+                                            </group>
+                                        </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Budget Childs">
+                            <field name="child_ids" />
+                        </page>
+                        <page string="Budget Member">
+                            <field name="user_ids" can_create="true" can_write="true"/>
+                        </page>
+                        
+                        <page string="Technical">
+                            <group>
+                                <group>
+                                    <field name="no_approval"/>
+                                    <field name="sync_type"/>
+                                    <field name="sync_consol_id_main" readonly="1" />
+                                </group>
+                                <group>
+                                    <field name="approve_id" readonly="1"/>
+                                    <field name="approve_rule_id" readonly="1"/>
+                                    <field name="sync_consol_id_unit" readonly="1" />
+                                    <field name="sync_consol_date" readonly="1" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+               </xpath>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="budget_hierarchy_tree_view" model="ir.ui.view">
+            <field name="name">crossovered.budget.hierarchy</field>
+            <field name="model">crossovered.budget</field>
+            <field name="arch" type="xml">
+                <tree string="Budgets">
+                    <field name="name"/>
+                    <field name="total_budget"/>
+                    <field name="allocated_amount"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="creating_user_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="budget_hierarchy_action" model="ir.actions.act_window">
+            <field name="name">Budgets Hierarchy</field>
+            <field name="res_model">crossovered.budget</field>
+            <field name="view_id" ref="budget_hierarchy_tree_view"/>
+            <!-- <field name="view_type">tree</field> -->
+            <field name="view_mode">tree</field>
+          <!--  <field name="domain">[('parent_id','=',False)]</field> -->
+
+        </record>
+
+
+
+
+        <record id="account_budget_post_view_form_new2" model="ir.ui.view">
+            <field name="name">Account Budget Post Form</field>
+            <field name="model">account.budget.post</field>
+            <field name="inherit_id" ref="om_account_budget.view_budget_post_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//form" position="replace">
+                    <form string="Budgetary Position">
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="company_id"  groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Accounts">
+                                <field name="account_ids">
+                                    <tree>
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                        <field name="trigger_create" invisible="0"/>
+                                        <field name="trigger_write" invisible="0"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+               </xpath>
+            </field>
+        </record>
+
+
+
+
+        <record id="account_budget_post_view_tree_new2" model="ir.ui.view">
+            <field name="name">Account Budget Post Tree</field>
+            <field name="model">account.budget.post</field>
+            <field name="inherit_id" ref="om_account_budget.view_budget_post_tree"/>
+            <field name="arch" type="xml">
+               <xpath expr="//tree" position="replace">
+                    <tree string="Budgetary Position">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                </tree>
+               </xpath>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="budget_type_action" model="ir.actions.act_window">
+            <field name="name">Budget Type</field>
+            <field name="res_model">budget.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    <record id="mayapada_budget_type_form_inherited" model="ir.ui.view">
+            <field name="name">budget.type</field>
+            <field name="model">budget.type</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <form string="Budget Type" delete="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="company_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Approval Rules">
+                                <group>
+                                    <!--<group>
+                                        <field name="rule_id" widget="selection" domain="[('id', 'in', approval_ids and approval_ids[0][2])]"/>
+                                    </group>-->
+                                </group>
+                                <field name="approval_ids">
+                                    <tree>
+                                        <field name="rule_name"/>
+                                        <field name="min_amount"/>
+                                        <field name="max_amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                        <field name="trigger_create" invisible="0"/>
+                                        <field name="trigger_write" invisible="0"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+    <record id="mayapada_budget_type_tree_inherited" model="ir.ui.view">
+            <field name="name">budget.type</field>
+            <field name="model">budget.type</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <tree string="Budget Type" delete="false">
+                    <field name="name"/>
+                    <field name="approval_ids"/>
+                    <field name="company_id" />
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="budget_rule_action" model="ir.actions.act_window">
+            <field name="name">Budget Rule</field>
+            <field name="res_model">budget.approval</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    <record id="mayapada_budget_approval_form_inherited" model="ir.ui.view">
+            <field name="name">budget.approval</field>
+            <field name="model">budget.approval</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <form string="Budget Approval Rule" delete="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="min_amount"/>
+                                <field name="max_amount"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Approval Level">
+                                <field name="rule_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="position_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                        <field name="trigger_create" invisible="0"/>
+                                        <field name="trigger_write" invisible="0"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="mayapada_budget_approval_tree_inherited" model="ir.ui.view">
+            <field name="name">budget.approval</field>
+            <field name="model">budget.approval</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <tree string="Budget Approval" delete="false">
+                    <field name="name"/>
+                    <field name="rule_name"/>
+                    <field name="min_amount"/>
+                    <field name="max_amount"/>
+                    <field name="sync_type"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+    <record id="mayapada_budget_approval_rule_form_inherited" model="ir.ui.view">
+            <field name="name">budget.approval.rule</field>
+            <field name="model">budget.approval.rule</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+            <form string="Budgetary Approval Rule">
+                    <sheet>
+                        <group col="4">
+                            <field name="sequence"/>
+                            <field name="approval_id"/>
+                            <field name="position_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Technical">
+                                <group>
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_main" readonly="1" />
+                                    </group>
+                                    <group>
+                                        <field name="sync_consol_id_unit" readonly="1" />
+                                        <field name="sync_consol_date" readonly="1" />
+                                        <field name="trigger_create" invisible="0"/>
+                                        <field name="trigger_write" invisible="0"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="mayapada_budget_approval_rule_tree_inherited" model="ir.ui.view">
+            <field name="name">budget.approval.rule.tree</field>
+            <field name="model">budget.approval.rule</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+            <tree string="Budgetary Approval Rule">
+                    <field name="approval_id"/>
+                    <field name="position_id" options="{'no_create': True}" can_create="true" can_write="true"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="budget_exceed_action" model="ir.actions.act_window">
+            <field name="name">Budget Exceed</field>
+            <field name="res_model">budget.exceed</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+    <record id="mayapada_budget_exceed_form_inherited" model="ir.ui.view">
+            <field name="name">budget.exceed</field>
+            <field name="model">budget.exceed</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <form string="Budget Exceed" delete="false">
+                <header>
+                <button string="Ask for Approval" name="ask_approve" states="draft" type="object" class="oe_highlight" modifiers="{'invisible': [['state', 'not in', ['draft']]]}"/>
+                    <button string="Approve" name="approve" states="confirm" type="object" class="oe_highlight" modifiers="{'invisible': [['state', 'not in', ['confirm']]]}"/>
+                    <button name="validate_exceed" string="Validate" type="object" attrs="{'invisible': [('state', '!=', 'validate')]}" class="oe_highlight" modifiers="{'invisible': [['state', '!=', 'validate']]}"/>
+                    <button name="cancel_exceed" string="Cancel" type="object" attrs="{'invisible': [('state', '=', 'cancel')]}" class="oe_highlight" modifiers="{'invisible': [['state', '=', 'draft']]}"/>    
+                    <button name="button_draft"  states="cancel" string="Set to Draft" type="object" modifiers="{'invisible': [['state', 'not in', ['cancel']]]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,validate,done" modifiers="{'readonly': true, 'required': true}"/>
+                </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="user_id"/>
+                                <field name="exceed_type"/>
+                            </group>
+                            <group>
+                                <field name="company_id" />
+                            </group>
+                            <group string="Approval">
+                                <group>
+                                    <field name="type_id" domain="[('company_id','=',company_id)]" />
+                                    <field name="approve_status" readonly="1"/>
+                                    <field name="approved_bool" invisible="1"/>
+                                    <field name="current_user_position" invisible="1"/>
+                                    <field name="approve_next_store" readonly="0" invisible="1"/>
+                                    <field name="remarks"/>
+                                </group>
+                                <group>
+                                    <field name="approve_next" readonly="1"/>
+                                    <field name="end_approval" readonly="1"/>
+                                </group> 
+                            </group>
+                        </group>
+                        <notebook>
+                                <page string="Exceed Line" attrs="{'invisible': [('exceed_type', '!=', 'grn')]}">
+                                    <field name="line_ids" context="{'default_exceed_id': id}" attrs="{'readonly': [('state', '=', 'done')]}">
+                                        <tree editable="bottom">
+                                            <field name="exceed_id" invisible="1"/>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="purchase_id" domain="[('company_id','=', company_id)]"/>
+                                            <field name="purchase_line_id" string="PO Item" domain="[('order_id','=', purchase_id)]"/>
+                                            <field name="picking_id" domain="[('po_id','=', purchase_id)]"/>
+                                            <field name="move_id" domain="[('picking_id','=', picking_id),('state','!=', 'done')]"/>
+                                            <field name="price_subtotal"/>
+                                            <field name="price" invisible="1"/>
+                                            <field name="quantity" invisible="1"/>
+                                            <field name="analytic_account_id"/>
+                                            <field name="budget_line_id" invisible="1"/>
+                                            <field name="remaining_budget"/>
+                                            <field name="exceed_budget"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Exceed PV Line" attrs="{'invisible': [('exceed_type', '!=', 'pv')]}">
+                                    <field name="pv_line_ids" context="{'default_exceed_pv_id': id}"  attrs="{'readonly': [('state', '=', 'done')]}">
+                                        <tree editable="bottom">
+                                            <field name="exceed_pv_id" invisible="1"/>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="move_id" domain="[('company_id','=', company_id)]"/>
+                                            <field name="move_line_id" domain="[('move_id','=', move_id),('analytic_account_id','!=', False)]"/>
+                                            <field name="balance"/>
+                                            <field name="analytic_account_id" readonly="0" required="0"/>
+                                            <field name="account_id" readonly="0"/>
+                                            <field name="budget_line_id" invisible="0"/>
+                                            <field name="remaining_budget"/>
+                                            <field name="exceed_budget"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                
+                            </notebook>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="mayapada_budget_exceed_tree_inherited" model="ir.ui.view">
+            <field name="name">budget.exceed</field>
+            <field name="model">budget.exceed</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <tree string="Budget Exceed" delete="false">
+                    <field name="name"/>
+                    <field name="user_id"/>
+                    <field name="exceed_type"/>
+                    <field name="approve_next_store"/>
+                    <field name="company_id" />
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="budget_import_action">
+            <field name="name">Budget Import</field>
+            <field name="res_model">budget.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+    <record id="mayapada_budget_import_wizard_form_inherited" model="ir.ui.view">
+            <field name="name">budget.import.wizard</field>
+            <field name="model">budget.import.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+        <form string="Budget Upload">
+                    <group>
+                        <field name="company_id"/>
+                        
+                    </group> 
+
+
+                    <p></p>
+                    <ul id="ijp_format">
+                    </ul>
+                    <group col="2">
+                        <field name="attachment_ids" widget="many2many_binary" />
+                    </group>
+                    
+                    
+                
+
+
+
+
+
+                    <footer>
+                        <button name="upload" type="object" string="Upload File" class="oe_highlight"/>
+                        or
+                        
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

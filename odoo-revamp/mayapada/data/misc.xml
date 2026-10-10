@@ -1,0 +1,1148 @@
+<odoo>
+    <data>
+        <!-- <record id="mayapada_res_company_inherited" model="ir.ui.view">
+            <field name="name">res.company.inherited</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position='attributes'>
+                    <attribute name="delete">0</attribute>
+                </xpath>
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="company_code"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[1]" position="after">
+                    <page string="Technical">
+                        <group>
+                            <field name="sync_type"/>
+                            <field name="company_corporate_type"/>
+                            <field name="cost_center_active"/>
+                            <field name="cost_center_date"/>
+                            <field name="cost_center_budget_date"/>
+                            <field name="po_lock"/>
+                            <field name="profitability_active"/>
+                        </group>
+                    </page>
+                    <page string="External API">
+                        <group>
+                            <group>
+                                <field name="sync_id_api" invisible="1"/>
+                                <field name="sync_api_active"/>
+                                <field name="sync_api_stock_active"/>
+                                <field name="sync_api_move_active"/>
+                                <field name="his_api_url"/>
+                                <field name="his_api_key"/>
+                            </group>
+                            <group>
+                                <field name="his_api_login"/>
+                                <field name="his_api_password"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="api_backend_active"/>
+                                <field name="api_backend_endpoint"/>
+                                <field name="api_backend_key"/>
+                            </group>
+                            <group>
+                                <field name="api_backend_active_mobile"/>
+                                <field name="api_backend_endpoint_mobile"/>
+                                <field name="api_backend_key_mobile"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Sign and Print out">
+                        <group string="Payment Voucher">
+
+                            <group>
+                                <field name="position1"/>
+                                <field name="position2"/>
+                                <field name="position3"/>
+                                <field name="position4"/>
+                                <field name="position5"/>
+                                <field name="position6"/>
+                            </group>
+                            <group>
+                                <field name="ttd1"/>
+                                <field name="ttd2"/>
+                                <field name="ttd3"/>
+                                <field name="ttd4"/>
+                                <field name="ttd5"/>
+                                <field name="ttd6"/>
+                            </group>
+
+                        </group>
+                        <group string="AR Detail">
+                            <group>
+                                <field name="cl_enable"/>
+                                <field name="cl_beneficiary"/>
+                                <field name="cl_account"/>
+                                <field name="cl_bank_name"/>
+                            </group>
+                            <group>
+                                <field name="cl_pic"/>
+                                <field name="cl_pic_email"/>
+                                <field name="cl_ttd"/>
+                                <field name="cl_dept"/>
+                            </group>
+                        </group>
+                        <group string="Doctor Fee">
+                            <group>
+                                <field name="df_ttd1"/>
+                                <field name="df_title1"/>
+                                <field name="df_city"/>
+                            </group>
+                            <group>
+                                <field name="df_ttd2"/>
+                                <field name="df_title2"/>
+                            </group>
+                        </group>
+
+                        <group string="Marketing Fee">
+                            <group>
+                                <field name="marketing_ttd1"/>
+                                <field name="marketing_ttd2"/>
+                            </group>
+                            <group>
+                                <field name="marketing_ttd3"/>
+                                <field name="marketing_ttd4"/>
+                            </group>
+                        </group>
+
+                        <group string="Marketing Title">
+                            <group>
+                                <field name="marketing_title1"/>
+                                <field name="marketing_title2"/>
+                            </group>
+                            <group>
+                                <field name="marketing_title3"/>
+                                <field name="marketing_title4"/>
+                            </group>
+                        </group>
+
+                        <group string="COGS">
+                            <field name="cogs_from_odoo"/>
+                        </group>
+
+                    </page>
+                    <page string="Jasper and Internal API">
+                        <group>
+                            <group>
+                                <field name="url_host_jasper"/>
+                                <field name="uname_jasper"/>
+                                <field name="pass_jasper"/>
+                                <field name="sync_consol_type"/>
+                                <field name="sync_consol_id_unit"/>
+                                <field name="sync_consol_id_main"/>
+                                <field name="sync_consol_url"/>
+                                <field name="sync_consol_active"/>
+                            </group>
+                            <group>
+                                <field name="sync_consol_active_contact"/>
+                                <field name="sync_consol_active_account"/>
+                                <field name="sync_consol_active_inventory"/>
+                                <field name="sync_consol_active_purchase"/>
+                                <field name="sync_consol_active_user"/>
+                                <field name="sync_consol_active_1_way"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="Internal API Model">
+
+                        <group>
+                            <group string="Account">
+                                <field name="sync_consol_account_account_type"/>
+                                <field name="sync_consol_account_account"/>
+                                <field name="sync_consol_account_journal"/>
+                                <field name="sync_consol_account_tax"/>
+                                <field name="sync_consol_account_analytic_account"/>
+                                <field name="sync_consol_account_payment"/>
+                                <field name="sync_consol_account_move"/>
+                                <field name="sync_consol_res_partner"/>
+                                <field name="sync_consol_res_bank"/>
+                                <field name="sync_consol_bank_information"/>
+                                <field name="sync_consol_budget_type"/>
+                                <field name="sync_consol_budget_approval"/>
+                                <field name="sync_consol_budget_position"/>
+                                <field name="sync_consol_crossovered_budget"/>
+                                
+                            </group>
+                            <group string="Purchase">
+                                <field name="sync_consol_purchase_requisition"/>
+                                <field name="sync_consol_purchase_order"/>
+                                <field name="sync_consol_purchase_approval"/>
+                                <field name="sync_consol_purchase_type"/>
+                                <field name="sync_consol_purchase_tax"/>
+                            
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Setting">
+                                <field name="sync_consol_res_user"/>
+                                <field name="sync_consol_hr_department"/>
+                                <field name="sync_consol_res_position"/>
+                                <field name="sync_consol_res_group"/>
+                                <field name="sync_consol_ir_attachment"/>
+                                <field name="sync_consol_mail_message"/>
+                                <field name="sync_consol_password"/>
+                            </group>
+                            <group string="Inventory and Product">
+                                <field name="sync_consol_service_group"/>
+                                <field name="sync_consol_product_category"/>
+                                <field name="sync_consol_product_uom"/>
+                                <field name="sync_consol_product_template"/>
+                                <field name="sync_consol_stock_warehouse"/>
+                                <field name="sync_consol_stock_location"/>
+                            
+                            </group>
+                        </group>
+                    </page>
+
+                    <page string="AP-AR &amp; VA">
+                        <group string="AR Cutoff &amp; Bank">
+                            <group>
+                                <field name="cutoff_ap_aging"/>
+                                <field name="cutoff_ar_aging"/>
+                                <field name="virtual_enable"/>
+                            </group>
+                            <group>
+                                <field name="virtual_beneficary" attrs="{'readonly': [('virtual_enable', '=', False)]}"/>
+                                <field name="virtual_number" attrs="{'readonly': [('virtual_enable', '=', False)]}"/>
+                                <field name="virtual_bank" attrs="{'readonly': [('virtual_enable', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <group string="AR Account">
+                            <group>
+                                <field name="receivable_cash_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="receivable_credit_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                            </group>
+                            <group>
+                                <field name="receivable_debt_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="receivable_deposit_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                            </group>
+                        </group>
+                        <group string="AR Account">
+                            <group>
+                                <field name="reveivable_receipt_cash_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="reveivable_receipt_credit_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="reveivable_receipt_debit_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                            </group>
+                            <group>
+                                <field name="reveivable_receipt_transfer_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="reveivable_receipt_voucher_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                                <field name="reveivable_receipt_cheque_id" domain="[('company_id','=', id), ('parent','=', False)]"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="HIS Slave">
+                        <group>
+                            <group>
+                                <field name="his_slave_host"/>
+                                <field name="his_slave_port" />
+                            </group>
+                            <group>
+                                <field name="his_slave_db" />
+                                <field name="his_slave_login"/>
+                                <field name="his_slave_pass"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="local_host"/>
+                                <field name="local_port"/>
+                            </group>
+                            <group>
+                                <field name="local_db" />
+                                <field name="local_user" />
+                                <field name="local_pass"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="consol_host"/>
+                                <field name="consol_port"/>
+                            </group>
+                            <group>
+                                <field name="consol_db" />
+                                <field name="consol_user" />
+                                <field name="consol_pass"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="corporate_company_id"/>
+                    <field name="bsl_company_id"/>
+                    <field name="bsl_allocation_rate"/>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record model="ir.actions.act_window" id="bank_information_action">
+            <field name="name">Bank Information</field>
+            <field name="res_model">bank.information</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="bank_action">
+            <field name="name">Bank</field>
+            <field name="res_model">res.bank</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="mayapada_res_partner_select" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="replace">
+                    <search string="Search Receipt..">
+                        <!--filter name="doctor_internal" string="HIS Doctor Internal" domain="[('doctor','=', 1),('type_doctor','=', 'internal')]" help="Doctor Internal from HIS"/>
+                        <filter name="doctor_external" string="HIS Doctor External" domain="[('doctor','=', 1),('type_doctor','=', 'external')]" help="Doctor External from HIS"/-->
+                        <filter name="patient" string="HIS Patient" domain="[('patient','=', 1)]" help="Patient from HIS"/>
+                        <filter name="insurance" string="HIS Insurance" domain="[('insurance','=', 1)]" help="Insurance from HIS"/>
+                        <filter name="vendor_wipro" string="HIS Supplier" domain="[('vendor_wipro','=', 1)]" help="Supplier from HIS"/>
+                        <filter name="supplier" string="Supplier" domain="[('supplier','=', 1)]" help="Supplier"/>
+                        <filter name="customer" string="Customer" domain="[('customer','=', 1)]" help="Customer"/>
+                        <filter name="is_tpa" string="Is TPA" domain="[('is_tpa','=', 1)]" help="Is TPA"/>
+                        <filter name="sync_is_arcus" string="From Arcus" domain="[('sync_is_arcus','=', 1)]" help="From Arcus"/>
+                        <separator/>
+                        <field name="display_name"/>
+                        <field name="vendor_code"/>
+                        <field name="registration_code"/>
+                        <field name="doctor_code"/>
+                        <!-- <group expand="0" string="Group By">
+                            <filter string="From Arcus" domain="[]" context="{'group_by':'sync_is_arcus'}"/>
+                        </group> -->
+                    </search>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mayapada_res_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree delete="false">
+                        <field name="vendor_code" string="Customer Code"/>
+                        <field name="display_name"/>
+                        <field name="date_of_birth" string="DOB" />
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="spec"/>
+                        <field name="company_id"/>
+                        <!--field name="sync_type"/-->
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_res_partner_inherited" model="ir.ui.view">
+            <field name="name">res.partner.inherited</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form string="Partners" delete="0">
+                        <header attrs="{'invisible': [('insurance', '=', False)]}" modifiers="{'invisible': [['insurance', '=', false]]}">
+                            <button string="Compute Aging" name="compute_payer_aging" type="object" class="oe_highlight"/>
+                        </header>
+                        <sheet>
+                            <div class="oe_button_box" name="button_box">
+                                <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                    <field name="active" widget="boolean_button" options="{'terminology': 'archive'}" on_change="1"/>
+                                </button>
+                                <!-- <button type="object" class="oe_stat_button" id="invoice_button" icon="fa-pencil-square-o" name="open_partner_history" attrs="{'invisible': [('customer', '=', False)]}" context="{'default_partner_id': active_id}" modifiers="{'invisible': [['customer', '=', false]]}">
+                                    <div class="o_form_field o_stat_info">
+                                        <span class="o_stat_value"/>
+                                        <span class="o_stat_text">
+                                            Invoiced
+                                        </span>
+                                    </div>
+                                </button> -->
+                                <button class="oe_stat_button" name="327" type="action" attrs="{'invisible': [('supplier', '=', False)]}" icon="fa-pencil-square-o" help="Vendor Bills" modifiers="{'invisible': [['supplier', '=', false]]}">
+                                    <field string="Vendor Bills." name="supplier_invoice_count" widget="statinfo" invisible="1" modifiers="{'invisible': true, 'readonly': true}"/>
+                                </button>
+                                
+                            </div>
+                            <!-- <field name="image" widget="image" class="oe_avatar" options="{'preview_image': 'image_medium', 'size': [90, 90]}"/> -->
+                            <div class="oe_title">
+                                <field name="is_company" invisible="1" on_change="1" modifiers="{'invisible': true}"/>
+                                <field name="commercial_partner_id" invisible="1" on_change="1" can_create="true" can_write="true" modifiers="{'invisible': true, 'readonly': true}"/>
+                                <field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}" on_change="1"/>
+                                <h1>
+                                    <field name="name" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}" on_change="1" modifiers="{'required': [['type', '=', 'contact']]}"/>
+                                </h1>
+                                <div class="o_row">
+                                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}" attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}" on_change="1" can_create="true" can_write="true" modifiers="{'invisible': ['|', '&amp;', ['is_company', '=', true], ['parent_id', '=', false], ['company_name', '!=', false], ['company_name', '!=', '']]}"/>
+                                    <field name="company_name" attrs="{'invisible': ['|', '|', ('company_name', '=', False), ('company_name', '=', ''), ('is_company', '=', True)]}" on_change="1" modifiers="{'invisible': ['|', '|', ['company_name', '=', false], ['company_name', '=', ''], ['is_company', '=', true]]}"/>
+                                    <button name="create_company" type="object" string="Create company" class="btn btn-sm oe_edit_only fa fa-external-link btn btn-link " attrs="{'invisible': ['|', '|', ('is_company','=', True), ('company_name', '=', ''), ('company_name', '=', False)]}" modifiers="{'invisible': ['|', '|', ['is_company', '=', true], ['company_name', '=', ''], ['company_name', '=', false]]}"/>
+                                </div>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="type" on_change="1" invisible="1" modifiers="{'invisible': true}"/>
+                                    <field name="title" options="{'no_open': True}" attrs="{'invisible': [('is_company', '=', True)]}" can_create="true" can_write="true" modifiers="{'invisible': [['is_company', '=', true]]}"/>
+                                    <label for="street" string="Address"/>
+                                    <div class="o_address_format">
+                                        <div class="oe_edit_only">
+                                            <button name="open_parent" type="object" string="(edit)" class="oe_link" attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}" modifiers="{'invisible': ['|', ['parent_id', '=', false], ['type', '!=', 'contact']]}"/>
+                                        </div>
+                                        <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="street3" placeholder="Street 3..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="city" placeholder="City" class="o_address_city" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}" on_change="1" can_create="true" can_write="true" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" on_change="1" can_create="true" can_write="true" modifiers="{'readonly': [['type', '=', 'contact'], ['parent_id', '!=', false]]}"/>
+                                    </div>
+                                    <field name="customer_pic"/>
+                                    <field name="customer_pic_div"/>
+                                    <field name="vendor_code" on_change="1" attrs="{'required': ['|', ('customer', '=', True), ('supplier', '=', True)]}" readonly="0" />
+                                    <field name="customer_category" string="Customer Category (AR)"/>
+                                    <field name="ref" on_change="1"/>
+                                    <field name="company_id" on_change="1" can_create="true" can_write="true"/>
+                                    <field name="category_id" widget="many2many_tags" placeholder="Tags..." options="{'no_create_edit': True}" invisible="1" can_create="true" can_write="true" modifiers="{'invisible': true}"/>
+                                </group>
+                                <group>
+                                    <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('is_company','=', True)]}" invisible="1" modifiers="{'invisible': true}"/>
+                                    <field name="website" widget="url" placeholder="e.g. www.odoo.com" on_change="1"/>
+                                    <field name="phone" widget="phone" on_change="1"/>
+                                    <field name="mobile" widget="phone" on_change="1"/>
+                                    <!-- <field name="fax" on_change="1"/> -->
+                                    <field name="user_ids" invisible="1" modifiers="{'invisible': true}"/>
+                                    <field name="email" widget="email" attrs="{'required': [('user_ids','!=', [])]}" on_change="1" modifiers="{'required': [['user_ids', '!=', []]]}"/>
+                                    <field name="__last_update" modifiers="{'readonly': true}"/>
+                                    <field name="lang"/>
+                                    
+                                </group>
+                            </group>
+                            <group string="Partner Type">
+                                <group>
+                                    <field name="customer" on_change="1" readonly="1" />
+                                    <field name="supplier" on_change="1" readonly="1" />
+                                    <field name="customer_wipro" on_change="1" readonly="1" />
+                                    <field name="vendor_wipro" on_change="1" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="insurance" readonly="1" />
+                                    <field name="doctor" on_change="1" readonly="1" />
+                                    <field name="patient" on_change="1" readonly="1" />
+                                    <field name="is_tpa" on_change="1" readonly="1" />
+                                    <field name="wipro_block" on_change="1" readonly="1" />
+                                </group>
+                            </group>
+                            <notebook>
+
+
+                                <page string="Contacts &amp; Addresses" name="contact_addresses" autofocus="autofocus">
+                                    <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_lang': lang, 'default_user_id': user_id, 'default_type': 'other'}">
+                                        <kanban>
+                                            <field name="id"/>
+                                            <field name="color"/>
+                                            <field name="name"/>
+                                            <field name="title"/>
+                                            <field name="type"/>
+                                            <field name="email"/>
+                                            <field name="parent_id"/>
+                                            <field name="is_company"/>
+                                            <field name="function"/>
+                                            <field name="phone"/>
+                                            <field name="street"/>
+                                            <field name="street2"/>
+                                            <field name="zip"/>
+                                            <field name="city"/>
+                                            <field name="country_id"/>
+                                            <field name="mobile"/>
+                                            <field name="state_id"/>
+                                            <field name="image_128"/>
+                                            <field name="avatar_128"/>
+                                            <field name="lang"/>
+                                            <!-- fields in form x2many view to diminish requests -->
+                                            <field name="comment"/>
+                                            <field name="display_name"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                    <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                                    <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                                                        <div class="o_kanban_image">
+                                                            <img alt="Contact image" t-att-src="kanban_image('res.partner', 'avatar_128', record.id.raw_value)"/>
+                                                        </div>
+                                                        <div class="oe_kanban_details">
+                                                            <field name="name"/>
+                                                            <div t-if="record.function.raw_value"><field name="function"/></div>
+                                                            <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+                                                            <div t-if="record.type.raw_value != 'contact'">
+                                                                <div>
+                                                                    <field name="zip"/>
+                                                                    <field name="city"/>
+                                                                </div>
+                                                                <field t-if="record.state_id.raw_value" name="state_id"/>
+                                                                <field name="country_id"/>
+                                                            </div>
+                                                            <div t-if="record.phone.raw_value">Phone: <t t-esc="record.phone.value"/></div>
+                                                            <div t-if="record.mobile.raw_value">Mobile: <t t-esc="record.mobile.value"/></div>
+                                                        </div>
+                                                    </div>
+                                                </t>
+                                            </templates>
+                                        </kanban>
+                                        <form string="Contact / Address">
+                                            <sheet>
+                                                <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                                                <field name="parent_id" invisible="1"/>
+                                                <div class="text-muted oe_edit_only">
+                                                    <p class="mb-0" attrs="{'invisible': [('type', '!=', 'contact')]}">
+                                                        <span>Use this to organize the contact details of employees of a given company (e.g. CEO, CFO, ...).</span>
+                                                    </p>
+                                                    <p class="mb-0" attrs="{'invisible': [('type', '!=', 'invoice')]}">
+                                                        <span>Preferred address for all invoices. Selected by default when you invoice an order that belongs to this company.</span>
+                                                    </p>
+                                                    <p class="mb-0" attrs="{'invisible': [('type', '!=', 'delivery')]}">
+                                                        <span>Preferred address for all deliveries. Selected by default when you deliver an order that belongs to this company.</span>
+                                                    </p>
+                                                    <p class="mb-0" attrs="{'invisible': [('type', '!=', 'private')]}">
+                                                        <span>Private addresses are only visible by authorized users and contain sensitive data (employee home addresses, ...).</span>
+                                                    </p>
+                                                    <p class="mb-0" attrs="{'invisible': [('type', '!=', 'other')]}">
+                                                        <span>Other address for the company (e.g. subsidiary, ...)</span>
+                                                    </p>
+                                                </div>
+                                                <hr/>
+                                                <group>
+                                                    <group>
+                                                        <field name="name" string="Contact Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                                                        <field name="title" options="{'no_open': True}" placeholder="e.g. Mr." attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                        <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                        <label for="street" string="Address" attrs="{'invisible': [('type','=', 'contact')]}"/>
+                                                        <div attrs="{'invisible': [('type','=', 'contact')]}">
+                                                            <div class="o_address_format" name="div_address">
+                                                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                                <field name="city" placeholder="City" class="o_address_city"/>
+                                                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                                            </div>
+                                                        </div>
+                                                    </group>
+                                                    <group>
+                                                        <field name="email" widget="email"/>
+                                                        <field name="phone" widget="phone"/>
+                                                        <field name="mobile" widget="phone"/>
+                                                        <field name="company_id" invisible="1"/>
+                                                    </group>
+                                                </group>
+                                                <group>
+                                                    <field name="comment" placeholder="Internal notes..." nolabel="1" colspan="2"/>
+                                                </group>
+                                                <field name="lang" invisible="True"/>
+                                                <field name="user_id" invisible="True"/>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </page>
+                                
+                                <page string="Doctor" attrs="{'invisible': [('doctor', '=', False)]}" modifiers="{'invisible': [['doctor', '=', false]]}">
+                                    <group>
+                                        <group>
+                                            <field name="doctor_code"/>
+                                            <field name="practice_doctor_location"/>
+                                            <field name="sip_number"/>
+                                            <field name="start_date_doc"/>
+                                            <field name="end_date_doc"/>
+                                        </group>
+                                        <group>
+                                            <field name="spec"/>
+                                            <field name="type_doctor"/>
+                                            <field name="type_employment"/>
+                                            <field name="department"/>
+                                            <field name="background"/>
+                                            <field name="ssn"/>
+                                            <field name="npwp"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Patient" attrs="{'invisible': [('patient', '=', False)]}" modifiers="{'invisible': [['patient', '=', false]]}">
+                                    <group>
+                                        <group>
+                                            <field name="title_name"/>
+                                            <field name="registration_code"/>
+                                            <field name="date_of_birth" on_change="1"/>
+                                            <field name="patient_city"/>
+                                            <field name="patient_district"/>
+                                            <field name="patient_subdistrict"/>
+                                        </group>
+                                        <group>
+                                            <field name="gender"/>
+                                            <!-- <field name="age" modifiers="{'readonly': true}"/> -->
+                                            <field name="age_type"/>
+                                            <field name="ktp"/>
+                                            <field name="employee_number"/>
+                                            <field name="bpjs_number"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            
+                                <page string="Accounting" name="accounting" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}" modifiers="{'invisible': [['is_company', '=', false], ['parent_id', '!=', false]]}">
+                                    <group>
+                                        <group>
+                                            <group colspan="2" string="AR Customer" name="acc_sale">
+                                                <!--DR <field string="AR Total" name="credit" modifiers="{'readonly': true}"/> -->
+                                                <field string="AR Total Aging" name="payer_aging" readonly="1" modifiers="{'readonly': true}"/>
+                                                
+                                                <field string="AR Payment Terms" name="property_payment_term_id" widget="selection" can_create="true" can_write="true"/>
+                                                <field name="trust"/>
+
+                                                <field name="payer_autoblock"/>
+                                                <field name="payer_block" readonly="1" modifiers="{'readonly': true}"/>
+                                                <field name="payer_new"/>
+                                                <field name="payer_tax_invoice"/>
+                                                <field name="customer_type_wipro" attrs="{'invisible': [('customer_wipro', '=', False)]}" modifiers="{'invisible': [['customer_wipro', '=', false]]}"/>
+                                                <field name="customer_type_api" attrs="{'invisible': [('customer_wipro', '=', False)]}" modifiers="{'invisible': [['customer_wipro', '=', false]]}"/>
+                                    
+                                                <field name="akl"/>
+                                                <field name="loa"/>
+
+                                                <field name="user_id" on_change="1" can_create="true" can_write="true"/>
+                                                <field name="property_product_pricelist" attrs="{'invisible': [('is_company','=',False),('parent_id','!=',False)]}" can_create="true" can_write="true" modifiers="{'invisible': [['is_company', '=', false], ['parent_id', '!=', false]]}"/>
+                                                
+                                                <div name="parent_pricelists" colspan="2" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}" modifiers="{'invisible': ['|', ['is_company', '=', true], ['parent_id', '=', false]]}">
+                                                    <p>
+                                                        Pricelists are managed on 
+                                                        <button name="open_commercial_entity" type="object" string="the parent company" class="oe_link"/>
+                                                    </p>
+                                                </div>
+                                            </group>
+
+                                            <group colspan="2" string="AR Virtual Account">
+                                                <field name="virtual_enable"/>
+                                                <field name="virtual_beneficary" attrs="{'readonly':[('virtual_enable','!=',True)]}"/>
+                                                <field name="virtual_number" attrs="{'readonly':[('virtual_enable','!=',True)]}"/>
+                                                <field name="virtual_bank" attrs="{'readonly':[('virtual_enable','!=',True)]}"/>                                    
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group colspan="2" string="AP / Deposits" name="acc_purchase">
+                                                <!--DR <field string="AP Total" name="debit" modifiers="{'readonly': true}"/> -->
+                                                <field string="AP Payment Terms" name="property_supplier_payment_term_id" widget="selection" can_create="true" can_write="true"/>
+                                                <field string="AP Currency" name="property_purchase_currency_id" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true"/>
+                                            </group>
+                                            <group colspan="2" string="AR/AP Limit">
+                                                <field string="AR/AP Credit Days" name="credit_days"/>
+                                                <field string="AR/AP Credit Limit" name="credit_limit"/>
+                                            </group>
+
+                                            <group colspan="2" string="AR Invoice PIC">
+                                                <field name="cl_enable"/>
+                                                <field name="cl_beneficiary" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                                <field name="cl_account" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                                <field name="cl_bank_name" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                                <field name="cl_pic" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                                <field name="cl_pic_email" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                                <field name="cl_ttd" attrs="{'readonly':[('cl_enable','=',False)]}"/>
+                                            </group>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <group string="AR Warehouse">
+                                            <field name="property_stock_customer" domain="[('usage','=','customer')]" can_create="true" can_write="true"/>
+                                        </group>
+                                        <group string="AP Warehouse">
+                                            <field name="property_stock_supplier" domain="[('usage','=','supplier')]" can_create="true" can_write="true"/>
+                                        </group>
+                                    </group>
+
+                                    <group name="accounting_entries">
+                                        <group string="AR Entries">
+                                            <field name="property_account_receivable_id" domain="[('company_id','=', company_id)]" can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                            <field name="account_ar_id" domain="[('company_id','=', company_id)]" can_create="true" can_write="true"/>
+                                        </group>
+                                        <group string="AP Entries">
+                                            <field name="property_account_payable_id" domain="[('company_id','=', company_id)]"  can_create="true" can_write="true" modifiers="{'required': true}"/>
+                                            <field name="account_ap_id" domain="[('company_id','=', company_id)]"  can_create="true" can_write="true"/>
+                                        </group>
+                                    </group>
+
+                                    <group>
+                                        <group string="Fiscal Information" name="fiscal_information">
+                                            <field name="property_account_position_id" options="{'no_create': True, 'no_open': True}" can_create="true" can_write="true"/>
+                                        </group>
+
+                                        <group string="Payments" name="banks">
+                                            <field name="currency_id" invisible="1" can_create="true" can_write="true" modifiers="{'invisible': true, 'readonly': true}"/>
+                                            <div>
+                                                <button type="action" class="btn-link" name="62" context="{'search_default_partner_id': active_id, 'default_partner_id': active_id}">
+                                                    <field string="Bank account(s)" name="bank_account_count" widget="statinfo" modifiers="{'readonly': true}"/>
+                                                </button>
+                                            </div>
+                                          
+                                        </group>
+                                    </group>
+
+                                    <!-- <group string="Bank Information"> -->
+                                        <field string="Bank Information" name="bank_information_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="account_no"/>
+                                                <field name="beneficiary_name"/>
+                                                <field name="bank_name"/>
+                                                <field name="bank_branch"/>
+                                                <field name="bank_charges"/>
+                                                <field name="bank_charges2"/>
+                                                <field name="company_id"/>
+                                            </tree>
+                                        </field>
+                                    <!-- </group> -->
+                                </page>
+                                <page string="Payer Address" attrs="{'invisible': [('insurance','=',False)]}">
+                                    <field name="address_ids">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                            <field name="pic"/>
+                                            <field name="pic_division"/>
+                                            <field name="city"/>
+                                            <field name="address"/>
+                                            <field name="address2"/>
+                                            <field name="phone"/>
+                                            <field name="fax"/>
+                                            <field name="email"/>
+                                        </tree>
+                                    </field>
+                                </page>
+
+                                <!--page string="Invoices">
+                                    <field name="invoice_ids" readonly="1"/>
+                                </page>
+                                <page string="Payments">
+                                    <field name="payment_ids" readonly="1"/>
+                                </page>
+                                <page string="Invoice Letter">
+                                    <field name="letter_ids" readonly="1"/>
+                                </page>
+                                <page string="Patient Bills">
+                                    <field name="billing_ids" readonly="1"/>
+                                </page-->
+                                
+                                <page string="TPA Partners">
+                                    <!-- <group> -->
+                                        <field name="tpa_ids" readonly="1" nolabel="1">
+                                            <tree string="TPA">
+                                                <field name="vendor_code" />
+                                                <field name="name" />
+                                            </tree>
+                                        </field>
+                                    <!-- </group> -->
+                                </page>
+
+
+                                <page string="Discount After Bills">
+                                    <group>
+                                        <group>
+                                            <group colspan="2" string="AR Disc. After Bills">
+                                                <field name="discount_enable"/>
+                                                <field name="discount_rate" attrs="{'readonly':[('discount_enable','=',False)]}"/>
+                                                <field name="discount_reason" attrs="{'readonly':[('discount_enable','=',False)]}"/>                                    
+                                            </group>
+                                        </group>
+                                        
+                                        <!-- <group colspan="2" string="Exclude Discount"> -->
+                                            <field name="discount_after_bills_ids" attrs="{'readonly':[('discount_enable','=',False)]}" nolabel="1">
+                                                <tree string="Bill" editable="bottom">
+                                                    <field name="service_id" domain="[('sync_type','=',parent.sync_type)]" />
+                                                    <field name="product_id" domain="[('categ_id','=',service_id)]" />
+                                                    <field name="remark" />
+                                                </tree>
+                                            </field>
+                                        <!-- </group> -->
+                                    </group>
+                                </page>
+                                <page string="E-Faktur">
+                                    <group>
+                                        <group>
+                                            <field name="npwp" placeholder="99.999.999.9-999.999"/>
+                                            <!-- <field name="blok" on_change="1"/>
+                                            <field name="nomor" on_change="1"/>
+                                            <field name="rt" on_change="1"/>
+                                            <field name="rw" on_change="1"/>
+                                            <field name="kota_id" domain="[('state_id','=', state_id)]" can_create="true" can_write="true"/>
+                                            <field name="kecamatan_id" domain="[('kota_id','=', kota_id)]" on_change="1" can_create="true" can_write="true"/>
+                                            <field name="kelurahan_id" domain="[('kecamatan_id','=', kecamatan_id)]" on_change="1" can_create="true" can_write="true"/>
+                                            <field name="alamat_lengkap" readonly="1" modifiers="{'readonly': true}"/> -->
+                                        </group>
+                                        <group>
+                                            <!-- <field name="is_efaktur_exported"/>
+                                            <field name="date_efaktur_exported"/> -->
+                                        </group>
+                                    </group>
+                                </page>
+
+
+                                <page name="sales_purchases" string="Sales &amp; Purchase">
+                                    <group name="container_row_2">
+                                        <group string="Sales" name="sale" priority="1">
+                                            <field name="user_id" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>
+                                        </group>
+                                        <group string="Purchase" name="purchase" priority="2">
+                                        </group>
+                                        <group name="misc" string="Misc">
+                                            <field name="company_registry" attrs="{'invisible': [('parent_id','!=',False)]}"/>
+                                            <field name="ref" string="Reference"/>
+                                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('parent_id', '!=', False)]}" force_save="1"/>
+                                            <field name="industry_id" attrs="{'invisible': [('is_company', '=', False)]}" options="{'no_create': True}"/>
+                                        </group>
+                                    </group>
+                                </page>
+
+                                <page name="internal_notes" string="Internal Notes">
+                                    <field name="comment" placeholder="Internal notes..."/>
+                                </page>
+
+                                
+                                <page string="Post API">
+                                    <group>
+                                        <group>
+                                            <field name="api_post_timestamp" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_status" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_payload" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_response" modifiers="{'readonly': true}"/>
+                                        </group>
+                                        <group>
+                                            <field name="api_post_timestamp_cancel" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_status_cancel" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_payload_cancel" modifiers="{'readonly': true}"/>
+                                            <field name="api_post_response_cancel" modifiers="{'readonly': true}"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <group>
+                                            <button string="Resend" type="object" name="send_api_payer_block" attrs="{'invisible':[('api_post_status','=','done')]}" class="oe_highlight" modifiers="{'invisible': [['api_post_status', '=', 'done']]}"/>
+                                        </group>
+                                        <group>
+                                            <button string="Resend" type="object" name="send_api_payer_unblock" attrs="{'invisible':[('api_post_status_cancel','=','done')]}" class="oe_highlight" modifiers="{'invisible': [['api_post_status_cancel', '=', 'done']]}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <group>
+                                            <field name="trigger_create" invisible="1" modifiers="{'invisible': true}"/>
+                                            <field name="trigger_write" invisible="1" modifiers="{'invisible': true}"/>
+                                            <field name="sync_type" on_change="1"/>
+                                            <field name="sync_id" readonly="1" modifiers="{'readonly': true}"/>
+                                            <field name="sync_id_api" readonly="1" modifiers="{'readonly': true}"/>
+                                            <field name="sync_date" readonly="1" required="0" modifiers="{'readonly': true}"/>
+                                        </group>
+                                        <group>
+                                            <field name="sync_consol_id_main" readonly="1" modifiers="{'readonly': true}"/>
+                                            <field name="sync_consol_id_unit" readonly="1" modifiers="{'readonly': true}"/>
+                                            <field name="sync_consol_date" readonly="1" modifiers="{'readonly': true}"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                           
+                        </sheet>
+                         <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread" options="{'thread_level': 1}"/>
+                            </div>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+
+
+
+        <record id="mayapada_res_users_inherited" model="ir.ui.view">
+            <field name="name">res.users.inherited</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position='attributes'>
+                    <attribute name="delete">0</attribute>
+                </xpath>
+                <xpath expr="//sheet/div/group/field[@name='partner_id']" position="after">
+                    <field string="Employee No *" name="emp_code"/>
+                    <field string="Department HR *" name="department_id"/>
+                    <field string="Job Position *" name="position_id"/>
+                    <field string="Second Job Position" name="second_position_id"/>
+                    <field name="sign" widget="image" />
+                    <field name="user_signature" widget="image" />
+                </xpath>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Analytic">
+                        
+                        <button name="check_analytic" string="Check Cost Center" type="object" class="oe_highlight"/>
+                        <p></p>
+                        <field name="analytic_ids" domain="[('type_analytic','=','expense')]"/>
+                    </page>
+                    <page string="Cost Center">
+                        <field name="cost_center_ids">
+                            <tree>
+                                <field name="code"/>
+                                <field name="name"/>
+                                <field name="department_id"/>
+                                <field name="head_id"/>
+                                <field name="company_id"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page string="Product Limitation">
+                        <field name="product_ids">
+                            <tree editable="bottom">
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </page>
+
+
+                    <page string="Password History">
+                        <field name="password_history_ids">
+                            <tree editable="bottom">
+                                <field name="password_history" invisible="1"/>
+                                <field name="password_hash"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <!-- <page string="Product Category Limitation">
+                        <field name="category_ids">
+                            <tree editable="bottom">
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </page> -->
+                    <page string="Product Category Limitation">
+                        <field name="category2_ids">
+                            <tree editable="bottom">
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Location Limitation">
+                        <field name="location_ids">
+                            <tree editable="bottom">
+                                <field name="display_name"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Warehouse Limitation">
+                        <field name="operation_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="warehouse_id"/>
+                                <field name="company_id" invisible="1" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Technical">
+                        <group>
+                            <group>
+                                <field name="ar_pic_phone"/>
+                                <field name="sync_type" />
+                            </group>
+                            <group>
+                                <field name="trigger_create" invisible="1"/>
+                                <field name="trigger_write" invisible="1"/>
+                                <field name="sync_consol_id_unit" readonly="1" />
+                                <field name="sync_consol_id_main" readonly="1" />
+                                <field name="sync_consol_date" readonly="1" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="mayapada_res_groups_inherited" model="ir.ui.view">
+            <field name="name">res.groups.inherited</field>
+            <field name="model">res.groups</field>
+            <field name="inherit_id" ref="base.view_groups_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+					<form string="Groups" delete="false">
+                        <sheet>
+                            <group>
+                                <group>
+                                    <field name="category_id"/>
+                                    <field name="share"/>
+                                    <field name="is_non_default"/>
+                                </group>
+                                <group>
+                                    <field name="name"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Users">
+                                    <field name="users" context="{'search_default_no_share':1}"/>
+                                </page>
+                                <page string="Inherited">
+                                    <label string="Users added to this group are automatically added in the following groups."/>
+                                    <field name="implied_ids"/>
+                                </page>
+                                <page string="Menus">
+                                    <field name="menu_access"/>
+                                </page>
+                                <page string="Views">
+                                    <field name="view_access"/>
+                                </page>
+                                <page string="Access Rights">
+                                    <field name="model_access">
+                                        <tree string="Access Rules" editable="top">
+                                            <field name="model_id"/>
+                                            <field name="perm_read"/>
+                                            <field name="perm_write"/>
+                                            <field name="perm_create"/>
+                                            <field name="perm_unlink"/>
+                                            <field name="name"/>
+                                        </tree>
+                                        <form string="Access Controls">
+                                            <group col="4">
+                                                <field name="name"/>
+                                                <field name="active"/>
+                                                <field name="model_id"/>
+                                                <newline/>
+                                                <field name="perm_read"/>
+                                                <field name="perm_write"/>
+                                                <field name="perm_create"/>
+                                                <field name="perm_unlink"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                                <page string="Rules">
+                                    <field name="rule_groups">
+                                        <tree string="Rules">
+                                            <field name="name"/>
+                                            <field name="model_id"/>
+                                            <field name="global"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Notes">
+                                    <field name="comment"/>
+                                </page>
+                                <page string="Technical">
+                                    <group>
+                                        <field name="sync_type"/>
+                                        <field name="sync_consol_id_unit" readonly="1"/>
+                                        <field name="sync_consol_id_main" readonly="1"/>
+                                        <field name="sync_consol_log"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </sheet>
+                    </form>
+				</xpath>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="block_user_bulky_action">
+            <field name="name">Bulky Block Users</field>
+            <field name="res_model">block.user.bulk.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="mayapada_block_user_bulk_wizard_wizard_inherited" model="ir.ui.view">
+            <field name="name">block.user.bulk.wizard.inherited</field>
+            <field name="model">block.user.bulk.wizard</field>
+            <field name="inherit_id" />
+            <field name="arch" type="xml">
+            <form string="Bulky Block Users">
+                <group>
+                    <group>
+                        <field name="company_id" />
+                    </group>
+                    <group>
+                        <field name="user_id" />
+                    </group>
+                </group>
+                <group>
+                    <field nolabel="1" name="user_ids" domain="[('company_id','=', company_id), ('active','=', True)]">
+                        <tree create="true" delete="true">
+                            <field name="emp_code"/>
+                            <field name="name"/>
+                            <field name="position_id"/>
+                            <field name="login"/>
+                            <field name="department_id"/>
+                        </tree>
+                    </field>
+                </group>    
+                <footer>
+                    <button name="action_block" string="Block Users" type="object" class="oe_highlight"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+         <!-- wizard.dialog.report  -->
+        <record id="view_wizard_dialog_report" model="ir.ui.view">
+            <field name="name">wizard.dialog.report.form</field>
+            <field name="model">wizard.dialog.report</field>
+            <field name="arch" type="xml">
+            <form string="Print Preview" delete="0" duplicate="0" create="0" edit="0">
+            <field name="company_id" invisible="1"/>
+            <field name="parameter" invisible="1"/>
+            <field name="iframe"/>
+            <footer></footer>
+            </form></field>
+        </record>
+
+
+
+
+<record id="view_res_users_log_tree" model="ir.ui.view">
+        <field name="name">res.users.log.tree</field>
+        <field name="model">res.users.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="change_date"/>
+                <field name="user_id"/>
+                <field name="changed_by"/>
+                <field name="changes"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_res_users_log_form" model="ir.ui.view">
+        <field name="name">res.users.log.form</field>
+        <field name="model">res.users.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="change_date"/>
+                    <field name="user_id"/>
+                    <field name="changed_by"/>
+                </group>
+                <group>
+                    <field name="changes"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="action_res_users_log" model="ir.actions.act_window">
+        <field name="name">User Change Logs</field>
+        <field name="res_model">res.users.log</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+
+
+    </data>
+</odoo>
