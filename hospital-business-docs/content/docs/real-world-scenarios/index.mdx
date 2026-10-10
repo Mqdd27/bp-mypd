@@ -1,0 +1,20 @@
+---
+title: Studi Kasus End-to-End
+description: Tujuh skenario fiktif tetapi realistis yang menelusuri operasi, keuangan, dan implementasi Odoo dari awal sampai akhir.
+---
+
+Setiap kasus memakai struktur: **Cerita · Aktor · Timeline · Diagram · Record · Dampak finansial · Mapping Odoo · Pengecualian · Pelajaran**.
+
+<Callout type="warn">
+Semua nama orang, perusahaan, dan angka **fiktif**. Bagian yang tidak bisa diikat ke repo diberi label <Confidence level="general">ilustrasi alur RS Indonesia</Confidence>.
+</Callout>
+
+| # | Kasus | Fokus | Keterikatan ke kode |
+| --- | --- | --- | --- |
+| 1 | [Pasien umum rawat jalan](/docs/real-world-scenarios/case-1-rawat-jalan-umum) | Kas, dispensing, jurnal harian | Tinggi (koleksi kasir, stok) |
+| 2 | [Pasien asuransi rawat inap](/docs/real-world-scenarios/case-2-rawat-inap-asuransi) | Kamar, payer split, covering letter | Tinggi (billing, AR) |
+| 3 | [Pasien IGD](/docs/real-world-scenarios/case-3-igd) | Prioritas klinis, konversi ke IP | Sedang |
+| 4 | [Pembelian obat & BHP](/docs/real-world-scenarios/case-4-pembelian-obat) | PR → PO → GRN → AP → base price | Tinggi (eProc) |
+| 5 | [Perubahan tarif](/docs/real-world-scenarios/case-5-perubahan-tarif) | Draft, H+2, dependency, publikasi | Tinggi (tarif) |
+| 6 | [Fee dokter](/docs/real-world-scenarios/case-6-fee-dokter) | Rate, pajak, posting | Tinggi (doctor fee) |
+| 7 | [Integrasi gagal](/docs/real-world-scenarios/case-7-integrasi-gagal) | Deteksi, rekonsiliasi, recovery | Sedang (snapshot Airflow) |

@@ -1,0 +1,48 @@
+---
+title: Hospital Business Process Knowledge Base
+description: Belajar bagaimana rumah sakit swasta di Indonesia beroperasi, lalu melihat bagaimana proses itu diimplementasikan di Odoo Mayapada.
+---
+
+Dokumentasi ini ditulis untuk **developer Odoo Mayapada** yang sudah paham pemrograman, tetapi ingin memahami **mengapa** sebuah proses rumah sakit ada, **siapa** yang menjalankannya, **kapan** terjadi, dan **apa** konsekuensi bisnisnya — sebelum menyentuh kodenya.
+
+<SystemLandscape />
+
+## Tiga hal yang paling penting dipahami dulu
+
+1. **Odoo bukan sistem klinis.** Registrasi, rekam medis, order dokter, dan billing pasien terjadi di **HIS** (TrakCare untuk "New HIS"; Wipro/Dhealth/Andal untuk unit lama). Odoo Mayapada adalah **ERP back office**: tarif, procurement, stok, piutang, fee dokter, budget, dan akuntansi. Lihat [Sistem Informasi Rumah Sakit](/docs/hospital-fundamentals/sistem-informasi).
+2. **Harga jual dihitung di Odoo, dipakai di HIS.** Odoo menghitung *Fixed Selling Price* dari base price, dependency, dan markup, lalu mengirimkannya ke TrakCare. Lihat [Tarif & Pricing](/docs/tariff-pricing).
+3. **Data mengalir lewat Bridge + Airflow.** Hampir semua angka transaksi di Odoo (billing, kas, deposit, stok) adalah hasil sinkronisasi, bukan input manual. Kesalahan sinkronisasi = kesalahan laporan keuangan. Lihat [Integrasi](/docs/integrations).
+
+## Cara membaca label kepercayaan
+
+Setiap klaim penting diberi label:
+
+<Confidence level="general" /> <Confidence level="verified" /> <Confidence level="inferred" /> <Confidence level="confirm" /> <Confidence level="notfound" />
+
+Penjelasan lengkap di [Cara Membaca Dokumentasi](/docs/getting-started/cara-membaca).
+
+## Mulai dari mana?
+
+<Cards>
+  <Card title="Start Here: 20 Konsep Inti" href="/docs/getting-started" />
+  <Card title="Learning Roadmap" href="/docs/learning-roadmap" />
+  <Card title="Patient Journey End-to-End" href="/docs/patient-journey" />
+  <Card title="Tarif & Fixed Selling Price" href="/docs/tariff-pricing" />
+  <Card title="Procurement: PR sampai Bayar" href="/docs/procurement-inventory" />
+  <Card title="Traceability Matrix" href="/docs/mayapada-codebase/traceability-matrix" />
+  <Card title="Studi Kasus Nyata" href="/docs/real-world-scenarios" />
+  <Card title="Open Questions" href="/docs/getting-started/open-questions" />
+</Cards>
+
+## Sumber kebenaran yang dipakai
+
+| Sumber | Lokasi | Status |
+| --- | --- | --- |
+| Kode Odoo 16 `mayapada` (v`16.0.2.0.3`) | `bp-mypd/odoo-revamp/mayapada/` | Dibaca langsung; rujukan utama |
+| Snapshot Airflow `tc_files_new` | `mayapada/_airflow_current/` | Snapshot lokal — **bukan** salinan deploy kanonik |
+| Project memory | Obsidian `AI Mem/Projects/mayapada.md` | Konteks historis, diverifikasi ulang ke kode |
+| Regulasi & panduan publik | Kemenkes, SATUSEHAT, JDIH, BPJS | Dikutip dengan tanggal; lihat [Compliance](/docs/compliance) |
+
+<Callout type="warn" title="Data aman">
+Semua contoh pasien, dokter, vendor, dan angka di dokumentasi ini **sintetis**. Tidak ada kredensial, IP produksi, atau data pasien nyata yang disalin ke situs ini.
+</Callout>

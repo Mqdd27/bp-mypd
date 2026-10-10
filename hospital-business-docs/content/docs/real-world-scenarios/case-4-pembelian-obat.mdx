@@ -1,0 +1,74 @@
+---
+title: "Case 4: Pembelian Obat & Medical Supplies"
+description: Farmasi meminta infus set; dari PR, approval, PO berbasis agreement, penerimaan, validasi, base price, hingga invoice & pembayaran supplier.
+---
+
+## Cerita
+
+Stok "Infus Set Dewasa" (fiktif) di gudang farmasi MH Jakarta Timur menipis. Orderpoint menyarankan 500 pcs. Kontrak harga (rate contract) dengan PT Medika Sejahtera (fiktif) memberi harga Rp22.000/pcs, tetapi kontrak baru per bulan ini Rp24.000/pcs.
+
+## Aktor
+
+Apoteker gudang (PR Creation) · Ka.Unit Farmasi (approval) · Purchasing · Ka.Dept Purchasing (approval PO) · petugas gudang (Receiving Bay) · Accounting (Receiving Validation) · AP · PV Approval · Finance (bayar) · tim tarif.
+
+## Timeline
+
+| Hari | Kejadian | Dokumen | State |
+| --- | --- | --- | --- |
+| D1 06:00 | A3 orderpoint membuat saran | `eproc.orderpoint.log` | draft → auto_pr |
+| D1 | PR 500 pcs dikonfirmasi | `eproc.request` | draft → approval |
+| D1 | Ka.Unit menyetujui | `eproc.approval.log` | approval → ready |
+| D2 | Realize ke RFQ; agreement terbaru dipilih; harga 24.000 diterapkan | `eproc.order` | draft |
+| D2 | Confirm → approval → PO | `eproc.order` | approval → purchase |
+| D5 | Barang datang 500 pcs, batch & expiry dicek | `eproc.receipt` PO | draft → confirmed (Receiving Bay) |
+| D5 | Accounting validasi | `eproc.receipt` | confirmed → done |
+| D5 | Stock move + jurnal + kirim ke TC | `eproc.stock.move`, `account.move` | — |
+| D6 03:00 | Aggregation: 24.000 > base price aktif 22.000 | `tariff.aggregation` | pending |
+| D6 | Tim tarif realize, efektif D8 | `tariff.pricelist` | draft |
+| D10 | Invoice supplier diterima (tukar faktur) | `payable.invoice` | draft → confirm |
+| D40 | Pembayaran (TOP 30 hari) | `payable.payment.group` | waiting → approved → confirm |
+
+## Diagram
+
+```mermaid
+flowchart LR
+  OP["Orderpoint A3"] --> PR["PR (approval)"] --> RFQ["RFQ"] --> PO["PO<br/>harga agreement 24.000"]
+  PO --> SRB["Receiving Bay<br/>(fisik)"] --> SRV["Receiving Validation<br/>(finansial)"]
+  SRV --> STK["Stok +500<br/>WAC naik"]
+  SRV --> JE["Dr Persediaan 12.000.000<br/>Cr Stock Input"]
+  SRV --> TC["TC API: stok bertambah di HIS"]
+  SRV --> AGG["Aggregation → draft base price 24.000 (≥H+2)"]
+  AGG --> FSP["Fixed Selling Price baru<br/>→ TC"]
+  SRV --> INV["AP Invoice<br/>Dr Interim / Cr AP + PPN"]
+  INV --> PAY["Pembayaran<br/>Dr AP / Cr Bank"]
+```
+
+## Dampak finansial (sintetis, PPN diabaikan)
+
+| Tahap | Debit | Kredit | Rp |
+| --- | --- | --- | ---: |
+| Validasi penerimaan | Persediaan (valuasi kategori) | Stock input / interim | 12.000.000 |
+| Invoice supplier | Interim | AP PT Medika | 12.000.000 |
+| Pembayaran | AP PT Medika | Bank | 12.000.000 |
+| Harga jual | Base price 22.000 → 24.000; harga jual UMUM VIP 28.600 → 31.200 (markup 30%) | | |
+
+## Mapping Odoo
+
+`eproc.orderpoint.log` → `eproc.request.action_confirm` (6857) → `eproc.request.realize.wizard` → `eproc.order.action_confirm` (5387) dengan `_validate_stock_agreement_pricing` (5441) → `eproc.receipt.action_confirm_srb/srv` (12813/12832) → `_complete_receipt` (13081) → `tariff.aggregation._scheduler_baseprice_aggregation` (22219) → `payable.invoice` (link `invoice_eproc_ids`).
+
+## Pengecualian
+
+| Kejadian | Penanganan |
+| --- | --- |
+| Datang 480 pcs | Receipt 480 → PO `partial`; sisa diterima nanti atau di-*rebalance* |
+| 20 pcs rusak | Retur RT → `GOODS_RETURN`, jurnal dibalik, kirim ke TC |
+| Expiry < 6 bulan | Ditolak di bay (kebijakan) <Confidence level="confirm" /> |
+| Agreement belum aktif | PO ditolak sistem ("No valid agreement price...") |
+| TC API down | `state_tc=failed` → retry batch |
+| Pembelian mendesak tanpa PO | Receipt WO dengan approval matrix |
+
+## Pelajaran
+
+1. Kontrak harga mengendalikan **dua** hal: biaya beli dan (lewat aggregation) **harga jual**.
+2. Pemisahan bay vs validasi adalah kontrol, bukan birokrasi.
+3. Receipt adalah titik di mana procurement, inventory, accounting, tarif, dan HIS bertemu.

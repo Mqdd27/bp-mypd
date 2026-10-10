@@ -1,0 +1,4 @@
+{
+  "title": "Integrasi & Background Job",
+  "pages": ["index", "airflow-pipeline", "odoo-consolidation", "kegagalan-recovery"]
+}

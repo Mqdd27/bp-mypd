@@ -1,0 +1,91 @@
+---
+title: Patient Journey End-to-End
+description: Perjalanan pasien dari registrasi sampai penyelesaian keuangan, dengan pemisahan jelas antara langkah klinis (HIS) dan langkah ERP (Odoo).
+---
+
+## Gambaran besar
+
+Semua jenis kunjungan (rawat jalan, rawat inap, IGD, MCU, daycare) mengikuti 13 langkah yang sama, dengan intensitas berbeda. Kuncinya: **setiap langkah klinis menghasilkan charge**, dan setiap charge harus berakhir sebagai **pendapatan + piutang atau kas** di akuntansi.
+
+```mermaid
+flowchart TD
+  subgraph HIS["HIS / TrakCare — klinis & billing pasien"]
+    R1["1. Registrasi & identifikasi<br/>(MRN, KTP, kartu penjamin)"]
+    R2["2. Janji temu / walk-in / IGD"]
+    R3{"3. Cek penjamin"}
+    R4["4. Buat episode<br/>(OP / IP / AAE / ODC / MCU)"]
+    R5["5. Konsultasi dokter"]
+    R6["6. Order layanan"]
+    R7["7. Lab & radiologi"]
+    R8["8. Farmasi: dispensing"]
+    R9["9. Tindakan medis"]
+    R10["10. Billing: charge per item<br/>dibagi main payer / sub payer / personal"]
+    R12["12. Discharge / selesai"]
+  end
+  subgraph PAY["Pembayaran"]
+    K["Kasir: bayar / deposit / refund"]
+    G["Penjamin: GL / kartu, tagihan kolektif"]
+  end
+  subgraph ERP["Odoo — back office"]
+    O1["sale.order (admission)<br/>sale.order.bill / cob"]
+    O2["Koleksi kasir, deposit, credit note<br/>→ jurnal TC"]
+    O3["Covering Letter → AR payer"]
+    O4["AR Receipt & settlement<br/>→ kirim balik ke TC"]
+    O5["Fee dokter, accrual, laporan"]
+    O6["eproc.stock.move dispense → HPP"]
+  end
+  R1 --> R2 --> R3
+  R3 -- "Umum" --> R4
+  R3 -- "Asuransi / korporat / BPJS" --> R4
+  R3 -. "tidak eligible" .-> R4
+  R4 --> R5 --> R6
+  R6 --> R7
+  R6 --> R8
+  R6 --> R9
+  R7 --> R10
+  R8 --> R10
+  R9 --> R10
+  R10 --> R12
+  R12 --> K
+  R12 --> G
+  R10 -->|"trx_visit / trx_billing<br/>(Airflow)"| O1
+  K -->|"trx_cashier / trx_deposit"| O2
+  G --> O3 --> O4
+  O1 --> O5
+  R8 -->|"trx_stock_move"| O6
+```
+
+*Legenda:* kotak HIS = di luar Odoo; panah berlabel `trx_*` = tabel Bridge yang disinkron Airflow. *Sumber:* `airflow:README.md` (interface 23–35), model `sale.order`, `receivable.*`, `account.coveringletter`. <Confidence level="verified">jalur data</Confidence> <Confidence level="general">langkah klinis</Confidence>
+
+## 13 langkah: siapa, sistem, dan jejak di Odoo
+
+| # | Langkah | Aktor RS | Sistem | Jejak di Odoo |
+| --- | --- | --- | --- | --- |
+| 1 | Registrasi & identifikasi | Admisi/pendaftaran | HIS | `res.partner` (`patient=True`, `registration_code`) via sync `mst_patient` |
+| 2 | Janji temu / walk-in | Call center, pendaftaran | HIS / aplikasi | `referral.transaction.appointment_date` (hanya pasien rujukan agen) |
+| 3 | Cek eligibilitas penjamin | Admisi, petugas asuransi/BPJS | HIS, portal asuransi, VClaim | `payer_id`, `tariff_id`, `is_bpjs` di billing — hasil, bukan proses <Confidence level="notfound">proses eligibility</Confidence> |
+| 4 | Buat episode | Admisi | HIS | `sale.order` (Admit Date, patient_type, bed types, payer) |
+| 5 | Konsultasi | Dokter, perawat | HIS/RME | `sale.order.line` (is_consultation, dokter primary/perform) |
+| 6 | Order layanan | Dokter | HIS | `order_no`, `order_item_no` di `sale.order.line` |
+| 7 | Lab & radiologi | Analis, radiografer | LIS/RIS | Item tagihan saja |
+| 8 | Dispensing | Apoteker | HIS farmasi | `sale.order.line` (batch, expiry) + `eproc.stock.move` DIS_* |
+| 9 | Tindakan | Dokter operator, anestesi | HIS | `surgery_operator_id`, `anesthetist_operator_id` (untuk fee) |
+| 10 | Billing | Billing officer | HIS | `sale.order.bill`: gross/nett per payer |
+| 11 | Pembayaran / jaminan / klaim | Kasir, AR, petugas klaim | HIS + Odoo | `receivable.scroll.receipt.cashier`, `receivable.patient.deposit`, `account.coveringletter` |
+| 12 | Discharge | Dokter, perawat, admisi | HIS | `discharge_date`, `discharge_reason` |
+| 13 | Settlement & laporan | Finance | **Odoo** | Jurnal TC, AR settlement, `profitability.*`, fee dokter |
+
+## Detail per jenis kunjungan
+
+<Cards>
+  <Card title="Rawat Jalan (OPD)" href="/docs/patient-journey/rawat-jalan" />
+  <Card title="Rawat Inap (IPD)" href="/docs/patient-journey/rawat-inap" />
+  <Card title="IGD" href="/docs/patient-journey/igd" />
+  <Card title="MCU & Daycare" href="/docs/patient-journey/mcu-daycare" />
+</Cards>
+
+## Yang perlu developer pahami
+
+- `sale.order` di Mayapada **bukan** sales order biasa: state-nya `draft`=*New Admission*, `sent`=*Confirmed*, `sale`=*Accrual*, `done`=*Paid*, `invoice`=*Invoiced* (`models/sale.py:129`).
+- Satu admission dapat memiliki beberapa billing (`billing_ids`), dan satu billing bisa *merged* atau dipecah ke **COB** (`sale.order.cob`).
+- Diagnosis tersimpan sebagai kode & nama (primer, sekunder, repeat) — cukup untuk analisis keuangan, bukan rekam medis.

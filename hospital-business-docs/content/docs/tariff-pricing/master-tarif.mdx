@@ -1,0 +1,104 @@
+---
+title: "Master Tarif: Tariff, Bed Type, Patient Type, Kategori"
+description: Kunci-kunci yang membentuk sebuah harga di Odoo Mayapada dan konvensi ID negatif untuk Base Price.
+---
+
+## Kunci sebuah harga
+
+Satu baris harga (`tariff.pricelist`) unik per kombinasi:
+
+```text
+company × tariff_type × tariff × service category × product × bed type
+```
+
+`patient_type` **bukan** kunci terpisah — ia ikut dari bed type (`related='bed_type_id.patient_type'`). <Confidence level="verified">eproc_tc.py:19167</Confidence>
+
+```mermaid
+erDiagram
+  HOSPITAL_TARIFF ||--o{ TARIFF_PRICELIST : "tariff_id"
+  HOSPITAL_BED_TYPE ||--o{ TARIFF_PRICELIST : "bed_type_id"
+  PRODUCT_CATEGORY ||--o{ TARIFF_PRICELIST : "category_id (order category)"
+  PRODUCT_TEMPLATE ||--o{ TARIFF_PRICELIST : "product_tmpl_id"
+  PRODUCT_TEMPLATE }o--|| PRODUCT_CATEGORY : "item_category_id"
+  PRODUCT_TEMPLATE }o--o| PRODUCT_TEMPLATE : "stock_item_id (order item ke stock item)"
+  RES_PARTNER ||--o{ HOSPITAL_TARIFF : "payor_id"
+  RES_COMPANY ||--o{ TARIFF_PRICELIST : "company_id"
+  HOSPITAL_TARIFF {
+    int id "negatif = Base Price"
+    char code
+    bool is_eproc
+    bool enable
+  }
+  HOSPITAL_BED_TYPE {
+    int id "-1 = OPD BASE"
+    char code
+    sel patient_type "IP OP AAE MCU ODC"
+  }
+  TARIFF_PRICELIST {
+    sel tariff_type "pricelist atau base_price"
+    float current_price
+    float new_price
+    float prev_price
+    sel state "draft active expired"
+    sel state_tc "pending sent"
+  }
+```
+
+*Sumber:* `mayapada/models/hospital.py` (`HospitalTariff` 177, `HospitalBedType` 29); `mayapada/eproc/eproc_tc.py` (`HospitalBedType` ext. 2449, `HospitalTariff` ext. 19030, `TariffPricelist` 19128, `ProductTemplate` ext. 1812).
+
+## Tariff (`hospital.tariff`)
+
+| Field | Arti bisnis |
+| --- | --- |
+| `code`, `name` | Kode tarif di HIS (mis. tarif umum, tarif asuransi). Contoh data uji di memory: `BASEPRICE`, `SINARMAS`, `BPJS`, `PRUDENTIAL`. |
+| `payor_id` | Penjamin yang memakai tarif ini (opsional). |
+| `is_eproc`, `enable`, `active` | Hanya tariff `is_eproc=True, enable=True, active=True` yang muncul di wizard tarif. |
+| `sync_type`, `sync_id_api` | Unit asal & kunci TrakCare. |
+
+**Konvensi ID negatif** <Confidence level="verified" />: wizard menolak Base Price dengan tariff `id >= 0` dan Pricelist dengan tariff `id <= 0` (`TariffPricelistWizard.action_view`, eproc_tc.py:19499). Tariff Base Price adalah record `id = -1` (`TariffAggregation._get_base_tariff`, 22108). Record dengan ID negatif biasanya dibuat lewat SQL/data seed, bukan UI. <Confidence level="inferred" />
+
+## Bed Type (`hospital.bed.type`) & Patient Type
+
+Bed type merepresentasikan **kelas/jenis tempat layanan** (mis. OPD BASE, VIP, Kelas 1, EMERGENCY, MCU, ODC).
+
+<Callout type="warn" title="Dua kamus patient type di satu repo">
+- `models/hospital.py:47` mendefinisikan `patient_type` numerik: `1`=OP, `2`=IP, `3`=Emergency, `4`=Daycare, `5`=MCU/Pharmacy Issues Only(FO), `6`=Pharmacy (Direct), `0`=Both.
+- `eproc/eproc_tc.py:2456` **menimpa** field yang sama menjadi kode: `IP`, `OP`, `AAE` (Emergency), `MCU`, `ODC` (DayCare), default `OP`, wajib diisi.
+
+Karena eproc di-load setelah models, definisi kode yang berlaku untuk `hospital.bed.type`. Namun `sale.order`, `doctor.rate.line`, `receivable.*`, `marketing.*` tetap memakai **numerik**. Saat menggabungkan data tarif dengan data billing/fee, selalu petakan: `1↔OP`, `2↔IP`, `3↔AAE`, `4↔ODC`, `5↔MCU`. TrakCare `6` (Pharmacy/Cash Issue) **tidak punya** padanan di bed type tarif (keputusan di memory). <Confidence level="verified" />
+</Callout>
+
+Bed type khusus **`id = -1` ("OPD BASE")** dipakai untuk Base Price. Markup dilarang untuk kombinasi tariff negatif + bed type `-1` (`_check_base_tariff_opd_bed_type`, 21633).
+
+## Kategori produk
+
+`product.category.eproc_type` (eproc_tc.py:2146) membedakan:
+
+| eproc_type | Dipakai untuk |
+| --- | --- |
+| `order_category` | **Service Category** pada pricelist & dependency (kategori order di HIS). |
+| `item_category` | Kategori barang untuk Base Price dan **markup** (Item/Category level). |
+| `billing_group` | Pengelompokan billing dari TrakCare. |
+| `normal` | Kategori Odoo biasa. |
+
+Produk (`product.template`, eproc_tc.py:1812) membawa `eproc_type` (`stock` / `non_stock`) dan `eproc_subtype` (`drugs`, `consumable`, `consignment`, `procedure`, `item`):
+
+- **Pricelist (tarif jual)** hanya untuk produk `non_stock` dengan subtype `procedure` (tindakan).
+- **Base Price** hanya untuk produk `non_stock` yang **bukan** `procedure` (order item barang) dan wajib punya item category.
+- **Order item ↔ stock item:** `stock_item_id` menghubungkan item yang dijual di HIS dengan item stok ERP. Inilah jembatan dari harga beli (stock item) ke harga jual (order item).
+
+<Confidence level="verified">TariffPricelistWizard._get_product_domain, 19381</Confidence>
+
+## Common problems
+
+| Gejala | Penyebab umum |
+| --- | --- |
+| Wizard "View Data" kosong untuk patient type IP | Bed type tidak `is_eproc`/`enable`, atau `patient_type` tersimpan dengan kamus berbeda (kasus Odoo 10 di memory). |
+| Item tidak bisa dipilih di Base Price | Produk `procedure`, tidak punya item category, atau bukan `is_eproc`. |
+| Tariff baru dari TrakCare tidak muncul | `is_eproc`/`enable` belum true, atau duplikasi karena `sync_type` alias (memory: tariff 339–360 di MHKN ganda). |
+
+## Yang perlu developer pahami
+
+- Jangan membandingkan `patient_type` lintas model tanpa pemetaan.
+- Jangan membuat tariff/bed type negatif lewat UI; konvensi ini menopang filter di banyak query.
+- `stock_item_id` salah → base price tidak pernah ter-update dari GRN.

@@ -1,0 +1,93 @@
+---
+title: Peta Sistem & Arsitektur Modul
+description: Siapa memiliki data apa — HIS, Bridge, Airflow, Odoo Parent, Odoo Unit — dan modul apa yang ada di repo Odoo Mayapada.
+---
+
+## Arsitektur sistem (verified + inferred)
+
+**Penjelasan bisnis:** Rumah sakit menjalankan layanan klinis di HIS. Back office (keuangan, pengadaan, tarif) membutuhkan data dari HIS untuk mengakui pendapatan dan piutang, dan HIS membutuhkan harga jual dari back office. Bridge + Airflow menjadi "jalan tol" antar keduanya.
+
+**Aktor:** Tim IT/integrasi (Airflow), Finance & Accounting, Procurement, Billing/Kasir (di HIS).
+
+```mermaid
+flowchart LR
+  subgraph HIS["HIS — klinis & billing pasien"]
+    TC["TrakCare / IRIS<br/>(New HIS)"]
+    LEG["Wipro / Dhealth / Andal<br/>(HIS lama per unit)"]
+  end
+  subgraph INT["Integrasi"]
+    BR[("Bridge PostgreSQL<br/>mst_* / trx_*")]
+    AF["Airflow A1/A2/A3"]
+    NAS[["NAS / TXT share"]]
+  end
+  subgraph ERP["Odoo"]
+    P["Odoo 16 ERP Parent<br/>master, eProc, budget"]
+    U16["Odoo 16 Unit<br/>(mis. MH Jakarta Timur)"]
+    U10["Odoo 10 Unit legacy<br/>(mis. MH Kuningan, Bandung)"]
+  end
+  TC -->|"master + transaksi harian"| BR
+  LEG -.->|"query API lama (sync.get_data)"| P
+  AF --- BR
+  BR -->|"A1: master ke Parent"| P
+  BR -->|"A2: master + transaksi ke Unit"| U16
+  BR -->|"A2"| U10
+  P -->|"A2: vendor, PO, receipt, agreement"| U16
+  P -->|"A2"| U10
+  U16 -->|"Fixed Selling Price TXT"| NAS
+  U10 -->|"Fixed Selling Price TXT"| NAS
+  NAS -->|"TXT kasir/deposit/credit note"| BR
+  NAS -.->|"dibaca TrakCare"| TC
+  P -->|"Realtime receipt/return API"| TC
+```
+
+*Legenda:* garis padat = alur yang ada di kode/README; garis putus = alur legacy atau yang belum terverifikasi end-to-end.
+*Sumber:* `airflow:README.md` (bagian Overview & Business Interface Landscape), `mayapada/models/sync.py` (`servers`, `get_data`), `mayapada/eproc/eproc_tc.py:13713` (`_send_tc_by_api`). <Confidence level="verified">kode & README</Confidence> <Confidence level="confirm">topologi produksi per unit</Confidence>
+
+<Callout type="warn" title="Odoo 10 juga ada">
+Project memory mencatat dua generasi Odoo Unit: Odoo 16 (database `MAYAPADA-LIVE16`) dan Odoo 10 (database `MAYAPADA-LIVE2`, untuk unit Kuningan dan lainnya). Fitur tarif di-*backport* ke Odoo 10. **Source Odoo 10 tidak ada di repo ini**, sehingga dokumentasi ini hanya mendeskripsikannya dari memory. <Confidence level="inferred">dari memory</Confidence>
+</Callout>
+
+## Kode unit (sync_type)
+
+Diambil dari `mayapada/models/sync.py` (`type` selection) dan pemetaan bisnis di README Airflow:
+
+| sync_type | Label di kode | Rumah sakit (README Airflow) |
+| --- | --- | --- |
+| 1 | Wipro MHJS | Mayapada Hospital Jakarta Selatan |
+| 2 | Wipro MHTG | Mayapada Hospital Tangerang |
+| 3 | Dhealth MHSB | Mayapada Hospital Surabaya |
+| 6 | Dhealth MHKN | Mayapada Hospital Kuningan |
+| 7 | Dhealth MHBG | Mayapada Hospital Bogor |
+| 8 | Dhealth MHBD | Mayapada Hospital Bandung |
+| 9 | HIS MHNS | Mayapada Hospital Nusantara |
+| 10 | MEC JS | Mayapada Eye Centre |
+| 11 | New HIS MHJT | Mayapada Hospital Jakarta Timur |
+| 12 | New HIS MABIH | Mayapada Apollo Batam International Hospital |
+| 13 | MMCK | Mayapada Medical Center Kuningan |
+| 999 | Parent MHG | Mayapada Healthcare Group |
+
+Label `4`, `5`, `31`–`35` juga ada di kode (New HIS MHJS/MHTG, entitas BSL/PT/Corporate) tanpa pemetaan di README. <Confidence level="confirm" />
+
+## Inventaris modul di repo
+
+Repo `odoo-revamp` berisi satu modul bisnis besar **`mayapada`** (Odoo 16, depends: `account`, `om_account_accountant`, `om_account_budget`, `om_account_asset`, `sale_management`, `purchase`, `stock`, `mrp`, `hr`, `purchase_requisition`, `account_standard_report`, `auth_oauth`) dan add-on pendukung (laporan, tema, utilitas).
+
+<Callout type="info" title="Nama modul ≠ daftar di brief">
+Brief menyebut kandidat seperti `mayapada_hospital`, `mayapada_doctor_fee`, dll. **Modul-modul itu tidak ada.** Semua domain berada sebagai **file** di dalam satu modul `mayapada`. Lihat [Mayapada Codebase](/docs/mayapada-codebase).
+</Callout>
+
+| File (di `mayapada/`) | Baris | Domain bisnis | Model kunci |
+| --- | ---: | --- | --- |
+| `eproc/eproc_tc.py` | 25.452 | eProcurement, tarif, AR TrakCare, budget, stok eProc, jurnal TC | `eproc.request/order/receipt`, `tariff.*`, `receivable.receipt` |
+| `models/sale.py` | 15.750 | Admission & billing pasien hasil sync HIS | `sale.order`, `sale.order.bill`, `sale.order.cob` |
+| `models/receivable.py` | 11.561 | Piutang, covering letter, deposit, credit note | `account.coveringletter`, `inpatient.deposit` |
+| `models/doctor_fee.py` | 27.503 | Fee dokter & payout | `doctor.rate`, `doctor.fee`, `doctor.fee.line` |
+| `models/referral_fee.py` | 3.561 | Fee perujuk eksternal | `referral.agen`, `referral.fee` |
+| `models/marketing_fee.py` | 5.476 | Insentif marketing | `marketing.fee`, `marketing.pic` |
+| `models/purchase.py` | 12.989 | Procurement Odoo standar (generasi lama) | `purchase.order`, `purchase.requisition` |
+| `models/stock.py` | 6.423 | Stok Odoo standar, ledger | `stock.picking`, `stock.ledger` |
+| `models/payable.py` | 3.410 | Hutang supplier (AP) | `payable.invoice`, `payable.payment` |
+| `models/account.py` | 34.218 | Akuntansi, profitabilitas, laporan | `account.move`, `profitability.*` |
+| `models/budget.py`, `cost_center.py` | 3.995 / 8.982 | Budget & cost center | `crossovered.budget`, `cost.center.*` |
+| `models/hospital.py` | 2.580 | Master RS | `hospital.tariff`, `hospital.bed.type` |
+| `models/resapi.py` | 4.338 | REST API generik & konsolidasi Odoo-ke-Odoo | `ApiController` |

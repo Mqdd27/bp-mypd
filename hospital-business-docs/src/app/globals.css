@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+@theme inline {
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@theme {
+  --color-fd-background: #f8fafc;
+  --color-fd-foreground: #102050;
+  --color-fd-muted: #f1f4f6;
+  --color-fd-muted-foreground: #5f6b76;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #102050;
+  --color-fd-card: #ffffff;
+  --color-fd-card-foreground: #102050;
+  --color-fd-border: #d9e0e7;
+  --color-fd-primary: #176b35;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #edf2f5;
+  --color-fd-secondary-foreground: #18354f;
+  --color-fd-accent: #eaf4ed;
+  --color-fd-accent-foreground: #102050;
+  --color-fd-ring: #209040;
+}
+
+.dark {
+  --color-fd-background: #0b1424;
+  --color-fd-foreground: #f3f6f8;
+  --color-fd-muted: #142033;
+  --color-fd-muted-foreground: #aeb9c4;
+  --color-fd-popover: #111d2f;
+  --color-fd-popover-foreground: #f3f6f8;
+  --color-fd-card: #101b2b;
+  --color-fd-card-foreground: #f3f6f8;
+  --color-fd-border: #25364b;
+  --color-fd-primary: #70b060;
+  --color-fd-primary-foreground: #0d1b12;
+  --color-fd-secondary: #18283b;
+  --color-fd-secondary-foreground: #e5ebef;
+  --color-fd-accent: #1b3044;
+  --color-fd-accent-foreground: #f3f6f8;
+  --color-fd-ring: #70b060;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-geist), sans-serif;
+    line-height: 1.7;
+  }
+  :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+  }
+  :where(p, li) {
+    overflow-wrap: break-word;
+  }
+}
+
+.documentation-title {
+  font-size: 1.875rem;
+  line-height: 1.25;
+}
+
+/* Evidence badges (see components/mdx/confidence.tsx). */
+.conf-badge {
+  display: inline-block;
+  margin: 0.1rem 0.25rem 0.1rem 0;
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+.conf-note {
+  font-weight: 400;
+}
+.conf-general { color: #1d4ed8; border-color: #93c5fd; background: #eff6ff; }
+.conf-verified { color: #166534; border-color: #86efac; background: #f0fdf4; }
+.conf-inferred { color: #92400e; border-color: #fcd34d; background: #fffbeb; }
+.conf-confirm { color: #9a3412; border-color: #fdba74; background: #fff7ed; }
+.conf-notfound { color: #475569; border-color: #cbd5e1; background: #f8fafc; }
+.dark .conf-general { color: #93c5fd; border-color: #1e40af; background: #172554; }
+.dark .conf-verified { color: #86efac; border-color: #166534; background: #052e16; }
+.dark .conf-inferred { color: #fcd34d; border-color: #92400e; background: #451a03; }
+.dark .conf-confirm { color: #fdba74; border-color: #9a3412; background: #431407; }
+.dark .conf-notfound { color: #cbd5e1; border-color: #475569; background: #1e293b; }

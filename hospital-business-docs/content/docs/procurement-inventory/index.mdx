@@ -1,0 +1,71 @@
+---
+title: Procurement & Inventory — Request to Pay
+description: Siklus pengadaan rumah sakit dari permintaan unit sampai pembayaran supplier, dipetakan ke eProcurement Odoo Mayapada.
+---
+
+## 1. Apa itu?
+
+**Procure-to-pay** adalah rantai: kebutuhan unit → permintaan pembelian (PR) → pemilihan vendor & harga (RFQ/agreement) → pesanan (PO) → penerimaan barang → validasi → tagihan supplier → pembayaran. Di Mayapada, rantai ini diimplementasikan oleh modul **eProc** (`mayapada/eproc/eproc_tc.py`), terpisah dari `purchase.order` standar Odoo yang masih ada di `models/purchase.py` (generasi lama). <Confidence level="verified" />
+
+## 2. Kenapa RS membutuhkannya?
+
+<Confidence level="general" />
+
+- **Ketersediaan obat & BHP = keselamatan pasien.** Stok habis bisa menunda tindakan.
+- **Nilai besar & risiko kedaluwarsa.** Obat dan reagen punya expiry; alkes mahal butuh budget capex.
+- **Pengendalian biaya.** Harga beli memengaruhi base price & margin (lihat [Base Price Aggregation](/docs/tariff-pricing/base-price-aggregation)).
+- **Kepatuhan & audit.** Pemisahan peminta, penyetuju, pembeli, penerima, dan pembayar (*separation of duties*).
+
+## 3. Siapa yang terlibat?
+
+| Peran | Grup Odoo (security.xml) | Aktivitas |
+| --- | --- | --- |
+| Unit peminta (farmasi, perawat ruangan, lab) | *PR Creation* | Membuat PR |
+| Atasan / pemilik budget | *PR Approval*, *PR/PO Approval* | Menyetujui PR/PO |
+| Purchasing unit / korporat | *Procurement – Staff/Ka.Unit/Ka.Dept Purchasing*, *Procurement – Corporate* | RFQ, agreement, PO |
+| Gudang / farmasi | *Ka.Unit Inventory*, *Pharmacy – Ka.Unit Inventory*, *Ka.Unit General Storage* | Receiving Bay, return |
+| Accounting | *Ka.Unit Accounting* | Receiving Validation |
+| AP | *Ka.Unit Finance Account Payable*, *PV Approval* | Invoice & pembayaran supplier |
+
+<Confidence level="verified">nama grup</Confidence> <Confidence level="inferred">pemetaan grup ke aktivitas</Confidence>
+
+## 6. Diagram request-to-pay
+
+```mermaid
+flowchart TD
+  N["Kebutuhan unit<br/>manual atau orderpoint (A3)"] --> PR["eproc.request (PR)<br/>normal / repeat / auto / budgeted"]
+  PR --> PA{"Approval rules?"}
+  PA -- "tidak ada" --> RDY["PR: ready"]
+  PA -- "ada" --> PAP["PR: approval → ready / rejected"]
+  PAP --> RDY
+  RDY -->|"Realize wizard"| RFQ["eproc.order (RFQ)<br/>draft / tender"]
+  AG["eproc.agreement<br/>Rate Contract / Tender"] -.->|"harga & validitas"| RFQ
+  RFQ --> OA{"Approval rules?"}
+  OA --> PO["eproc.order: purchase (PO Confirmed)"]
+  PO --> SRB["eproc.receipt PO: Receiving Bay<br/>(fisik, state confirmed)"]
+  SRB --> SRV["Receiving Validation<br/>(akuntansi) → done"]
+  WO["Receipt tanpa PO (WO)<br/>+ approval matrix"] --> SRV
+  SRV --> SM["eproc.stock.move GOODS_RECEIVE"]
+  SRV --> JE["account.move: Dr Inventory / Cr Stock Input"]
+  SRV --> TCI["Kirim receipt ke TrakCare (API JSON realtime)"]
+  SRV --> AGG["tariff.aggregation (harga naik)"]
+  SRV --> AP["Invoice supplier (AP)<br/>payable.invoice"]
+  AP --> PAY["payable.payment / group<br/>approval PV → bayar"]
+  SRV -.-> RT["Vendor Return (RT)<br/>GOODS_RETURN, jurnal dibalik"]
+```
+
+*Sumber:* `eproc_tc.py` — `EprocRequest` (6236), `EprocOrder` (4252), `EprocAgreement` (2749), `EprocReceipt` (11416), `_complete_receipt` (13081); `models/payable.py`. <Confidence level="verified" /> Hubungan receipt → `payable.invoice`: <Confidence level="inferred">ada field `ap_invoice_signed_total_*` & `action_open_ap_invoice`</Confidence>
+
+## Halaman
+
+<Cards>
+  <Card title="Purchase Request & Approval" href="/docs/procurement-inventory/purchase-request" />
+  <Card title="RFQ, PO & Vendor Agreement" href="/docs/procurement-inventory/rfq-po-agreement" />
+  <Card title="Receiving: Fisik vs Finansial, Return" href="/docs/procurement-inventory/receiving" />
+  <Card title="Stock Movement, Valuasi, Orderpoint" href="/docs/procurement-inventory/stock-movement" />
+</Cards>
+
+<Callout type="info" title="Tentang istilah VRT, PRT, reservation di brief">
+- **RT** = *Vendor Return* (`receipt_type='RT'`). Kode juga mengecek `'PRT'` di beberapa tempat (9 kali), tetapi `PRT` **tidak** ada di pilihan `receipt_type` — kemungkinan sisa kompatibilitas. **VRT** tidak ditemukan. <Confidence level="verified" />
+- **Reservation** di eProc berarti **reservasi budget** (PR yang disetujui "memesan" sisa budget item), bukan reservasi stok seperti `stock.move` Odoo standar. <Confidence level="verified">eproc_tc.py:2397, 8636</Confidence>
+</Callout>

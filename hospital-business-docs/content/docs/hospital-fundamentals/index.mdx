@@ -1,0 +1,64 @@
+---
+title: Bagaimana Rumah Sakit Beroperasi
+description: Organisasi rumah sakit swasta di Indonesia, jenis proses (medis, operasional, finansial), dan siklus layanan — dasar sebelum membaca kode.
+---
+
+## Rumah sakit sebagai organisasi
+
+<Confidence level="general" />
+
+Rumah sakit swasta adalah **bisnis jasa yang sangat teregulasi**: ia menjual layanan klinis (yang tidak bisa distandarkan sepenuhnya), menyimpan stok bernilai tinggi yang bisa kedaluwarsa, bekerja sama dengan dokter yang sering **bukan karyawan**, dan ditagihkan ke banyak pihak (pasien, asuransi, perusahaan, BPJS).
+
+Struktur yang lazim (nama bisa berbeda per RS):
+
+```mermaid
+flowchart TD
+  DIR["Direksi / Direktur RS"] --> MED["Pelayanan Medis<br/>(Komite Medik, SMF dokter)"]
+  DIR --> KEP["Keperawatan"]
+  DIR --> PJM["Penunjang Medis<br/>Lab, Radiologi, Farmasi, Gizi, Rehab"]
+  DIR --> UM["Umum & Operasional<br/>Logistik, Purchasing, IT, Maintenance"]
+  DIR --> KEU["Keuangan & Akuntansi<br/>Billing, Kasir, AR, AP, Pajak"]
+  DIR --> SDM["SDM / Human Capital"]
+  DIR --> MKT["Marketing & Kerja Sama<br/>(asuransi, korporat, rujukan)"]
+  GRP["Grup (Mayapada Healthcare Group)<br/>fungsi korporat: procurement, finance corporate"] -.-> DIR
+```
+
+*Diagram konseptual.* Untuk Mayapada, keberadaan fungsi korporat terlihat dari grup akses Odoo seperti *Finance & Accounting – Corporate*, *Procurement – Corporate*, *Ka.Dept Purchasing*, *Ka.Unit Accounting* (`mayapada/security/security.xml`). <Confidence level="verified">nama grup</Confidence> <Confidence level="confirm">struktur organisasi aktual</Confidence>
+
+## Tiga jenis proses
+
+| Jenis | Contoh | Sistem utama | Di Odoo? |
+| --- | --- | --- | --- |
+| **Medis/klinis** | Anamnesis, diagnosis, order lab, resep, tindakan, asuhan keperawatan | HIS/EMR (RME), LIS, RIS/PACS | Tidak. Odoo hanya menerima hasil yang berdampak finansial (diagnosis kode, item tagihan). |
+| **Operasional** | Pengadaan, gudang, distribusi obat ke unit, jadwal, maintenance, aset | ERP + modul HIS (farmasi/inventori) | Ya: eProcurement, stok eProc, aset, budget. |
+| **Finansial** | Tarif, billing, klaim, kasir, piutang, hutang, fee dokter, akuntansi | HIS (billing pasien) + ERP | Ya untuk tarif, AR/AP, fee, jurnal; billing pasien di HIS. |
+
+## Siklus layanan (healthcare service lifecycle)
+
+```mermaid
+flowchart LR
+  A["Akses<br/>janji temu / walk-in / rujukan / IGD"] --> B["Registrasi & identifikasi<br/>+ cek penjamin"]
+  B --> C["Pelayanan<br/>konsultasi, penunjang, tindakan, obat"]
+  C --> D["Pencatatan biaya<br/>charge per item ke episode"]
+  D --> E["Penutupan episode<br/>discharge / selesai kunjungan"]
+  E --> F["Penagihan<br/>pasien / penjamin"]
+  F --> G["Penerimaan kas & klaim"]
+  G --> H["Akuntansi & pelaporan"]
+  C -.-> S["Konsumsi stok & BHP"]
+  S -.-> P["Pengadaan ulang"]
+  P -.-> S
+```
+
+Langkah A–E dan sebagian F terjadi di HIS. G–H dan P (pengadaan) adalah wilayah Odoo. Lihat [Patient Journey](/docs/patient-journey).
+
+## Multi-cabang & multi-company
+
+Mayapada adalah grup dengan banyak rumah sakit. Di Odoo setiap RS adalah **company** (`res.company`) dengan `sync_type` unik; data master bisa milik grup (*Parent*) atau unit. Record rule di repo umumnya berpola `['|', ('company_id','=',False), ('company_id','in', company_ids)]` — data tanpa company dibagi, data ber-company diisolasi. <Confidence level="verified">security/record_rules.xml, 55 aturan dengan pola ini</Confidence>
+
+Konsekuensi bisnis: harga, stok, piutang, dan jurnal **per unit**, sementara vendor, agreement, dan item master bisa dikelola terpusat lalu didistribusikan ke unit (A2 "ERP Parent → Unit").
+
+## Halaman terkait
+
+- [Sistem Informasi RS: HIS, SIMRS, RME, ERP, LIS, PACS](/docs/hospital-fundamentals/sistem-informasi)
+- [Revenue Center vs Cost Center](/docs/hospital-fundamentals/revenue-cost-center)
+- [Master Data](/docs/master-data)

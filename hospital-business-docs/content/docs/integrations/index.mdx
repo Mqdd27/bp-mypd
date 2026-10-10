@@ -1,0 +1,46 @@
+---
+title: Integrasi & Background Job — Gambaran
+description: Integrasi yang terverifikasi di kode dan snapshot Airflow, source of truth per data, dan batas yang belum terverifikasi.
+---
+
+<SystemLandscape />
+
+## Integrasi yang ditemukan
+
+| # | Integrasi | Arah | Mekanisme | Bukti | Status |
+| --- | --- | --- | --- | --- | --- |
+| 1 | TrakCare → Bridge (master & transaksi) | TC → Bridge | Airflow A1/A2, IRIS query, TXT di NAS | `airflow:README.md`, D019–D021 | <Confidence level="verified">snapshot</Confidence> |
+| 2 | Bridge → Odoo Parent / Unit | Bridge → Odoo | Airflow SQL langsung ke DB Odoo (bukan ORM) | README, D007, D019_01… | <Confidence level="verified">snapshot</Confidence> |
+| 3 | Odoo Parent → Unit (vendor, agreement, PO, receipt, stok) | Odoo → Odoo | Airflow (D011/D012/D016_05–07) | README | <Confidence level="inferred">file tidak di snapshot</Confidence> |
+| 4 | Fixed Selling Price → TrakCare | Odoo → TC | TXT `^` ke NAS (D01209) + export manual | eproc_tc.py:20828, memory | <Confidence level="verified">export</Confidence> |
+| 5 | Receipt/return eProc → TrakCare | Odoo → TC | **API JSON realtime** | `EprocReceipt.action_interfacing` (13821) | <Confidence level="verified" /> |
+| 6 | AR settlement → TrakCare | Odoo → Bridge → TC | `trx_receipt_collection` | README #29, `ReceivableReceiptSettlement` | <Confidence level="verified">model</Confidence> |
+| 7 | HIS lama (Wipro/Dhealth/Andal) → Odoo | HIS → Odoo | HTTP query API (`sync.get_data`) dipanggil `_sync_*` | `models/sync.py`, `_sync_hospital_tariff` | <Confidence level="verified" /> |
+| 8 | Backend appointment → referral | API → Odoo | REST (`/doctor/doctor_external`, `/appointment/transaction_referral`) | `models/sync.py` | <Confidence level="verified" /> |
+| 9 | Odoo Unit ↔ Odoo Main (konsolidasi) | Odoo ↔ Odoo | REST `api_consol_*` + field `sync_consol_*` | `models/resapi.py` | <Confidence level="verified" /> |
+| 10 | Covering letter → sistem eksternal | Odoo → API | `generate_payload` / `action_confirm_api` | `models/receivable.py:431` | <Confidence level="verified" /> |
+| 11 | Odoo 16 ↔ Odoo 10 | — | Tidak ada integrasi langsung di repo; keduanya target Airflow A2 | memory | <Confidence level="inferred" /> |
+| 12 | eProc stress/QA API | Klien → Odoo | `/api/stress/eproc/*` (auth user) | `controllers/eproc_stress.py` | <Confidence level="verified" /> |
+| — | SATUSEHAT, VClaim, LIS, PACS | — | — | — | <Confidence level="notfound" /> |
+
+## Source of truth & kepemilikan data
+
+| Data | Pemilik | Konsumen |
+| --- | --- | --- |
+| Pasien, episode, billing, kas | TrakCare/HIS | Odoo (salinan, read-mostly) |
+| Master item, kategori, UoM, departemen, lokasi, tarif (kode), kamar | TrakCare | Odoo Parent & Unit |
+| Vendor, agreement, PR/PO/receipt | Odoo Parent (eProc) | Odoo Unit, TrakCare (receipt) |
+| Harga jual final | **Odoo Unit** | TrakCare |
+| Jurnal, piutang tertagih, hutang, fee | Odoo | Laporan konsolidasi |
+
+<Confidence level="inferred">disusun dari arah alur di README & kode</Confidence> <Confidence level="confirm">divalidasi arsitek integrasi</Confidence>
+
+<Cards>
+  <Card title="Airflow Pipeline (A1/A2/A3)" href="/docs/integrations/airflow-pipeline" />
+  <Card title="Konsolidasi Odoo-ke-Odoo" href="/docs/integrations/odoo-consolidation" />
+  <Card title="Kegagalan, Rekonsiliasi & Recovery" href="/docs/integrations/kegagalan-recovery" />
+</Cards>
+
+<Callout type="warn" title="Kredensial di source code">
+Beberapa file Python di repo dan snapshot Airflow menyimpan API key/kredensial secara literal. Dokumentasi ini sengaja tidak menyalinnya. Rekomendasi: pindahkan ke konfigurasi server/`ir.config_parameter`/secret store. <Confidence level="verified" />
+</Callout>

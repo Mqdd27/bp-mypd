@@ -1,0 +1,72 @@
+---
+title: Instalasi Gawat Darurat (IGD)
+description: Triase dulu, administrasi kemudian — dan konsekuensinya untuk billing, penjamin, dan konversi ke rawat inap.
+---
+
+## 1. Apa itu?
+
+IGD (*Emergency*, `AAE` / `3`) melayani kondisi gawat darurat 24 jam, tanpa janji temu. Pasien dapat pulang, dirawat inap, atau dirujuk.
+
+## 2. Kenapa berbeda?
+
+<Confidence level="general" />
+
+- **Keselamatan pasien di atas administrasi.** Regulasi melarang fasyankes menolak pasien gawat darurat atau meminta uang muka terlebih dahulu (UU Kesehatan; prinsip yang sama sudah ada di UU RS 44/2009). Verifikasi penjamin dilakukan **setelah** stabilisasi.
+- Identitas bisa belum lengkap (pasien tidak sadar) → registrasi sementara.
+- Biaya IGD sering menjadi bagian episode rawat inap jika pasien di-admit.
+
+## 3. Siapa yang terlibat?
+
+Petugas triase, dokter jaga IGD, perawat IGD, admisi, penunjang cito, DPJP jika di-admit, kasir/admisi untuk penjamin.
+
+## 6. Diagram
+
+```mermaid
+flowchart TD
+  A["Pasien datang (ambulans / sendiri)"] --> T["Triase [IGD]<br/>prioritas klinis"]
+  T --> S["Stabilisasi & penanganan<br/>tanpa menunggu administrasi"]
+  T -.-> REG["Registrasi menyusul<br/>(identitas sementara bila perlu)"]
+  REG --> PJ{"Penjamin diverifikasi"}
+  S --> DX{"Keputusan dokter"}
+  DX -- "Pulang" --> BILL["Billing episode IGD<br/>patient_type AAE"]
+  DX -- "Rawat inap" --> IP["Admisi IP<br/>charge IGD ikut episode / parent admission"]
+  DX -- "Rujuk" --> RUJ["Rujukan ke RS lain"]
+  PJ --> BILL
+  PJ --> IP
+  BILL --> PAY["Kasir / penjamin"]
+  IP --> IPD["Lanjut ke alur Rawat Inap"]
+  BILL -. "item cito" .-> URG["Tarif urgent (UrgentRate)"]
+```
+
+*Langkah klinis:* <Confidence level="general" />. *Link episode:* `sale.order.parent_admission_no`, `ref_admission_no` (`models/sale.py`). <Confidence level="inferred">penggunaan untuk konversi IGD→IP</Confidence>
+
+## 7. Implementasi di Odoo Mayapada
+
+| Aspek | Bukti di kode |
+| --- | --- |
+| Patient type Emergency | `sale.order.patient_type='3'`; bed type `AAE`; EpisodeType `E` di ekspor harga |
+| Fee dokter IGD | Flag `is_igd`, `is_igd_total`, `igd_share/point` di `doctor.rate` / `doctor.fee` (skema bagi hasil pool dokter IGD) |
+| Fee referral IGD | `referral.compute.wizard.type = 'igd'` ("Fee Per Billing IGD") |
+| Tarif cito | Kolom `UrgentRate` (default 20%) di ekspor Fixed Selling Price |
+
+<Confidence level="verified" />
+
+## 10. Common problems
+
+- Identitas sementara tidak di-*merge* dengan MRN asli → piutang pasien terpecah.
+- Penjamin baru diketahui setelah pasien pulang → tagihan berpindah dari personal ke payer (koreksi billing di HIS, histori di `sale.order.bill.history`).
+
+## 12. Pertanyaan uji
+
+<Accordions>
+<Accordion title="Bolehkah kasir meminta deposit sebelum pasien IGD ditangani?">
+Tidak untuk kondisi gawat darurat — prinsip regulasi kesehatan Indonesia mewajibkan penanganan dahulu. Kebijakan internal Mayapada perlu dikonfirmasi. <Confidence level="confirm" />
+</Accordion>
+<Accordion title="Mengapa dokter IGD punya skema fee berbeda?">
+Kode memiliki skema pool/poin khusus IGD (`igd_total_share`, `igd_point`, `igd_share`), umumnya karena dokter jaga dibayar berdasarkan pool layanan shift, bukan per pasien. <Confidence level="inferred" />
+</Accordion>
+</Accordions>
+
+## Referensi
+
+- UU 17/2023 tentang Kesehatan — ringkasan di [Hukumonline](https://www.hukumonline.com/berita/a/peraturan-teknis-uu-kesehatan-terbit--ini-sejumlah-aturan-pelaksana-yang-dicabut-lt66a89ff97dafd/?page=all) dan teks di [Wikisource](https://id.wikisource.org/wiki/Undang-Undang_Republik_Indonesia_Nomor_17_Tahun_2023). Pasal spesifik larangan uang muka gawat darurat perlu dicek pada teks resmi. <Confidence level="general" />

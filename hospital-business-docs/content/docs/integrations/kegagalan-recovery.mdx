@@ -1,0 +1,34 @@
+---
+title: Kegagalan Integrasi, Rekonsiliasi & Recovery
+description: Mode kegagalan yang terlihat di kode dan memory, dampak bisnisnya, cara mendeteksi, dan prinsip pemulihan.
+---
+
+## Mode kegagalan & dampak bisnis
+
+| Kegagalan | Dampak bisnis | Deteksi | Recovery |
+| --- | --- | --- | --- |
+| Koleksi kasir TXT tidak sampai / parsial | Kas di GL < setoran bank; piutang pasien tampak belum dibayar | Rekonsiliasi kas harian vs bank; jumlah baris per `cutoff_date` | Kirim ulang snapshot **lengkap** hari itu (D019 mengganti snapshot) → generate ulang jurnal setelah membatalkan jurnal lama |
+| Stock movement terlambat | Stok & HPP Odoo tidak sama dengan TC | Bandingkan saldo per item/lokasi | Jalankan ulang D016 untuk tanggal terkait; jurnal stok per tanggal |
+| Receipt eProc gagal kirim ke TC (`state_tc=failed`) | Stok TC tidak bertambah → dispensing terhambat / negatif | Filter receipt `state_tc=failed`, `eproc.receipt.log` | `action_retry_interfacing_tc(_batch)` setelah perbaiki konfigurasi/payload |
+| Fixed Selling Price tidak terkirim | TC menagih harga lama | Versi `pending` yang sudah lewat efektif | Export manual + Mark Sent; periksa D01209 |
+| Harga terkirim tapi tidak diterapkan TC | Selisih tagihan vs harga resmi | Tidak ada ACK (D01210 belum ada) | Rekonsiliasi harga TC vs versi `sent` |
+| Master tidak sinkron (tarif/bed type ganda) | Harga & laporan terbelah | Query duplikat `sync_id_api` | Merge manual; tambahkan unique index (memory) |
+| View jurnal TC gagal dibuat | Wizard error "Source view not available" | Log upgrade | Perbaiki skema sumber, upgrade modul |
+| Job membaca DB yang salah (dummy/live, sync_type salah) | Data "hilang" atau masuk unit lain | Return 0 baris / company mismatch | Cek `db_config` & `sync_type` sebelum rerun |
+
+<Confidence level="verified">mekanisme di kode & snapshot</Confidence> <Confidence level="inferred">insiden dari memory</Confidence>
+
+## Prinsip yang sudah tertanam di kode
+
+- **Idempotensi:** jurnal TC menolak tanggal yang sudah ada; aggregation upsert per receipt line; fixed price memakai hash; D019 mengganti snapshot per tanggal.
+- **Atomisitas:** advisory lock (`pg_advisory_xact_lock`) untuk jurnal & koleksi; satu transaksi per batch file.
+- **Jejak:** `eproc.receipt.log`, chatter (`message_post`), log file worker, folder `failed`.
+
+## Prinsip yang perlu dijaga (rekomendasi)
+
+1. Jangan menandai "terkirim" sebelum artefak benar-benar tertulis/diterima.
+2. Simpan *watermark* per tanggal & unit agar rerun selektif.
+3. Pisahkan "sukses 0 baris" dari "sukses dengan data" di monitoring.
+4. Rekonsiliasi harian dua arah (jumlah baris & total nominal) antara Bridge dan Odoo.
+
+Lihat skenario lengkap di [Case 7: Integrasi Gagal](/docs/real-world-scenarios/case-7-integrasi-gagal).

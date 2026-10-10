@@ -1,0 +1,93 @@
+---
+title: Glosarium
+description: Istilah rumah sakit, asuransi, akuntansi, dan istilah khusus kode Mayapada — dengan status kepastian maknanya.
+---
+
+## Rumah sakit & klinis
+
+| Istilah | Arti |
+| --- | --- |
+| **Admisi / Admission** | Pendaftaran episode (khususnya rawat inap). Di Odoo: `sale.order`. |
+| **Episode / Visit** | Satu rangkaian layanan untuk satu kunjungan. |
+| **OP / OPD / Rawat Jalan** | Outpatient. Kode `OP` / `1`. |
+| **IP / IPD / Rawat Inap** | Inpatient. Kode `IP` / `2`. |
+| **IGD / ED / AAE** | Instalasi Gawat Darurat; `AAE` (Accident & Emergency) / `3`. |
+| **ODC / Daycare** | One Day Care, < 24 jam. `ODC` / `4`. |
+| **MCU** | Medical Check-Up. `MCU` / `5`. |
+| **OTC / Pharmacy Direct** | Pembelian obat tanpa episode layanan. `6`. |
+| **DPJP** | Dokter Penanggung Jawab Pelayanan. |
+| **MRN / MRID** | Nomor rekam medis. `registration_code`. |
+| **Triase** | Pemilahan prioritas klinis di IGD. |
+| **Cito** | Mendesak/segera (order urgent). |
+| **BHP** | Bahan Habis Pakai (consumables). |
+| **Dispensing** | Penyerahan obat ke pasien oleh farmasi. |
+| **Amprahan / Issue request** | Permintaan barang unit ke gudang (`ISSUE_REQ`). |
+| **Stock opname** | Penghitungan fisik stok (`ADJ_SO`). |
+| **Konsinyasi** | Barang titipan supplier; milik supplier sampai dipakai (`consignment`, kode `CG%`). |
+| **RME** | Rekam Medis Elektronik. |
+| **SIMRS / HIS** | Sistem informasi manajemen RS. |
+| **LIS / RIS / PACS** | Sistem lab / radiologi / arsip gambar medis. |
+| **SATUSEHAT** | Platform interoperabilitas data kesehatan Kemenkes (FHIR). |
+
+## Penjamin & klaim
+
+| Istilah | Arti |
+| --- | --- |
+| **Payer / Payor / Penjamin** | Pihak yang membayar tagihan. `res.partner` `insurance=True`. |
+| **Main payer / Sub payer / Personal** | Pembagian tagihan ke penjamin utama, penjamin kedua, dan pasien. |
+| **COB** | Coordination of Benefit — dua penjamin berbagi tagihan. `sale.order.cob`. <Confidence level="inferred" /> |
+| **TPA** | Third Party Administrator — pengelola klaim untuk asuransi. |
+| **GL** | Guarantee Letter — surat jaminan penjamin. |
+| **Cashless / Reimbursement** | Ditagih RS ke penjamin / pasien bayar lalu klaim sendiri. |
+| **Covering letter** | Surat tagihan kolektif ke penjamin. `account.coveringletter`. |
+| **JKN / BPJS Kesehatan** | Jaminan Kesehatan Nasional / penyelenggaranya. |
+| **SEP** | Surat Eligibilitas Peserta (BPJS), diterbitkan via VClaim. |
+| **INA-CBG** | Sistem tarif paket JKN berbasis casemix. |
+| **e-Klaim** | Aplikasi grouper & pengajuan klaim INA-CBG. |
+| **FKTP / FKRTL** | Faskes tingkat pertama / rujukan tingkat lanjut. |
+
+## Keuangan
+
+| Istilah | Arti |
+| --- | --- |
+| **AR Unbilled** | Piutang penjamin yang belum ditagihkan (`company.receivable_credit_id`). |
+| **Accrual** | Pengakuan pendapatan/beban sebelum dokumen final (mis. pasien belum pulang). |
+| **GRNI / Stock input** | Akun penampung barang diterima belum ditagih supplier. |
+| **WAC** | Weighted Average Cost — harga pokok rata-rata. |
+| **HPP / COGS** | Harga pokok penjualan. |
+| **Write-off** | Penghapusan piutang tak tertagih. |
+| **Credit note** | Pengurang tagihan. |
+| **TOP** | Term of Payment. |
+| **PPh 21 / PPh 23** | Pajak penghasilan orang pribadi / atas jasa badan. |
+| **DPP** | Dasar Pengenaan Pajak. |
+| **Gross-up** | Tunjangan pajak sehingga penerima menerima nett yang diinginkan. |
+| **THP** | Take Home Pay. |
+| **GF** | Guarantee Fee — jaminan fee minimum dokter. <Confidence level="inferred" /> |
+
+## Istilah kode Mayapada
+
+| Istilah | Arti | Status |
+| --- | --- | --- |
+| **TC** | TrakCare (HIS InterSystems) | <Confidence level="verified" /> |
+| **Bridge** | Database PostgreSQL staging `MYPD-ERP` antar TC & Odoo | <Confidence level="verified" /> |
+| **Parent / Unit** | Odoo pusat grup / Odoo per rumah sakit | <Confidence level="verified" /> |
+| **sync_type** | Kode unit/sumber data (lihat [Peta Sistem](/docs/getting-started/peta-sistem)) | <Confidence level="verified" /> |
+| **sync_id_api** | Kunci eksternal (ID TrakCare) | <Confidence level="verified" /> |
+| **Base Price** | Harga dasar barang; tariff `id=-1`, bed type `id=-1` (OPD BASE) | <Confidence level="verified" /> |
+| **Fixed Selling Price** | Harga jual final per kombinasi (`tariff.pricelist.fixed`) | <Confidence level="verified" /> |
+| **Dependency** | Tarif turunan = tarif sumber × depend rate | <Confidence level="verified" /> |
+| **Markup level / tier** | Item vs Category; Price Level 1–4 per rentang harga | <Confidence level="verified" /> |
+| **Aggregation** | Kandidat base price dari receipt/agreement | <Confidence level="verified" /> |
+| **UEPR** | Harga kandidat base price (`uepr_price`); kepanjangan tidak ditemukan | <Confidence level="confirm" /> |
+| **H+2** | Harga baru minimal efektif 2 hari setelah input | <Confidence level="verified" /> |
+| **Order item / Stock item** | Item yang ditagih vs item fisik gudang (`stock_item_id`) | <Confidence level="verified" /> |
+| **Order / Item / Billing category** | `product.category.eproc_type` | <Confidence level="verified" /> |
+| **SRB / SRV** | Receiving Bay (fisik) / Receiving Validation (finansial) — kepanjangan huruf "S" tidak tertulis | <Confidence level="inferred" /> |
+| **WO / PO / RT** | Receipt tanpa PO / dengan PO / Vendor Return | <Confidence level="verified" /> |
+| **Matic journal** | Jurnal `is_matic` untuk generate otomatis | <Confidence level="verified" /> |
+| **DIL** | Prefix view/laporan (mis. "DIL Goods Receiving", "DIL TDM AR Billing Settlement") | <Confidence level="confirm" /> |
+| **POT/GP, P1/P2, TNC, HD** | Pool/skema fee dokter; HD = hemodialisis | <Confidence level="confirm" /> (kecuali HD) |
+| **KOL** | Key Opinion Leader (tipe fee referral) | <Confidence level="inferred" /> |
+| **Akasia 365 MC** | Unit/produk layanan dengan wizard billing khusus | <Confidence level="confirm" /> |
+| **Wipro / Dhealth / Andal / Arcus** | Sistem HIS/integrasi lama per unit | <Confidence level="inferred" /> |
+| **A1 / A2 / A3, Dxxx** | Grup jadwal & keluarga task Airflow | <Confidence level="verified" /> |

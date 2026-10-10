@@ -1,0 +1,91 @@
+---
+title: Rawat Inap (IPD)
+description: Admisi, perawatan multi-hari, kelas kamar, deposit, discharge, dan penagihan ke penjamin.
+---
+
+## 1. Apa itu?
+
+Rawat inap (*inpatient*, `IP` / `2`) adalah episode di mana pasien menginap ≥ 1 malam. Charge menumpuk setiap hari: kamar, visite, keperawatan, obat, tindakan, penunjang.
+
+## 2. Kenapa kompleks?
+
+<Confidence level="general" />
+
+- **Episode panjang** → tagihan baru final saat discharge, padahal pendapatan sudah terjadi tiap hari (perlu **accrual**).
+- **Kelas kamar** menentukan tarif banyak item; pasien bisa dirawat di kelas berbeda dari haknya (naik kelas / titip kelas).
+- **Penjamin** biasanya menanggung sebagian (limit, plafon, kelas hak) → pemisahan *payer* vs *personal*.
+- **Deposit** diminta di awal untuk pasien umum / selisih biaya.
+
+## 3. Siapa yang terlibat?
+
+Admisi, dokter penanggung jawab (DPJP), perawat ruangan, farmasi rawat inap, penunjang, case manager / petugas asuransi, billing, kasir, Finance (AR, accrual).
+
+## 4. Proses di lapangan
+
+<Steps>
+<Step>Admisi dari poli/IGD: surat perintah rawat, pilih kamar sesuai hak & ketersediaan.</Step>
+<Step>Penjamin: GL (*guarantee letter*) asuransi/korporat, SEP rawat inap untuk BPJS; pasien umum membayar **deposit**.</Step>
+<Step>Perawatan harian: visite, obat, tindakan, penunjang → charge ke episode setiap hari.</Step>
+<Step>Pemindahan kamar/kelas bila perlu (bed transfer).</Step>
+<Step>Discharge: dokter menyatakan pulang, billing final, konfirmasi penjamin (final GL), pasien membayar selisih atau menerima refund deposit.</Step>
+<Step>Back office: tagihan payer dikumpulkan dalam **covering letter**, dikirim, lalu ditagih sampai lunas.</Step>
+</Steps>
+
+## 6. Diagram
+
+```mermaid
+flowchart TD
+  A["Admisi IP [HIS]<br/>dari Poli atau IGD"] --> B{"Penjamin?"}
+  B -- "Umum" --> D1["Deposit awal [Kasir]"]
+  B -- "Asuransi / korporat" --> D2["Guarantee Letter awal"]
+  B -- "BPJS" --> D3["SEP rawat inap, hak kelas"]
+  D1 --> C["Perawatan harian<br/>kamar + visite + obat + tindakan"]
+  D2 --> C
+  D3 --> C
+  C --> E{"Pindah kamar / naik kelas?"}
+  E -- "Ya" --> E1["Billable vs eligible vs alloted bed type<br/>selisih → personal"]
+  E -- "Tidak" --> F
+  E1 --> F["Discharge & billing final [HIS]"]
+  C -. "EOD" .-> ACC["[Odoo] Accrual rawat inap<br/>trx_accrual / receivable.accrual.billing"]
+  F --> G{"Pembagian tagihan"}
+  G --> P1["Personal: bayar / pakai deposit / refund"]
+  G --> P2["Main payer & sub payer (COB)"]
+  P2 --> CL["[Odoo] Covering Letter<br/>Dr AR Payer / Cr AR Unbilled"]
+  CL --> RC["[Odoo] Receipt & settlement<br/>kirim balik per billing ke TC"]
+  P1 --> KAS["[Odoo] Koleksi kasir & deposit<br/>jurnal TC"]
+```
+
+*Sumber:* field `sale.order` (`bed_type_id`, `eligible_bed_type_id`, `alloted_bed_type_id`), `receivable.accrual.billing`, `account.coveringletter.action_confirm` (`models/receivable.py:621`), README Airflow interface 35 (*IP Payable Accrual Cutoff*). <Confidence level="verified" /> Aturan selisih kelas: <Confidence level="confirm" />
+
+## 7. Implementasi di Odoo Mayapada
+
+| Konsep | Model / field |
+| --- | --- |
+| Tiga bed type | `sale.order.bed_type_id` (Billable), `eligible_bed_type_id` (hak), `alloted_bed_type_id` (ditempati) |
+| Deposit pasien | `inpatient.deposit` (legacy) dan `receivable.patient.deposit` (koleksi TC, `models/receivable.py:9286`) |
+| Accrual | `receivable.accrual.billing` (11231), `sale.order.line.accrual` (eproc report view) |
+| Billing per payer | `sale.order.bill`: `payer_gross/amount/credit/receipt/balance`, `subpayer_*`, `personal_*` |
+| COB | `sale.order.cob` (state sama dengan bill), `cob_bill`, `cob_billno`, `cob_sequence` |
+| Riwayat outstanding | `sale.order.bill.history` (dibuat oleh `action_history`) |
+
+## 9. Business rules
+
+- Billing yang sudah `invoice` tidak boleh dimasukkan lagi ke covering letter lain (`action_confirm` covering letter). <Confidence level="verified" />
+- Periode yang sudah dikunci (`lock.ar.configuration.date`) tidak bisa menerima covering letter baru. <Confidence level="verified" />
+
+## 10. Common problems
+
+- Pasien belum pulang di akhir bulan → pendapatan harus diakru; jika accrual tidak tersinkron, laba bulan itu kurang saji.
+- Penjamin menolak sebagian item (*non-covered*) setelah discharge → tagihan dipindah ke personal / credit note.
+- Pindah kelas tanpa update bed type → harga salah untuk sisa episode.
+
+## 12. Pertanyaan uji
+
+<Accordions>
+<Accordion title="Apa beda eligible dan alloted bed type?">
+Eligible = kelas yang menjadi hak pasien menurut penjamin; alloted = kelas yang benar-benar ditempati; billable = kelas yang dipakai untuk menghitung tagihan. <Confidence level="inferred">dari label field</Confidence>
+</Accordion>
+<Accordion title="Kenapa rawat inap membutuhkan accrual?">
+Karena layanan sudah diberikan (pendapatan terjadi) sebelum tagihan final diterbitkan saat discharge, terutama untuk pasien yang masih dirawat saat tutup buku.
+</Accordion>
+</Accordions>

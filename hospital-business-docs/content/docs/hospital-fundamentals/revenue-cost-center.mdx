@@ -1,0 +1,52 @@
+---
+title: Revenue Center vs Cost Center
+description: Unit penghasil pendapatan dan unit pendukung, departemen medis vs non-medis, dan bagaimana Odoo Mayapada mengklasifikasikan pendapatan dan biaya.
+---
+
+## Konsep
+
+<Confidence level="general" />
+
+- **Revenue center** — unit yang menghasilkan tagihan: rawat jalan (poliklinik), rawat inap, IGD, kamar operasi, ICU, laboratorium, radiologi, farmasi, MCU, hemodialisis.
+- **Cost center** — unit pendukung tanpa tagihan langsung: SDM, IT, keuangan, laundry, gizi (sebagian), maintenance, rekam medis.
+- **Medis vs non-medis** — departemen medis/penunjang medis bersentuhan dengan pasien; non-medis mendukung operasi.
+
+Manajemen RS ingin tahu **profitabilitas per layanan, per dokter, per penjamin, per unit** — sehingga setiap pendapatan dan biaya harus dibawa dengan dimensi (analytic) yang tepat.
+
+## Dimensi di Odoo Mayapada
+
+| Dimensi | Field / model | Catatan |
+| --- | --- | --- |
+| Dokter | `account.analytic.account` dengan `sync_wipro_type='doctor_internal'` | Dokter direpresentasikan sebagai **akun analitik**, bukan partner. Spesialisasi = parent analytic. |
+| Layanan / service group | `sale.order.line.service_categ_id`, `service_group_id`, `revenue_type` | Pengelompokan pendapatan. |
+| Patient group / payer type | `sale.order.line.patient_group`, `payer_type` | Laporan `patientgroup.report`, `payertype.report`. |
+| Departemen | `hr.department` (+ cost center), `department.report`, `department.cost.report` | |
+| Cost center | `cost.center.master`, `cost.center.report`, `cost.center.dimension*` | 9 ribu baris logika laporan & rekonsiliasi (`models/cost_center.py`). |
+| Mapping analitik | `account.analytic.revenue.mapping(.new)`, `account.analytic.cost.mapping(.new)`, `...doctor.cost.mapping`, `...scrap.mapping` | Menentukan akun/analitik untuk pendapatan & biaya. |
+| Profitabilitas | `profitability.analysis`, `profitability.ledger`, `profitability.dimension` | Analisis laba per dimensi. |
+
+<Confidence level="verified">mayapada/models/account.py, cost_center.py, sale.py</Confidence>
+
+```mermaid
+flowchart LR
+  L["sale.order.line<br/>(item tagihan dari HIS)"] --> R["Pendapatan<br/>per service group, payer, dokter"]
+  L --> DF["Fee dokter<br/>(beban jasa medis)"]
+  SM["eproc.stock.move<br/>dispense/consumption"] --> COGS["HPP / beban BHP"]
+  R --> PA["profitability.analysis"]
+  DF --> PA
+  COGS --> PA
+  CC["cost.center.*"] --> PA
+```
+
+*Diagram konseptual dari relasi model.* <Confidence level="inferred" />
+
+## Pertanyaan uji
+
+<Accordions>
+<Accordion title="Kenapa dokter di Odoo Mayapada adalah analytic account?">
+Agar setiap pendapatan dan beban fee bisa diberi dimensi dokter (dan spesialisasi via parent) untuk laporan profitabilitas. Data identitas pembayaran dokter ada di `doctor.rate` (bank, NPWP). <Confidence level="inferred" />
+</Accordion>
+<Accordion title="Laboratorium termasuk revenue center atau cost center?">
+Revenue center (menagih pemeriksaan), tetapi sekaligus penunjang medis. Di Odoo ada grup akses khusus *Billing Analysis Laboratorium*.
+</Accordion>
+</Accordions>

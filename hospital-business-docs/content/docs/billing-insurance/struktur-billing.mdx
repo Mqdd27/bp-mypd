@@ -1,0 +1,102 @@
+---
+title: "Struktur Billing: Admission, Bill, COB"
+description: Bagaimana Odoo menyimpan episode, tagihan, dan pembagian ke main payer, sub payer, dan pasien.
+---
+
+## 1. Apa itu?
+
+Odoo menyimpan salinan billing HIS dalam tiga lapis:
+
+| Lapis | Model | Kardinalitas |
+| --- | --- | --- |
+| Episode (admission) | `sale.order` | 1 per kunjungan |
+| Tagihan | `sale.order.bill` | 1..n per admission; bisa di-*merge* (`merged_id`) |
+| Bagian COB | `sale.order.cob` | 0..n per bill; satu per penjamin tambahan |
+| Item | `sale.order.line` | n per admission; menunjuk `billing_id`, `cob_id`, `sub_cob_id` |
+
+## 2. Kenapa dipisah?
+
+<Confidence level="general" /> Satu episode bisa menghasilkan beberapa tagihan (interim bill rawat inap, tagihan farmasi terpisah) dan satu tagihan bisa ditanggung beberapa pihak. Piutang dikelola **per tagihan per penjamin**, bukan per episode.
+
+## 6. ER diagram
+
+```mermaid
+erDiagram
+  RES_PARTNER ||--o{ SALE_ORDER : "partner_id (pasien)"
+  RES_PARTNER ||--o{ SALE_ORDER_BILL : "payer_id (main payer)"
+  SALE_ORDER ||--o{ SALE_ORDER_BILL : "admission_id"
+  SALE_ORDER ||--o{ SALE_ORDER_LINE : "order_id"
+  SALE_ORDER_BILL ||--o{ SALE_ORDER_LINE : "billing_id"
+  SALE_ORDER_BILL ||--o{ SALE_ORDER_COB : "billing_id"
+  SALE_ORDER_BILL ||--o{ SALE_ORDER_BILL_HISTORY : "history_ids"
+  SALE_ORDER_BILL }o--o{ ACCOUNT_COVERINGLETTER : "covering_ids"
+  SALE_ORDER_BILL ||--o{ ACCOUNT_CREDITNOTE_LINE : "discount_ids"
+  HOSPITAL_TARIFF ||--o{ SALE_ORDER_BILL : "tariff_id"
+  SALE_ORDER_BILL {
+    char billno
+    sel state "draft done cancel invoice"
+    float payer_amount
+    float payer_credit "diinvoice"
+    float payer_receipt
+    float payer_balance
+    float subpayer_amount
+    float personal_amount
+    bool is_bpjs
+    char inacbgs_code
+  }
+```
+
+*Sumber:* `mayapada/models/sale.py` (`SaleOrder` 42, `SaleOrderBill` 9651, `SaleOrderCob` 10446). <Confidence level="verified" />
+
+## 7. Implementasi — rumus saldo payer
+
+Ketika covering letter dikonfirmasi (`models/receivable.py:621`):
+
+```text
+payer_adjustment = payer_amount × diskon_letter%      (jika diskon sebelum invoice aktif)
+payer_credit     = payer_amount − payer_adjustment   (yang ditagihkan)
+payer_balance    = payer_credit − payer_receipt − payer_discount (write-off)
+state            = 'invoice'
+```
+
+Setiap kejadian (konfirmasi letter, credit note, receipt, advance) direkam di `sale.order.bill.history` lewat `action_history()` — inilah **jejak audit saldo piutang per billing**. <Confidence level="verified" />
+
+## 8. State billing
+
+```mermaid
+stateDiagram-v2
+  [*] --> draft: Sync dari HIS (New Admission)
+  draft --> done: Close Bill (action_done)
+  done --> invoice: Covering Letter dikonfirmasi
+  invoice --> done: Covering Letter dibatalkan
+  draft --> cancel: Cancel Bill
+  done --> cancel: Cancel Bill
+  cancel --> draft: action_draft
+```
+
+Saat covering letter dibatalkan, jurnalnya di-*cancel* lalu **dihapus** (`unlink`) dan billing kembali ke `done` (`models/receivable.py:548`). <Confidence level="verified" /> Penghapusan jurnal (bukan reversal) berarti jejak audit bergantung pada chatter & history, bukan ledger. <Confidence level="confirm">apakah diterima auditor</Confidence>
+
+## 9. Business rules
+
+- `lock_bill()` menutup (`done`) semua admission yang memiliki baris `type_line='BILL'`. <Confidence level="verified">sale.py:359</Confidence>
+- Field `is_bpjs`, `inacbgs_code`, `inacbgs_amount` menyimpan informasi klaim BPJS dari HIS. Lihat [BPJS](/docs/billing-insurance/bpjs-jkn).
+- `tpa_id/code/name` menyimpan Third Party Administrator jika asuransi memakai TPA.
+
+## 10. Common problems
+
+| Masalah | Penyebab |
+| --- | --- |
+| Billing ganda di Odoo | Sync ulang tanpa kunci unik (bill no + sync_type) |
+| Saldo payer negatif | Receipt dialokasikan melebihi `payer_credit` |
+| Bill tidak muncul di covering letter | Sudah `invoice`, atau payer berbeda |
+
+## 12. Pertanyaan uji
+
+<Accordions>
+<Accordion title="Apa beda payer_amount dan payer_credit?">
+`payer_amount` = bagian payer menurut billing HIS (nett). `payer_credit` = yang benar-benar ditagihkan setelah diskon sebelum invoice di covering letter.
+</Accordion>
+<Accordion title="Kenapa butuh tabel history?">
+Untuk merekonstruksi saldo piutang per tanggal (aging, audit), karena field saldo di `sale.order.bill` hanya menyimpan nilai terakhir.
+</Accordion>
+</Accordions>

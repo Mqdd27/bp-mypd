@@ -1,0 +1,80 @@
+---
+title: Compliance, Audit & Data Pasien
+description: Rekam Medis Elektronik, SATUSEHAT, UU Pelindungan Data Pribadi, kontrol akses, audit trail, separation of duties — konsep umum dan apa yang terlihat di kode.
+---
+
+<Callout type="warn" title="Bukan opini hukum">
+Halaman ini merangkum kewajiban umum dengan sumber publik dan memetakan kontrol yang **terlihat di kode**. Ini bukan klaim bahwa Mayapada patuh atau tidak patuh. Verifikasi teks resmi di JDIH sebelum dipakai untuk keputusan.
+</Callout>
+
+## 1. Rekam Medis Elektronik (RME)
+
+<Confidence level="general" />
+
+- **Permenkes 24/2022 tentang Rekam Medis** mewajibkan setiap fasyankes (termasuk rumah sakit) menyelenggarakan rekam medis elektronik; masa penyesuaian berakhir **31 Desember 2023**. Rekam medis dimulai sejak pasien masuk sampai pulang/rujuk/meninggal, wajib menjaga kerahasiaan, integritas, dan ketersediaan, serta terhubung ke SATUSEHAT.
+- **Di Mayapada:** RME berada di HIS. Odoo tidak menyimpan catatan klinis, hanya atribut finansial (kode diagnosis, item tindakan). <Confidence level="notfound">RME di Odoo</Confidence>
+
+## 2. SATUSEHAT
+
+<Confidence level="general" /> Platform *health information exchange* Kemenkes berbasis **HL7 FHIR** (resource seperti Encounter, Condition, Observation). Partisipan disebut *Mitra Interoperabilitas SATUSEHAT*. Dokumentasi platform versi 7.23 (diakses 10 Okt 2026).
+
+**Di repo:** tidak ada referensi SATUSEHAT/FHIR. Pengiriman data klinis diasumsikan dari HIS. <Confidence level="notfound" /> <Confidence level="confirm">sistem yang mengirim ke SATUSEHAT</Confidence>
+
+## 3. Pelindungan Data Pribadi
+
+<Confidence level="general" />
+
+- **UU 27/2022 (PDP)**: data dan informasi kesehatan termasuk **data pribadi yang bersifat spesifik** (Pasal 4 ayat 2). Masa transisi kepatuhan berakhir **17 Oktober 2024**. Kewajiban pengendali meliputi dasar pemrosesan yang sah, keamanan, pembatasan akses, dan notifikasi kegagalan pelindungan (≈ 3×24 jam).
+- **UU 17/2023 tentang Kesehatan** mengatur Sistem Informasi Kesehatan dan integrasinya dengan SIK Nasional; aturan pelaksana PP 28/2024.
+
+### Data pasien di Odoo Mayapada
+
+| Data | Lokasi | Catatan |
+| --- | --- | --- |
+| Nama, MRN, gender, umur, alamat, kewarganegaraan | `res.partner` (`patient_*`), `sale.order`, `sale.order.bill` | Disalin dari HIS |
+| Nomor kartu asuransi | `sale.order.nomor_asuransi`, `no_asuransi`, `nama_asuransi` | Data identitas penjamin |
+| Diagnosis (kode & nama) | `sale.order`, `sale.order.bill` (`primary/secondary/repeat_diagnosis_*`) | **Data kesehatan** |
+| Nama pasien di transaksi lain | `eproc.stock.move.patient_name`, `receivable.receipt.settlement.patient_name`, `doctor.fee.line.patient_name` | Denormalisasi |
+| KTP & rekening perujuk | `referral.agen.no_ktp`, `no_rekening` | Data pribadi non-pasien |
+| NPWP & rekening dokter | `doctor.rate` | Data keuangan pribadi |
+
+<Confidence level="verified" />
+
+**Risiko yang terlihat di kode** <Confidence level="verified" />:
+- Penulisan payload/query ke file log server (`/opt/odoo16/logs/*.log`) di beberapa method — berpotensi menulis data pasien ke log.
+- Kredensial/API key literal di source (`models/sync.py`; snapshot Airflow `db_config.py`).
+- Asset JS `dil_patient_export_only.js` menunjukkan ada pembatasan ekspor untuk view pasien tertentu. <Confidence level="inferred" />
+
+## 4. Kontrol akses & separation of duties
+
+- **31 grup** di `security/security.xml` (Finance per fungsi, Procurement per level, Billing Analysis per unit, Human Capital, IT Support, Staff Intern, PR Creation/Approval, PV Approval).
+- **81 record rule** di `security/record_rules.xml`; mayoritas isolasi multi-company; beberapa rule global membatasi ke `create_uid = user`.
+- `ir.model.access.csv` (801 baris).
+- Memory: audit matriks grup-menu terhadap workbook (`RES_GROUP_MENU`) — 741/923 cocok sebelum remediasi; menu Tarif sudah selaras; ACL model tarif Odoo 10 masih luas. <Confidence level="inferred" />
+
+| Kontrol SoD | Implementasi |
+| --- | --- |
+| Peminta ≠ penyetuju | Approval matrix PR/PO/GRN/agreement/budget (`eproc.approval.*`) |
+| Penerima fisik ≠ pengakuan nilai | Receiving Bay vs Receiving Validation |
+| Perubahan harga terjadwal | Draft + H+2 + rilis scheduler; chatter tracking | 
+| Penguncian periode | `lock.ar.configuration`, closing wizards, approval status jurnal |
+| Persetujuan perubahan tarif | <Confidence level="notfound" /> |
+
+## 5. Audit trail
+
+- `mail.thread` + `tracking=True` pada model tarif, eProc, receivable, fee → chatter mencatat perubahan field.
+- `create_uid/create_date/write_uid/write_date` ORM (catatan: ETL SQL bisa tidak mengisinya dengan benar).
+- Riwayat versi: `tariff.pricelist` (prev/current/new, expired), `tariff.pricelist.fixed` (versi + hash), `sale.order.bill.history`, `eproc.approval.log`, `eproc.receipt.log`, `res.users.log`, `password.history`.
+- Celah: pembatalan covering letter **menghapus** jurnal (bukan reversal).
+
+## Referensi
+
+| Sumber | Tautan | Catatan |
+| --- | --- | --- |
+| Permenkes 24/2022 Rekam Medis | [pasal.id](https://pasal.id/peraturan/permen/permenkes-no-24-tahun-2022) | Sekunder; cek JDIH Kemenkes |
+| UU 27/2022 PDP | [pasal.id](https://pasal.id/peraturan/uu/uu-no-27-tahun-2022), [Hukumonline](https://www.hukumonline.com/berita/a/implikasi-uu-pdp-terhadap-data-pasien-lt634fd7122856c/?page=all) | Sekunder; cek JDIH Setneg |
+| UU 17/2023 Kesehatan | [Wikisource](https://id.wikisource.org/wiki/Undang-Undang_Republik_Indonesia_Nomor_17_Tahun_2023) | PP 28/2024 sebagai pelaksana |
+| SATUSEHAT Playbook | [satusehat.kemkes.go.id](https://satusehat.kemkes.go.id/platform/docs/id/playbook/) | Resmi; v7.23 |
+| SATUSEHAT Interoperability | [satusehat.kemkes.go.id](https://satusehat.kemkes.go.id/platform/docs/id/interoperability/) | Resmi |
+
+Semua diakses 10 Oktober 2026.

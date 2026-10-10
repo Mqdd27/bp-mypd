@@ -1,0 +1,67 @@
+---
+title: Peta Codebase Mayapada
+description: Struktur repo odoo-revamp, inventaris model per domain, konvensi kode, dan hal yang perlu diwaspadai saat mengubahnya.
+---
+
+## Struktur repo
+
+```text
+odoo-revamp/
+├── mayapada/                 ← modul bisnis utama (Odoo 16, v16.0.2.0.3)
+│   ├── __manifest__.py
+│   ├── models/               ← domain "generasi awal" (HIS lama, akuntansi, fee, sale)
+│   ├── eproc/                ← eProcurement, tarif, AR TrakCare, budget, jurnal TC
+│   │   ├── eproc_tc.py       (25.452 baris, 135 kelas)
+│   │   ├── eproc_tc_report_views.py
+│   │   ├── eproc_tc_view.xml / _action.xml / _menu.xml / _sequence.xml
+│   ├── controllers/eproc_stress.py   ← API uji beban eProc
+│   ├── data/                 ← view, menu, sequence, cron per domain (XML)
+│   ├── security/             ← grup, ACL, record rule
+│   └── static/               ← JS/CSS backend, template import Excel
+├── account_standard_report*, accounting_pdf_reports, om_account_*  ← akuntansi
+├── report_xlsx*, excel_report_designer                              ← laporan
+├── muk_web_theme, web_*, hide_menu_user, login_user_detail, ...     ← UI/utilitas
+├── auto_database_backup, digital_signature, attachment_preview, ...
+└── postman/                  ← koleksi Postman QA eProc
+```
+
+Commit terakhir saat dianalisis: `7e4772d feat: init tc journal view`.
+
+## Inventaris per domain
+
+| Domain | Model utama (jumlah kelas) | File |
+| --- | --- | --- |
+| Tarif & harga | `hospital.tariff`, `hospital.bed.type`, `tariff.pricelist`, `tariff.pricelist.fixed`, `tariff.dependency`, `tariff.markup`, `tariff.aggregation` + 10 wizard | `eproc/eproc_tc.py` 17991–22510, `models/hospital.py` |
+| eProcurement | `eproc.request(.line)`, `eproc.order(.line)`, `eproc.agreement(.line)`, `eproc.receipt(.line)`, `eproc.approval.*`, `eproc.type`, `eproc.term`, `eproc.taxes`, `eproc.pack` + ~25 wizard | `eproc/eproc_tc.py` 900–14310 |
+| Stok eProc | `eproc.stock.move`, `eproc.stock.quant`, `eproc.stock.lot`, `eproc.stock.inventory`, `eproc.cost.price(.historical)`, `eproc.orderpoint(.log)` | `eproc/eproc_tc.py` |
+| Budget eProc | `eproc.budget.group/request/allocation/item/dashboard` | `eproc/eproc_tc.py` 23298+ |
+| AR TrakCare | `receivable.invoice(.item)`, `receivable.receipt(.item)`, `receivable.receipt.settlement`, `receivable.invoice.receipt` | `eproc/eproc_tc.py` 15039–17860 |
+| Billing pasien | `sale.order`, `sale.order.line`, `sale.order.bill`, `sale.order.cob`, `*.history`, `sale.diagnoses`, `sale.procedure`, `pmo.*` | `models/sale.py` |
+| Piutang & kas | `account.coveringletter`, `account.creditnote`, `account.advance(.realization)`, `inpatient.deposit`, `patient.debt`, `receivable.*` (11 model koleksi) | `models/receivable.py` |
+| Hutang | `payable.supplier`, `payable.invoice`, `payable.adjustment`, `payable.payment(.group)` | `models/payable.py` |
+| Fee | `doctor.*` (34 kelas), `referral.*` (21), `marketing.*` (24) | `models/doctor_fee.py`, `referral_fee.py`, `marketing_fee.py` |
+| Akuntansi & laporan | `account.move` (ext.), `profitability.*`, `account.console.*`, `bsl.mapping`, mapping analitik, `account.salary` | `models/account.py`, `report.py` |
+| Aset | `account.asset.*` ext., `asset.relocation`, `account.asset.opname`, `eproc.asset.realize` | `models/asset.py`, eproc |
+| Budget & cost center | `crossovered.budget` ext., `budget.*`, `cost.center.*` | `models/budget.py`, `cost_center.py` |
+| Procurement lama | `purchase.order`, `purchase.requisition`, `purchase.approval`, `stock.receiving`, `stock.ledger` | `models/purchase.py`, `stock.py` |
+| Integrasi | `sync.*` helper, `ApiController`, `EprocStressController` | `models/sync.py`, `resapi.py`, `controllers/` |
+
+## Konvensi & pola yang perlu dikenali
+
+- **View didefinisikan di Python** (`get_view` override mengembalikan arch XML string) untuk banyak model master — XML view di `data/` tidak selalu menjadi sumber tampilan.
+- **Field sync** (`sync_type`, `sync_id`, `sync_id_api`, `sync_consol_*`) dideklarasikan sekali di `models/sync.py` lalu di-*assign* ke banyak model.
+- **SQL langsung** banyak dipakai untuk performa (upsert, laporan, view jurnal). Constraint ORM tidak melindungi jalur ini.
+- **Hard-coded**: nama company (Bogor, Tangerang), kode akun (`1104020101`, `2103000000`, `2103030000`, `7999000000`), nama item/service di fee dokter, nama kategori "Medical Equipment".
+- **Sisa Python 2** (`unicode`, `xrange`) di jalur sync lama.
+- **Logging ke file** di `/opt/odoo16/logs/` dari dalam method bisnis.
+- Instruksi proyek (`AGENTS.md`): perubahan Odoo dibatasi pada file `eproc_tc` kecuali diminta; server adalah sumber kebenaran; repo bisa tertinggal dari server.
+
+## Cara menelusuri sebuah proses
+
+1. Mulai dari **menu** (`eproc/eproc_tc_menu.xml`, `data/menu.xml`) → action → model.
+2. Cari `state = fields.Selection` untuk lifecycle; cari `def action_` untuk tombol.
+3. Cari pemanggilan `account.move` `create` untuk dampak akuntansi.
+4. Cari nama tabel Bridge (`trx_*`, `mst_*`) di README Airflow untuk asal data.
+5. Cek project memory untuk perbedaan server vs repo.
+
+Lihat [Traceability Matrix](/docs/mayapada-codebase/traceability-matrix).

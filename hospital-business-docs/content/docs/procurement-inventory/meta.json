@@ -1,0 +1,4 @@
+{
+  "title": "Procurement & Inventory",
+  "pages": ["index", "purchase-request", "rfq-po-agreement", "receiving", "stock-movement"]
+}

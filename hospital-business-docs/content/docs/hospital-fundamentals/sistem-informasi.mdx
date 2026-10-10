@@ -1,0 +1,51 @@
+---
+title: "Sistem Informasi RS: HIS, SIMRS, RME, ERP, LIS, PACS"
+description: Perbedaan jenis sistem di rumah sakit dan pembagian tanggung jawab antara Odoo dan sistem eksternal di Mayapada.
+---
+
+## Definisi singkat
+
+<Confidence level="general" />
+
+| Istilah | Kepanjangan | Fokus |
+| --- | --- | --- |
+| **SIMRS** | Sistem Informasi Manajemen Rumah Sakit | Istilah regulasi Indonesia untuk sistem informasi terintegrasi RS (administrasi + pelayanan). |
+| **HIS** | Hospital Information System | Padanan internasional SIMRS; registrasi, ADT (admission-discharge-transfer), order, billing. |
+| **RME / EMR** | Rekam Medis Elektronik | Catatan klinis pasien. Wajib bagi fasyankes sejak Permenkes 24/2022 (transisi s.d. 31 Des 2023). |
+| **LIS** | Laboratory Information System | Order & hasil laboratorium, integrasi alat. |
+| **RIS / PACS** | Radiology Information System / Picture Archiving and Communication System | Jadwal & laporan radiologi / penyimpanan gambar DICOM. |
+| **Billing** | — | Pengumpulan charge per episode, pembagian ke penjamin, cetak tagihan. Biasanya bagian HIS. |
+| **ERP** | Enterprise Resource Planning | Keuangan, akuntansi, pengadaan, inventori, aset, SDM. |
+| **SATUSEHAT** | Platform interoperabilitas Kemenkes | Pertukaran data kesehatan berbasis HL7 FHIR antar fasyankes & pemerintah. |
+
+## Siapa memegang apa di Mayapada
+
+| Domain | Sistem | Bukti | Status |
+| --- | --- | --- | --- |
+| Registrasi, identitas pasien, MRN | TrakCare / HIS lama | Odoo hanya menerima `registration_code` (Patient MRID) di `res.partner`; master patient disinkron dari `mst_patient` | <Confidence level="verified" /> |
+| Order klinis, resep, rekam medis | HIS/RME | Tidak ada model rekam medis di repo; `sale.order` hanya menyimpan kode diagnosis primer/sekunder | <Confidence level="notfound">RME di Odoo</Confidence> |
+| Lab & radiologi | Tidak terlihat | Hanya flag/wizard laporan (`sale.order.lab.wizard`, grup *Billing Analysis Laboratorium*) | <Confidence level="notfound">integrasi LIS/PACS</Confidence> |
+| Billing pasien & kasir | HIS | Odoo menerima `trx_billing`, `trx_cashier_collection`, `trx_deposit_collection` | <Confidence level="verified">README Airflow</Confidence> |
+| Harga jual | **Odoo** (hitung) → TC (pakai) | `tariff.pricelist.fixed` + export | <Confidence level="verified" /> |
+| Pengadaan & penerimaan barang | **Odoo** eProc | `eproc.request/order/receipt`; receipt dikirim realtime ke TC | <Confidence level="verified" /> |
+| Pergerakan stok di unit layanan (dispense, issue, transfer) | TrakCare → Odoo | `trx_stock_move` → `eproc.stock.move` | <Confidence level="verified">README + view jurnal</Confidence> |
+| Piutang payer, covering letter, AR settlement | **Odoo** | `account.coveringletter`, `receivable.receipt`, `receivable.receipt.settlement` | <Confidence level="verified" /> |
+| Fee dokter | **Odoo** (hitung & posting); payout master dari TC | `doctor.fee`, `trx_payout_collection` | <Confidence level="verified" /> |
+| Klaim BPJS (SEP, e-Klaim) | Tidak terlihat | Hanya `is_bpjs`, `inacbgs_code/amount` pada billing & `doctor.fee.bpjs` | <Confidence level="notfound">VClaim/e-Klaim</Confidence> |
+| SATUSEHAT | Tidak terlihat | Tidak ada referensi di repo | <Confidence level="notfound" /> |
+| Akuntansi & pelaporan | **Odoo** | `account.move`, laporan konsolidasi | <Confidence level="verified" /> |
+
+<Callout type="info" title="Sumber kebenaran pasien">
+Untuk identitas pasien, **HIS adalah source of truth**; Odoo menyimpan salinan sebagai `res.partner` dengan flag `patient = True` (dipisahkan dari payor `insurance = True`). Lihat keputusan di [Master Data](/docs/master-data). <Confidence level="verified">memory + field partner</Confidence> <Confidence level="confirm">dikonfirmasi tim RS</Confidence>
+</Callout>
+
+## Implikasi untuk developer
+
+- Jangan menambahkan logika klinis ke Odoo; jika butuh data klinis untuk keuangan (diagnosis, tindakan), ambil sebagai **atribut transaksi** dari HIS.
+- Setiap angka finansial yang berasal dari HIS punya *cutoff* (`tglproses`, `cutoff_date`). Laporan Odoo hanya selengkap sinkronisasi terakhir.
+- Data pasien adalah **data spesifik** menurut UU PDP; minimalkan penyalinan field identitas ke model baru. Lihat [Compliance](/docs/compliance).
+
+## Referensi
+
+- Permenkes 24/2022 tentang Rekam Medis — ringkasan pasal di [pasal.id](https://pasal.id/peraturan/permen/permenkes-no-24-tahun-2022) (sumber sekunder; cek teks resmi di JDIH). <Confidence level="general" />
+- SATUSEHAT Platform Playbook — [satusehat.kemkes.go.id/platform/docs/id/playbook](https://satusehat.kemkes.go.id/platform/docs/id/playbook/) (diakses 10 Okt 2026; versi dokumentasi 7.23).

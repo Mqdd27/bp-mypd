@@ -1,0 +1,56 @@
+---
+title: Billing, Asuransi & Klaim — Gambaran Besar
+description: Jenis penjamin di RS swasta Indonesia, kapan tanggung jawab bayar berpindah, dan bagaimana billing HIS menjadi transaksi akuntansi di Odoo.
+---
+
+## Jenis penjamin (payer)
+
+<Confidence level="general" />
+
+| Penjamin | Mekanisme | Kapan dibayar |
+| --- | --- | --- |
+| **Pasien umum (self-pay)** | Bayar tunai/debit/kartu kredit/transfer di kasir; rawat inap dengan deposit | Saat pulang / di tempat |
+| **Asuransi swasta – cashless** | RS menagih asuransi (sering via **TPA**) berdasarkan GL/kartu; pasien bayar *excess* | Termin setelah tagihan kolektif diterima |
+| **Asuransi – reimbursement** | Pasien bayar penuh, lalu klaim sendiri ke asuransinya | RS dibayar pasien; bagi RS = self-pay |
+| **Perusahaan (korporat)** | Kontrak kerja sama; surat jaminan; tagihan bulanan | Termin kontrak |
+| **BPJS Kesehatan (JKN)** | SEP sebelum layanan; klaim paket INA-CBG lewat e-Klaim | Setelah verifikasi BPJS |
+| **Coordination of Benefit (COB)** | Dua penjamin berbagi tagihan (mis. BPJS + asuransi swasta, atau dua asuransi) | Masing-masing penjamin |
+| **Membership / kontrak khusus** | Diskon/tarif khusus | Tergantung kontrak |
+
+Di Odoo, tipe customer HIS disimpan sebagai teks `customer_type_wipro` / `payer_type`. Fallback di `models/sync.py` (`get_data`) memuat daftar tipe dari HIS lama: GOVERNMENT, INSURANCE, CORPORATE, EMPLOYEE, PT, ASURANSI, REFFERAL, BANK, PRIVATE CREDIT, E-COMMERCE, MAYAPADA. <Confidence level="verified" />
+
+## Perpindahan tanggung jawab finansial
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant PS as Pasien
+  participant RS as RS (HIS billing)
+  participant OD as Odoo AR
+  participant PY as Penjamin (asuransi / korporat)
+  RS->>RS: Charge per item ke episode
+  RS->>RS: Split: main payer / sub payer / personal
+  RS->>PS: Tagih bagian personal
+  PS-->>RS: Bayar / pakai deposit
+  Note over RS,OD: EOD: billing & koleksi kasir masuk Odoo
+  OD->>OD: Bagian payer tercatat di AR Unbilled
+  OD->>PY: Covering Letter (tagihan kolektif)
+  Note over OD: Jurnal: Dr AR Payer / Cr AR Unbilled
+  PY-->>OD: Pembayaran (bisa sebagian / dipotong)
+  OD->>OD: Receipt & settlement per billing
+  OD->>RS: Kirim settlement per billing ke TC (trx_receipt_collection)
+  alt Ditolak sebagian
+    OD->>OD: Credit note / write-off / tagih pasien
+  end
+```
+
+*Sumber:* `account.coveringletter.action_confirm` (`models/receivable.py:621`), `res.company.receivable_credit_id` = "AR Unbilled Account" (`models/misc.py:2532`), README Airflow interface 29. <Confidence level="verified" />
+
+## Halaman
+
+<Cards>
+  <Card title="Struktur Billing: Admission, Bill, COB" href="/docs/billing-insurance/struktur-billing" />
+  <Card title="Covering Letter & Piutang Payer" href="/docs/billing-insurance/covering-letter-ar" />
+  <Card title="BPJS / JKN: SEP, INA-CBG, e-Klaim" href="/docs/billing-insurance/bpjs-jkn" />
+  <Card title="Deposit, Kasir, Credit Note, Refund" href="/docs/billing-insurance/deposit-kasir-refund" />
+</Cards>

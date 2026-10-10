@@ -1,0 +1,54 @@
+---
+title: "Latihan Akhir: Telusuri Satu Transaksi"
+description: Latihan praktik menelusuri satu botol obat dari kontrak supplier sampai fee dokter dan laporan, lintas sistem dan modul.
+---
+
+## Skenario
+
+Satu unit "Ceftriaxone 1g vial" (fiktif) dibeli dari supplier, diterima, dinaikkan base price-nya, diberikan ke pasien asuransi rawat inap, ditagihkan, dibayar penjamin, dan dokter menerima fee atas visite terkait.
+
+## Tugas
+
+Isi tabel di bawah **dengan menelusuri kode/dokumentasi** (jawaban model ada di akordion). Gunakan database **non-produksi** atau baca kode saja; jangan memakai data pasien nyata.
+
+| # | Pertanyaan | Model / method / tabel |
+| --- | --- | --- |
+| 1 | Dokumen apa yang mengikat harga beli? | |
+| 2 | Method yang memvalidasi harga PO terhadap kontrak? | |
+| 3 | Dua tahap penerimaan & state masing-masing? | |
+| 4 | Jurnal yang terbentuk saat penerimaan selesai? | |
+| 5 | Kapan dan bagaimana base price naik? | |
+| 6 | Bagaimana harga jual untuk tariff penjamin terbentuk? | |
+| 7 | Bagaimana harga sampai ke HIS? | |
+| 8 | Bagaimana pemberian ke pasien tercatat di Odoo? | |
+| 9 | Jurnal HPP? | |
+| 10 | Bagaimana tagihan masuk ke Odoo dan dibagi ke payer? | |
+| 11 | Kapan bagian payer menjadi AR penjamin tertagih? | |
+| 12 | Bagaimana pembayaran penjamin kembali ke HIS? | |
+| 13 | Fee dokter visite dihitung dari mana? | |
+
+<Accordions>
+<Accordion title="Jawaban model">
+
+1. `eproc.agreement` (rate contract) + `eproc.agreement.line`.
+2. `EprocOrder._validate_stock_agreement_pricing` (eproc_tc.py:5441).
+3. Receiving Bay `action_confirm_srb` → `confirmed`; Receiving Validation `action_confirm_srv` → `_complete_receipt` → `done`.
+4. `_create_accounting_impacts`: Dr persediaan / Cr stock input (+ opsional jurnal harian TC Stock Receipt).
+5. Job aggregation (`_scheduler_baseprice_aggregation`) jika harga terima > base price aktif → `tariff.aggregation` pending → realize → draft base price ≥ H+2 → rollover.
+6. `tariff.dependency` (penjamin ← BASEPRICE) × `tariff.markup` → `tariff.pricelist.fixed` (`_compute_dependency_fixed_price_vals`).
+7. Export/TXT `^` (D01209) → NAS → TrakCare; `state_tc = sent`.
+8. `trx_stock_move` → `eproc.stock.move` `DIS_*` (D016), plus `sale.order.line` item tagihan.
+9. Jurnal TC Stock Dispense dari `view_account_tc_stock_movement`.
+10. `trx_billing` → `sale.order.bill` (payer_amount / personal_amount), item di `sale.order.line`.
+11. Saat `account.coveringletter.action_confirm`: Dr AR payer / Cr AR Unbilled.
+12. `receivable.receipt` → `receivable.receipt.settlement` → `trx_receipt_collection` → TC.
+13. `doctor.fee.line` dari item tagihan; rate dari `doctor.rate.line` (service × item × patient type × type_rate); posting via `doctor.fee.posting.wizard`.
+
+</Accordion>
+</Accordions>
+
+## Refleksi
+
+- Berapa sistem yang dilalui? (HIS, Bridge, Airflow, Odoo Parent, Odoo Unit, NAS)
+- Di titik mana satu kesalahan master data akan menyebar paling luas?
+- Pertanyaan mana di [Open Questions](/docs/getting-started/open-questions) yang menghalangi Anda menjawab dengan pasti?

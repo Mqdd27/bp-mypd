@@ -1,0 +1,26 @@
+{
+  "title": "Hospital BP Mayapada",
+  "pages": [
+    "index",
+    "---Mulai---",
+    "getting-started",
+    "learning-roadmap",
+    "---Fondasi Rumah Sakit---",
+    "hospital-fundamentals",
+    "patient-journey",
+    "master-data",
+    "---Proses Inti---",
+    "tariff-pricing",
+    "billing-insurance",
+    "procurement-inventory",
+    "finance-accounting",
+    "hr-doctor-fees",
+    "---Sistem & Kepatuhan---",
+    "integrations",
+    "compliance",
+    "mayapada-codebase",
+    "---Praktik---",
+    "real-world-scenarios",
+    "glossary"
+  ]
+}

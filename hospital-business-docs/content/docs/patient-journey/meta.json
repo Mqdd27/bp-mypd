@@ -1,0 +1,4 @@
+{
+  "title": "Patient Journey",
+  "pages": ["index", "rawat-jalan", "rawat-inap", "igd", "mcu-daycare"]
+}

@@ -1,0 +1,66 @@
+---
+title: Traceability Matrix
+description: Business process → department → file → model → method/action → data/integrasi → halaman dokumentasi, dengan status verifikasi.
+full: true
+---
+
+Legenda status: **V** = terverifikasi di kode repo · **I** = inferensi (kode/memory) · **C** = perlu konfirmasi RS · **N** = tidak ditemukan di repo. Path relatif ke `odoo-revamp/mayapada/`; nomor baris commit `7e4772d`.
+
+## Tarif & harga
+
+| Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Input harga tarif (draft) | Finance / tim tarif | eproc/eproc_tc.py | `tariff.pricelist.wizard` → `tariff.pricelist` | `action_view` 19499, `action_update` 19567, `_check_new_effective` 19487 | — | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V |
+| Import/export tarif Excel | Finance | eproc/eproc_tc.py | `tariff.import.wizard`, `tariff.existing.export.wizard` | `action_import`, `_import_pricelist/dependency/markup`, `action_export` | XLS template | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V |
+| Rilis harga terjadwal | Sistem / IT | eproc/eproc_tc.py | `tariff.pricelist` | `scheduler_pricelist_realization` 19266 | Airflow D01207 | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V (kode) / I (job) |
+| Dependency tarif | Finance | eproc/eproc_tc.py | `tariff.dependency`, wizard | `_check_depend_rate` 21351, `_archive_existing_active` 21365 | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
+| Markup berjenjang | Finance | eproc/eproc_tc.py | `tariff.markup`, wizard | `_check_markup_price_range` 21642, `_get_markup_for_combination` 19857 | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
+| Hitung Fixed Selling Price | Sistem | eproc/eproc_tc.py | `tariff.pricelist.fixed` | `_scheduler_pricelist_final` 20657, `_compute_fixed_price_vals` 20149, `_upsert_fixed_price` 20562 | Airflow D01208 | [Fixed Selling Price](/docs/tariff-pricing/fixed-selling-price) | V |
+| Publikasi harga ke TC | Finance / IT | eproc/eproc_tc.py | `tariff.pricelist.fixed.export` | `action_export`, `action_export_txt` 21099, `action_mark_sent_tc` 20821 | TXT `^`, NAS, D01209; ACK D01210 | [Publikasi](/docs/tariff-pricing/publikasi-trakcare) | V / I (D01209) / N (ACK) |
+| Base price dari GRN | Procurement, Finance | eproc/eproc_tc.py | `tariff.aggregation` | `_scheduler_baseprice_aggregation` 22219, `_realize_to_baseprice` 22265 | Airflow D01204/D01206 | [Aggregation](/docs/tariff-pricing/base-price-aggregation) | V |
+| Base price dari vendor agreement | Procurement | Airflow | `tariff.aggregation` (`changes_type=pricelist`) | `sync_vendor_agreement_aggregation_unit` | D012_05 | [Aggregation](/docs/tariff-pricing/base-price-aggregation) | V (snapshot) |
+| Approval perubahan tarif | Manajemen | — | — | — | — | [Open Questions](/docs/getting-started/open-questions) | N / C |
+
+## Patient journey, billing & AR
+
+| Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Registrasi, RME, order klinis | Admisi, medis | — (HIS) | — | — | TrakCare | [Sistem Informasi](/docs/hospital-fundamentals/sistem-informasi) | N (di Odoo) |
+| Episode & billing pasien | Billing | models/sale.py | `sale.order`, `sale.order.bill`, `sale.order.cob`, `sale.order.line` | `action_done`, `action_history`, `lock_bill` | `trx_visit`, `trx_billing` (D013/D014) | [Struktur Billing](/docs/billing-insurance/struktur-billing) | V (model) / I (job) |
+| Koleksi kasir | Kasir, Finance | models/receivable.py, eproc/eproc_tc.py | `receivable.scroll.receipt.cashier` | wizard jurnal TC `tc_receipt_collection` | `trx_cashier_collection` D019/D019_01 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
+| Deposit pasien | Kasir, AR | sama | `receivable.patient.deposit` | `tc_deposit_collection` | `trx_deposit_collection` D020 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
+| Credit note | Billing, AR | sama | `receivable.credit.note`, `account.creditnote` | `tc_creditnote_collection`, `account.creditnote.action_confirm` | `trx_creditnote_collection` D021 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
+| Tagih penjamin (covering letter) | AR | models/receivable.py | `account.coveringletter` | `action_confirm` 621, `action_cancel` 548, `action_confirm_api` | API eksternal | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V |
+| Penerimaan & settlement penjamin | AR | eproc/eproc_tc.py | `receivable.receipt`, `receivable.receipt.settlement` | `action_apply_settlement`, `action_create_entries`, `action_confirm` | `trx_receipt_collection` (D012_11–13) | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V (model) / I (job) |
+| Accrual rawat inap | Finance | models/receivable.py, eproc report views | `receivable.accrual.billing`, `sale.order.line.accrual` | — | `trx_accrual` (D017 pending) | [Rawat Inap](/docs/patient-journey/rawat-inap) | V (model) / I |
+| Klaim BPJS (SEP, e-Klaim) | Klaim | — | (`is_bpjs`, `inacbgs_*` saja) | — | VClaim / e-Klaim | [BPJS](/docs/billing-insurance/bpjs-jkn) | N |
+
+## Procurement & inventory
+
+| Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Purchase request | Unit peminta | eproc/eproc_tc.py | `eproc.request` | `action_confirm` 6857, `_validate_before_confirm` 6794 | Approval log | [PR](/docs/procurement-inventory/purchase-request) | V |
+| Approval matrix | Approver | eproc/eproc_tc.py | `eproc.approval.type/rule/log` | `_create_approval_logs`, `action_approve/reject` | Notifikasi chatter | [PR](/docs/procurement-inventory/purchase-request) | V |
+| Vendor agreement / tender | Purchasing | eproc/eproc_tc.py | `eproc.agreement`, `eproc.tabulation.wizard` | `action_confirm` 2944 | → base price (D012_05) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V |
+| RFQ/PO | Purchasing | eproc/eproc_tc.py | `eproc.order` | `action_confirm` 5387, `_validate_stock_agreement_pricing` 5441, `_check_budget_ceiling` 5378 | Parent → Unit (D012) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V / I (sync) |
+| Receiving fisik | Gudang | eproc/eproc_tc.py | `eproc.receipt` | `action_confirm_srb` 12813 | — | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Validasi penerimaan | Accounting | eproc/eproc_tc.py | `eproc.receipt` | `action_confirm_srv` 12832, `_complete_receipt` 13081 | Stock move, jurnal, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Retur vendor | Gudang/Purchasing | eproc/eproc_tc.py | `eproc.receipt` RT | `action_confirm_return` 12883 | GOODS_RETURN, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Dispense/issue/transfer/opname | Farmasi, unit | eproc/eproc_tc.py | `eproc.stock.move` | jurnal TC stok | `trx_stock_move` D016 | [Stock Movement](/docs/procurement-inventory/stock-movement) | V (model, view) / I (job) |
+| Orderpoint | Farmasi/gudang | eproc/eproc_tc.py | `eproc.orderpoint(.log)` | realize wizard | A3 D001–D003 | [Stock Movement](/docs/procurement-inventory/stock-movement) | V / I |
+| Invoice & bayar supplier | AP | models/payable.py | `payable.invoice`, `payable.payment(.group)` | posting jurnal ~543 | link `invoice_eproc_ids` | [Finance](/docs/finance-accounting) | V |
+| Emergency procurement | Purchasing | — | — | — | — | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | N / C |
+
+## Finance, fee, integrasi
+
+| Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Jurnal harian TC | Accounting | eproc/eproc_tc.py | `account.journal.wizard` | `_generate_tc_journal` 22880, `init` 22870 | View `view_account_tc_*` | [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) | V |
+| Auto-setup jurnal TC | Accounting | (server) | — | `_get_tc_journal` | — | [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) | I (tidak di repo) |
+| Budget eProc | Finance, Procurement | eproc/eproc_tc.py | `eproc.budget.*` | `_check_budget_tracking`, ceiling | cron refresh 1 menit | [Budget](/docs/finance-accounting/budget-cost-center) | V |
+| Fee dokter | Staff Fee Doctor | models/doctor_fee.py | `doctor.rate`, `doctor.fee(.line)` | `_compute_fee_line` 10776, `compute_grossup` 4687, `posting` 753 | `trx_payout_collection` (D022_01 pending) | [Doctor Fee](/docs/hr-doctor-fees/doctor-fee) | V / I |
+| Referral fee | Finance, Marketing | models/referral_fee.py | `referral.*` | compute/confirm/posting wizard | API backend appointment | [Referral & Marketing](/docs/hr-doctor-fees/referral-marketing-fee) | V |
+| Marketing fee | Marketing, Finance | models/marketing_fee.py | `marketing.*` | `marketing.posting.wizard` | — | [Referral & Marketing](/docs/hr-doctor-fees/referral-marketing-fee) | V (model) |
+| Konsolidasi unit ↔ main | IT, Finance corporate | models/resapi.py | `ApiController` | `api_consol_unit_method`, `api_consol_main_method` | REST internal | [Konsolidasi](/docs/integrations/odoo-consolidation) | V |
+| Lembur / approval HR | HR | — | — | — | — | [Dokter & Fee](/docs/hr-doctor-fees) | N |
+| SATUSEHAT | Rekam medis / IT | — | — | — | — | [Compliance](/docs/compliance) | N |

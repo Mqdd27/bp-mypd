@@ -1,0 +1,83 @@
+---
+title: Purchase Request & Approval
+description: Permintaan pembelian dari unit, validasi produk-departemen, budget, dan approval matrix berurutan.
+---
+
+## 1. Apa itu?
+
+**Purchase Request (PR)** — `eproc.request` — adalah permintaan resmi dari sebuah departemen untuk membeli barang/jasa, sebelum vendor dipilih.
+
+`request_type`: `normal`, `repeat` (Repeat Order), `auto` (Auto PR dari orderpoint), `budgeted` (terkait budget item, mis. capex).
+
+## 2. Kenapa RS membutuhkannya?
+
+<Confidence level="general" /> Memisahkan **yang butuh** (unit) dari **yang membeli** (purchasing), memaksa persetujuan atasan & pemilik budget, dan menjadi jejak audit kenapa sesuatu dibeli. Medis vs non-medis biasanya punya approver dan procurement type berbeda.
+
+## 4. Proses di lapangan
+
+<Steps>
+<Step>Unit membuat PR: departemen, procurement type (`eproc.type`), approval type, item + pack + qty.</Step>
+<Step>Confirm → validasi; jika approval type punya rule aktif, PR masuk `approval`; jika tidak, langsung `ready`.</Step>
+<Step>Approver berurutan menyetujui (check → approve → verify → review sesuai rule); notifikasi lewat chatter/inbox.</Step>
+<Step>Jika ditolak → `rejected`; pembuat/penolak dapat merevisi & submit ulang.</Step>
+<Step>PR `ready` direalisasi menjadi RFQ oleh purchasing (`eproc.request.realize.wizard`).</Step>
+</Steps>
+
+## 6. State diagram
+
+```mermaid
+stateDiagram-v2
+  [*] --> draft
+  draft --> approval: action_confirm (ada rule aktif)
+  draft --> ready: action_confirm (tanpa rule)
+  approval --> ready: approval terakhir disetujui
+  approval --> rejected: action_reject
+  rejected --> approval: confirm ulang (restart / lanjut jika nilai sama)
+  ready --> partial: sebagian direalisasi ke RFQ
+  partial --> done
+  ready --> done: semua direalisasi
+  draft --> cancelled
+  approval --> cancelled
+  ready --> expired: melewati request_expiry_date
+```
+
+*Sumber:* `EprocRequest.state` (eproc_tc.py:6280), `action_confirm` (6857). Transisi `partial/done/expired` <Confidence level="inferred">dari state baris & nama</Confidence>
+
+## 7. Implementasi — validasi saat confirm
+
+`_validate_before_confirm` (6794) mewajibkan:
+
+- company, user, **department**, procurement type, approval type;
+- minimal satu baris aktif; setiap baris punya produk, **pack**, dan qty > 0;
+- **produk harus terdaftar untuk departemen** (`product.template.eproc_department_ids`) — farmasi tidak bisa meminta barang yang hanya untuk maintenance, dsb.;
+- untuk `budgeted`: budget item cocok (group/kategori/produk) dan masih punya sisa (`unrealize_amount > 0`); total baris ≤ sisa budget (`_validate_budget_line_amounts`, 6832);
+- approval type cocok dengan company + procurement type + (department atau budget group/kategori) (`_validate_request_approval_type`, 6844).
+
+Aturan revisi setelah ditolak: hanya **pembuat** atau **penolak terakhir** (atau admin) yang boleh submit ulang. Jika total harga **tidak berubah**, approval dilanjutkan dari penolak; jika berubah, approval **diulang dari awal**. <Confidence level="verified" />
+
+## Approval matrix
+
+| Model | Lokasi | Isi |
+| --- | --- | --- |
+| `eproc.approval.type` | 4026 | Jenis: `request` (PR), `order` (PO), `receipt` (GRN), `agreement` (Rate Contract), `budget` |
+| `eproc.approval.rule` | 4112 | Langkah berurutan: `check`, `approve`, `verify`, `review` |
+| `eproc.approval.log` | 4152 | Jejak per dokumen: `pending/approved/rejected/cancelled/skipped`, `amount_snapshot` |
+
+Matriks yang sama dipakai PR, PO, GRN tanpa PO, agreement, dan budget — satu tempat untuk **separation of duties**.
+
+## 10. Common problems
+
+- "Product ... is not mapped to department ..." → master `eproc_department_ids` belum lengkap.
+- "Approval Type does not match ..." → approval type dibuat untuk departemen lain.
+- Budget habis → PR budgeted ditolak sistem.
+
+## 12. Pertanyaan uji
+
+<Accordions>
+<Accordion title="Kenapa approval tidak diulang jika revisi tidak mengubah total?">
+Karena keputusan finansial approver sebelumnya tetap valid; yang direvisi dianggap koreksi administratif. Perubahan nilai membutuhkan persetujuan ulang penuh.
+</Accordion>
+<Accordion title="Apa arti 'reservation' untuk PR budgeted?">
+PR yang disetujui mengikat sisa budget item sehingga tidak bisa dipakai PR lain; RFQ/PO kemudian mengonversi komitmen itu.
+</Accordion>
+</Accordions>

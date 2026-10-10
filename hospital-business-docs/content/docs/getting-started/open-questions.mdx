@@ -1,0 +1,68 @@
+---
+title: Open Questions & Operational Validation
+description: Pertanyaan yang harus divalidasi dengan tim operasional, finance, dan IT Mayapada sebelum asumsi di dokumentasi ini dianggap benar.
+---
+
+Setiap pertanyaan diberi pemilik yang disarankan dan halaman terkait. Jawab di sini (atau di project memory) agar label <Confidence level="confirm" /> bisa diubah menjadi fakta.
+
+## Sistem & data
+
+| # | Pertanyaan | Kenapa penting | Tanya ke | Halaman |
+| --- | --- | --- | --- | --- |
+| S1 | Apakah **seluruh** billing pasien berjalan di HIS (TrakCare / HIS lama), dan Odoo hanya menerima hasil? Ada unit yang menagih langsung dari Odoo? | Menentukan source of truth pendapatan | IT HIS, Finance | [Sistem Informasi](/docs/hospital-fundamentals/sistem-informasi) |
+| S2 | Sistem mana source of truth **identitas pasien** per unit (TrakCare, Dhealth, Wipro)? Bagaimana merge MRN ganda? | Piutang pasien & PDP | Rekam medis, IT | [Master Data](/docs/master-data) |
+| S3 | Unit mana memakai Odoo 16 dan mana Odoo 10 saat ini? Rencana migrasi? | Perilaku kode berbeda | IT ERP | [Peta Sistem](/docs/getting-started/peta-sistem) |
+| S4 | Apakah jalur `_sync_*` via `sync.get_data` (HIS lama) masih dipakai di Odoo 16? | Kode berisi sisa Python 2 | IT ERP | [Konsolidasi](/docs/integrations/odoo-consolidation) |
+| S5 | Sistem mana yang mengirim data ke **SATUSEHAT**? | Kepatuhan RME | Rekam medis, IT | [Compliance](/docs/compliance) |
+| S6 | Arti singkatan **UEPR**, **POT/GP**, **P1/P2**, **TNC**, **DIL TDM**, **Akasia 365 MC**? | Istilah di kode | Finance, Fee doctor | [Glosarium](/docs/glossary) |
+
+## Tarif
+
+| # | Pertanyaan | Tanya ke | Halaman |
+| --- | --- | --- | --- |
+| T1 | **Siapa yang berwenang menyetujui perubahan tarif?** Apakah ada approval di luar sistem (memo direksi)? | Direksi, Finance | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) |
+| T2 | Apakah seluruh cabang memakai **aturan pricing yang sama** (markup tier, depend rate), atau per unit? | Finance corporate | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) |
+| T3 | Kebijakan **hanya menaikkan** base price saat harga beli naik (tidak turun) — sengaja? | Finance, Procurement | [Aggregation](/docs/tariff-pricing/base-price-aggregation) |
+| T4 | Apakah perubahan markup/dependency boleh berlaku **hari itu juga** (bukan H+2)? Kode menjadikan `write_date` sebagai tanggal efektif. | Finance | [Fixed Selling Price](/docs/tariff-pricing/fixed-selling-price) |
+| T5 | Bagaimana TC menangani **EpisodeType kosong** (MCU/ODC) dan **UrgentRate 20%**? | Tim TrakCare | [Publikasi](/docs/tariff-pricing/publikasi-trakcare) |
+| T6 | Mapping legacy **Category markup** yang masih memakai order category — dipetakan ke item category apa? | Finance | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) |
+| T7 | `patient_type` default `IP` untuk bed type baru dari sync — nilai benar per room type? | Admisi, IT | [Master Tarif](/docs/tariff-pricing/master-tarif) |
+| T8 | Bagaimana konfirmasi bahwa TC sudah menerapkan harga (ACK/D01210)? | IT integrasi | [Publikasi](/docs/tariff-pricing/publikasi-trakcare) |
+
+## Billing, AR & klaim
+
+| # | Pertanyaan | Tanya ke |
+| --- | --- | --- |
+| B1 | **Kapan tagihan menjadi piutang** menurut kebijakan akuntansi (saat billing close? saat discharge? saat covering letter)? | Finance/Accounting |
+| B2 | Bagaimana jurnal **pendapatan** dibuat (D014/D017/D018 masih pending)? | Accounting, IT |
+| B3 | Unit mana yang melayani **BPJS**? Di mana klaim INA-CBG, pending, dan selisih dicatat? | Klaim, Finance |
+| B4 | Aturan **selisih kelas** (eligible vs alloted bed type) dan siapa penanggungnya? | Billing, Asuransi |
+| B5 | Apakah pembatalan covering letter dengan **menghapus jurnal** diterima auditor? | Accounting, Audit internal |
+| B6 | Nama & perlakuan akun `1104020101`, `2103000000`, `2103030000`, `7999000000` di COA tiap unit? | Accounting |
+
+## Procurement & stok
+
+| # | Pertanyaan | Tanya ke |
+| --- | --- | --- |
+| P1 | Bagaimana **pembelian darurat** (cito) dilakukan — WO receipt? procurement type khusus? | Procurement |
+| P2 | Mana yang dipakai produksi untuk jurnal penerimaan: jurnal **per receipt** atau jurnal **harian TC Stock Receipt**? (risiko dobel) | Accounting |
+| P3 | Konvensi **tanda qty** dan akun Dispense (stock output vs COGS) dari TC? | Accounting, TC |
+| P4 | Kebijakan **near-expiry** & pemusnahan obat? | Farmasi |
+
+## Fee & SDM
+
+| # | Pertanyaan | Tanya ke |
+| --- | --- | --- |
+| F1 | **Bagaimana pembagian revenue dengan dokter** (persentase standar per layanan/kelas/penjamin)? | Komite medik, Finance |
+| F2 | Skema pajak fee dokter sudah sesuai aturan PPh 21 terbaru? | Pajak |
+| F3 | Dasar kebijakan & kepatuhan **referral fee**? | Legal, Compliance |
+| F4 | Di mana lembur & payroll dikelola? | Human Capital |
+
+## Integrasi
+
+| # | Pertanyaan | Tanya ke |
+| --- | --- | --- |
+| I1 | **Bagaimana rekonsiliasi dilakukan saat integrasi gagal** (siapa memantau, SLA, rerun)? | IT integrasi, Finance |
+| I2 | Monitoring apa yang membedakan "sukses 0 baris" dari "sukses dengan data"? | IT |
+| I3 | Kapan NAS share produksi tersedia dan `NAS_TASKS_ENABLED` diaktifkan? | IT infra |
+| I4 | Kapan kredensial di source code dipindahkan ke secret store? | IT security |

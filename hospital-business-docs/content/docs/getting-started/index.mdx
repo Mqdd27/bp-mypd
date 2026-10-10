@@ -1,0 +1,50 @@
+---
+title: "Start Here: 20 Konsep Inti"
+description: Dua puluh konsep yang wajib dipahami developer Odoo Mayapada sebelum mengubah kode bisnis.
+---
+
+Baca daftar ini dulu. Setiap konsep menautkan ke halaman yang menjelaskannya lebih dalam.
+
+## A. Dunia rumah sakit
+
+| # | Konsep | Inti yang harus diingat |
+| --- | --- | --- |
+| 1 | **Episode / Admission / Visit** | Satu kunjungan pasien = satu episode. Di Odoo direpresentasikan oleh `sale.order` (label "Admission"). → [Patient Journey](/docs/patient-journey) |
+| 2 | **Patient type** | OP (rawat jalan), IP (rawat inap), Emergency/AAE (IGD), Daycare/ODC, MCU. Menentukan tarif, fee dokter, dan akun. Ada **dua kamus kode** di repo (numerik `1..6` vs kode `IP/OP/AAE/MCU/ODC`). → [Master Tarif](/docs/tariff-pricing/master-tarif) |
+| 3 | **Payer / Penjamin** | Siapa yang membayar: pasien pribadi, asuransi, perusahaan, BPJS. Satu tagihan dapat dibagi ke *main payer*, *sub payer*, dan *personal*. → [Struktur Billing](/docs/billing-insurance/struktur-billing) |
+| 4 | **Bed type / kelas kamar** | Kelas kamar memengaruhi harga hampir semua layanan rawat inap. Odoo membedakan *billable*, *eligible*, dan *alloted* bed type. |
+| 5 | **HIS vs ERP** | HIS (TrakCare dll.) = klinis + billing pasien. Odoo = back office. → [Sistem Informasi](/docs/hospital-fundamentals/sistem-informasi) |
+| 6 | **Revenue center vs cost center** | Unit penghasil pendapatan (rawat inap, lab, farmasi) vs unit pendukung (HR, IT, laundry). → [Revenue & Cost Center](/docs/hospital-fundamentals/revenue-cost-center) |
+
+## B. Tarif & harga
+
+| # | Konsep | Inti |
+| --- | --- | --- |
+| 7 | **Tariff (hospital.tariff)** | "Daftar harga" per jenis penjamin/kontrak. ID negatif = Base Price; ID positif = tarif jual. |
+| 8 | **Base Price** | Harga dasar barang (obat/BHP) — di Mayapada diturunkan dari **harga penerimaan barang tertinggi** atau vendor agreement. → [Base Price Aggregation](/docs/tariff-pricing/base-price-aggregation) |
+| 9 | **Pricelist current/new/prev** | Tiap baris `tariff.pricelist` menyimpan harga sekarang, harga baru + tanggal efektif, dan harga sebelumnya. |
+| 10 | **Aturan H+2** | Harga baru minimal efektif 2 hari setelah input, memberi waktu publikasi ke HIS. |
+| 11 | **Dependency & Markup** | Tarif B = Tarif A × *depend rate*; lalu × (1 + *markup* berjenjang per rentang harga). → [Dependency & Markup](/docs/tariff-pricing/dependency-markup) |
+| 12 | **Fixed Selling Price** | Hasil akhir yang dikirim ke TrakCare, diversi dengan hash SHA-256. → [Fixed Selling Price](/docs/tariff-pricing/fixed-selling-price) |
+
+## C. Uang
+
+| # | Konsep | Inti |
+| --- | --- | --- |
+| 13 | **Unbilled vs billed AR** | Tagihan payer awalnya dicatat di akun piutang "belum ditagih"; baru pindah ke piutang payer saat **Covering Letter** dikonfirmasi. → [Covering Letter & AR](/docs/billing-insurance/covering-letter-ar) |
+| 14 | **Deposit & collection kasir** | Uang muka pasien dan penerimaan kasir datang dari HIS sebagai koleksi harian lalu dijurnal di Odoo. |
+| 15 | **Physical receipt ≠ financial acceptance** | *Receiving Bay* (SRB) = barang fisik diterima; *Receiving Validation* (SRV) = diakui akuntansi & stok. → [Receiving](/docs/procurement-inventory/receiving) |
+| 16 | **Professional fee dokter** | Dokter bukan sekadar karyawan; fee dihitung per layanan, dipotong PPh 21/23, dan diposting bulanan. → [Doctor Fee](/docs/hr-doctor-fees/doctor-fee) |
+| 17 | **Approval matrix** | PR, PO, GRN tanpa PO, agreement, dan budget memakai `eproc.approval.type` + rule berurutan. |
+
+## D. Sistem
+
+| # | Konsep | Inti |
+| --- | --- | --- |
+| 18 | **sync_type** | Penanda unit RS/sumber data (mis. `6` Kuningan, `11` Jakarta Timur, `999` Parent MHG). Hampir semua tabel punya field ini. → [Master Data](/docs/master-data) |
+| 19 | **sync_id_api** | Kunci eksternal (ID TrakCare). Relasi antar sistem harus di-resolve lewat kunci ini, **bukan** ID database. |
+| 20 | **Bridge + Airflow** | Data TC → Bridge (staging) → Odoo Parent/Unit lewat job A1/A2/A3. Job "sukses" tetapi 0 baris bukan bukti data benar. → [Airflow Pipeline](/docs/integrations/airflow-pipeline) |
+
+<Callout title="Langkah berikutnya">
+Lanjutkan ke [Cara Membaca Dokumentasi](/docs/getting-started/cara-membaca), lalu ikuti [Learning Roadmap](/docs/learning-roadmap).
+</Callout>

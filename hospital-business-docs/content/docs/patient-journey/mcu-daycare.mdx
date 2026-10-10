@@ -1,0 +1,65 @@
+---
+title: Medical Check-Up (MCU) & Daycare
+description: Layanan paket MCU (sering korporat) dan One Day Care, serta jejaknya di tarif, fee dokter, dan billing.
+---
+
+## MCU
+
+### Apa & kenapa
+
+<Confidence level="general" /> MCU adalah paket pemeriksaan kesehatan (fisik, lab, radiologi, EKG, dll.) — sering dibeli **perusahaan** untuk karyawannya (pre-employment, annual check-up). Bisnisnya berbasis **paket & kontrak korporat**: harga paket, daftar pemeriksaan, dan laporan hasil massal.
+
+### Alur
+
+```mermaid
+flowchart LR
+  K["Kontrak korporat / paket MCU [Marketing]"] --> J["Jadwal & registrasi peserta [HIS]"]
+  J --> E["Pemeriksaan per stasiun<br/>lab, radiologi, fisik, EKG"]
+  E --> H["Hasil & resume dokter MCU"]
+  E --> B["Billing paket<br/>patient_type MCU"]
+  B --> CL["Tagihan ke perusahaan<br/>[Odoo] covering letter / AR"]
+  E --> FD["[Odoo] Fee dokter MCU<br/>doctor.mcu / doctor.mcu.line"]
+```
+
+### Implementasi
+
+| Aspek | Bukti |
+| --- | --- |
+| Patient type | `MCU` di bed type tarif; `5` (MCU/Pharmacy Issues Only (FO)) di model billing |
+| Paket | `sale.order.line.package_id`, `package_name`, `package_contribution`, `package_doctor_share`, `is_package` |
+| Fee dokter MCU | `doctor.mcu` (49 field) & `doctor.mcu.line` (123 field), grup *Finance & Accounting – Staff MCU*, `doctor.fee.others.detail.fee_type = MCU` |
+| Unit khusus | `is_akasia` ("Akasia 365 MC"), `sale.order.akasia.wizard`; `is_mec` (Mayapada Eye Centre) |
+
+<Confidence level="verified">field & model</Confidence> <Confidence level="inferred">makna bisnis Akasia 365 MC</Confidence>
+
+<Callout type="warn">
+Kode `5` di model billing berlabel "MCU/Pharmacy Issues Only (FO)" sementara README Airflow memetakan `5 = MCU` dan `6 = Pharmacy/Cash Issue`. Perbedaan label ini perlu dikonfirmasi saat membuat laporan per patient type. <Confidence level="confirm" />
+</Callout>
+
+## Daycare / One Day Care (ODC)
+
+### Apa & kenapa
+
+<Confidence level="general" /> Pasien dirawat kurang dari 24 jam untuk tindakan terencana (kemoterapi, endoskopi, bedah minor, hemodialisis di beberapa RS). Lebih murah dari rawat inap, tetapi butuh fasilitas tempat tidur dan observasi.
+
+### Implementasi
+
+| Aspek | Bukti |
+| --- | --- |
+| Patient type | `ODC` (tarif), `4` (billing) |
+| Flag item | `sale.order.line.is_daycare`, `is_hd` (hemodialisis), `is_cathlab` |
+| Fee HD | `doctor.rate.is_hd`, `doctor.fee.hd_share/point` |
+| Ekspor harga | EpisodeType **kosong** untuk ODC/MCU (lihat [Publikasi](/docs/tariff-pricing/publikasi-trakcare)) |
+
+<Confidence level="verified" />
+
+## Pertanyaan uji
+
+<Accordions>
+<Accordion title="Kenapa MCU erat kaitannya dengan piutang korporat?">
+Karena pembayarnya perusahaan dengan termin, sehingga tagihan masuk alur covering letter → AR payer, bukan kasir.
+</Accordion>
+<Accordion title="Apa risiko jika EpisodeType kosong di TXT harga untuk ODC?">
+TrakCare mungkin menolak atau memperlakukan harga sebagai berlaku untuk semua episode. Perlu dikonfirmasi dengan tim TC. <Confidence level="confirm" />
+</Accordion>
+</Accordions>

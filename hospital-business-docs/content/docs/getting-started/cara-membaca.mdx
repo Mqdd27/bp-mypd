@@ -1,0 +1,41 @@
+---
+title: Cara Membaca Dokumentasi
+description: Label kepercayaan, format rujukan kode, dan struktur 13 bagian yang dipakai di setiap topik.
+---
+
+## Lima label kepercayaan
+
+| Label | Arti | Contoh |
+| --- | --- | --- |
+| <Confidence level="general" /> | Praktik umum RS di Indonesia, didukung regulasi/sumber publik. | Pasien BPJS memerlukan SEP sebelum dilayani. |
+| <Confidence level="verified" /> | Dibaca langsung di kode `odoo-revamp/mayapada`. | Harga baru wajib efektif ≥ H+2. |
+| <Confidence level="inferred" /> | Disimpulkan dari nama field/alur kode, tetapi tujuan bisnisnya tidak tertulis. | `cob_bill` = *Coordination of Benefit*. |
+| <Confidence level="confirm" /> | Asumsi operasional; harus divalidasi dengan staf RS. | Siapa yang menyetujui perubahan tarif. |
+| <Confidence level="notfound" /> | Proses RS penting yang tidak ada implementasinya di repo. | Penerbitan SEP/VClaim. |
+
+<Callout type="warn">
+Label "Terverifikasi di Kode" berarti **kode di repo berperilaku begitu**, bukan bahwa itu SOP resmi Mayapada. Project memory juga mencatat bahwa beberapa file di server sudah berbeda dari repo (contoh: auto-setup jurnal TC). Kode di server tetap sumber kebenaran untuk perilaku produksi.
+</Callout>
+
+## Format rujukan kode
+
+```text
+mayapada/eproc/eproc_tc.py:20149 → TariffPricelistFixed._compute_fixed_price_vals()
+```
+
+- Path relatif terhadap `bp-mypd/odoo-revamp/`.
+- Nomor baris mengacu ke commit `7e4772d` ("feat: init tc journal view"). Baris dapat bergeser setelah commit baru.
+- Airflow dirujuk sebagai `airflow:<path>` dan mengacu ke snapshot lokal `/Users/macbook/Documents/mayapada/_airflow_current/`.
+
+## Struktur 13 bagian
+
+Topik proses utama memakai pola berikut agar mudah dibandingkan:
+
+1. Apa itu? · 2. Kenapa RS membutuhkannya? · 3. Siapa yang terlibat? · 4. Bagaimana prosesnya di lapangan? · 5. Contoh skenario · 6. Diagram · 7. Implementasi di Odoo Mayapada · 8. Alur perubahan data · 9. Business rules · 10. Common problems · 11. Yang perlu developer pahami · 12. Pertanyaan uji · 13. Referensi & confidence
+
+## Konvensi diagram
+
+- Diagram Mermaid dirender di browser dan mengikuti tema terang/gelap.
+- Node bertanda `[HIS]`, `[Odoo]`, `[Airflow]` menunjukkan sistem pemilik langkah.
+- Garis putus-putus (`-.->`) = alur alternatif / pengecualian.
+- Setiap diagram punya catatan sumber di bawahnya.

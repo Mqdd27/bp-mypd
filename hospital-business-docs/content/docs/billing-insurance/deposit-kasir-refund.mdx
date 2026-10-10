@@ -1,0 +1,73 @@
+---
+title: Deposit, Kasir, Credit Note, Refund
+description: Koleksi harian dari HIS (kasir, deposit, credit note) masuk ke Odoo lewat TXT → Bridge → Unit, lalu dijurnal per tanggal proses.
+---
+
+## 1. Apa itu?
+
+| Transaksi | Arti bisnis | Model Odoo (alur TrakCare) |
+| --- | --- | --- |
+| **Cashier collection** | Uang yang diterima kasir (tunai, debit, kartu kredit, transfer, voucher) untuk tagihan pasien | `receivable.scroll.receipt.cashier` (`models/receivable.py:9020`) |
+| **Deposit** | Uang muka pasien (umumnya rawat inap); kemudian dipakai (*availed*) atau dikembalikan (*refund*) | `receivable.patient.deposit` (9286) |
+| **Credit note** | Pengurang tagihan setelah billing (diskon, koreksi, retur) | `receivable.credit.note` (9761) |
+| **Advance / refund** | Uang muka/refund dengan tipe pembayaran | `receivable.advance` (10261, `type` advance/refund) |
+| **Write-off** | Penghapusan sisa piutang | `receivable.writeoff` (10012) |
+| **Payment mode** | Master cara bayar → akun kas/bank | `receivable.payment.mode` (11137) |
+
+Model legacy (generasi HIS lama) juga ada: `scroll.receipt.cashier`, `inpatient.deposit`, `account.creditnote`, `account.advance`, `patient.debt`. <Confidence level="verified" />
+
+## 2. Kenapa penting?
+
+<Confidence level="general" /> Kas adalah aset paling rawan. RS harus mencocokkan setiap hari: uang di laci/EDC/bank = penerimaan menurut sistem = pengurangan piutang/penambahan kewajiban deposit. Deposit adalah **kewajiban** RS kepada pasien sampai dipakai.
+
+## 6. Alur data & jurnal
+
+```mermaid
+flowchart LR
+  TC["TrakCare<br/>kasir, deposit, credit note"] -->|"TXT harian di NAS"| D19["Airflow D019/D020/D021<br/>TXT → Bridge (COPY, snapshot per tanggal)"]
+  D19 --> BR[("Bridge<br/>trx_cashier_collection<br/>trx_deposit_collection<br/>trx_creditnote_collection")]
+  BR -->|"D019_01/D020_01/D021_01<br/>baca view_trx_*"| U["Odoo Unit<br/>receivable.scroll.receipt.cashier<br/>receivable.patient.deposit<br/>receivable.credit.note"]
+  U -->|"SQL view_account_tc_*"| W["Wizard Generate Journal<br/>account.journal.wizard"]
+  W --> JE["account.move per tanggal<br/>TC Receipt / Deposit / Credit Note Collection"]
+```
+
+*Sumber:* `airflow:a2_scheduler_mix_interfacing/D019_txt_to_bridge_cashier_receipt.py`, `D020_txt_to_bridge_deposit.py`, `D021_txt_to_bridge_credit_note.py`, `D019_01_sync_unit_cashier_collection.py` (snapshot lokal); `eproc_tc.py:22512` (`TC_JOURNALS`), `:22528` (`TC_JOURNAL_VIEWS`). <Confidence level="verified" />
+
+| Jurnal (total positif per tanggal) | Debit | Kredit |
+| --- | --- | --- |
+| TC Receipt Collection | Akun payment mode (kas/bank) | Akun kode `1104020101` (piutang) |
+| TC Deposit Collection | Akun payment mode | Akun kode `2103000000` (titipan/deposit pasien) |
+| TC Credit Note Collection | Akun payment mode, atau `7999000000` jika tanpa payment mode | Akun kode `2103030000` (memory: "Deposit Credit Note") |
+
+Jika total per kelompok **negatif** (refund/reversal), debit dan kredit dibalik. Nama akun di COA perlu dicek per company. <Confidence level="verified">kode akun di SQL</Confidence> <Confidence level="confirm">nama & perlakuan akun</Confidence>
+
+## 9. Business rules (wizard jurnal TC)
+
+- Company wajib punya `sync_type`.
+- Harus ada **tepat satu** jurnal "matic" aktif dengan sequence untuk nama jurnal tersebut.
+- View sumber harus ada (dibuat di `init()` saat upgrade modul; jika gagal hanya warning).
+- Satu jurnal per (jurnal, company, tanggal, ref) — pembuatan ulang ditolak; dikunci dengan `pg_advisory_xact_lock`.
+- Tanggal awal & akhir harus < hari ini (tidak bisa menjurnal hari berjalan).
+- Akun debit/kredit wajib ada, milik company yang sama, tidak deprecated; amount harus > 0 dan finite.
+
+<Confidence level="verified">AccountJournalWizard._generate_tc_journal, eproc_tc.py:22880</Confidence>
+
+## 10. Common problems
+
+| Masalah | Penyebab | Catatan |
+| --- | --- | --- |
+| "Source view ... is not available" | View gagal dibuat saat upgrade (tabel/kolom sumber belum ada) | Lihat log upgrade untuk warning. |
+| "needs one active matic journal" | Jurnal/sequence per company belum disiapkan | Memory: server sudah punya auto-setup `_get_tc_journal()` yang **belum ada di repo**. |
+| Credit note gagal dijurnal | Akun `2103030000` tidak ada di COA unit (memory: Jakarta Timur) | Kode akun hard-coded. |
+| Jurnal kas tidak sama dengan setoran bank | TXT tidak lengkap (D019 butuh snapshot harian lengkap, bukan delta) | File kosong = no-op, bukan "hapus". |
+
+## 12. Pertanyaan uji
+
+<Accordions>
+<Accordion title="Kenapa deposit dikredit ke akun kewajiban, bukan pendapatan?">
+Karena uang deposit masih milik pasien sampai layanan ditagihkan dan deposit dipakai; jika pasien batal, deposit dikembalikan.
+</Accordion>
+<Accordion title="Mengapa wizard jurnal tidak mengizinkan tanggal hari ini?">
+Koleksi dari HIS bersifat EOD (end-of-day); data hari berjalan belum final.
+</Accordion>
+</Accordions>
