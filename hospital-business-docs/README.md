@@ -14,6 +14,22 @@ pnpm lint
 
 Node 20+ (tested on Node 26, pnpm 11).
 
+## Deploy (pm2)
+
+`next.config.mjs` uses `output: 'standalone'`, so the host needs only Node + pm2 — no package install (the target server's registry link is too slow for `next`/`mermaid` tarballs). Build locally, then ship the bundle:
+
+```bash
+pnpm build
+R=mqdd@100.115.174.40; D='~/apps/hospital-business-docs/app'
+rsync -az --delete .next/standalone/ $R:$D/
+rsync -az .next/static $R:$D/.next/
+rsync -az public $R:$D/
+ssh $R 'pm2 restart hospital-business-docs'   # first time:
+# ssh $R 'cd ~/apps/hospital-business-docs/app && PORT=3200 HOSTNAME=0.0.0.0 pm2 start server.js --name hospital-business-docs && pm2 save'
+```
+
+Live at http://100.115.174.40:3200/docs (Tailscale).
+
 ## Layout
 
 ```text
