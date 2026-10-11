@@ -90,5 +90,7 @@
 .dark .conf-notfound { color: #cbd5e1; border-color: #475569; background: #1e293b; }
 
 /* Code citations (see components/mdx/source.tsx). */
-.src-ref { display: inline-flex; gap: 0.35rem; align-items: baseline; text-decoration: none; }
+.src-ref { display: inline-flex; gap: 0.35rem; align-items: baseline; text-decoration: none; cursor: pointer; text-align: left; }
 .src-loc { font-size: 0.8em; color: var(--color-fd-muted-foreground); text-decoration: underline dotted; }
+.src-pop { width: min(44rem, calc(100vw - 2rem)); max-height: 70vh; overflow: auto; padding: 0.5rem; }
+.src-gh { display: block; margin-top: 0.4rem; font-size: 0.8rem; text-align: right; }
