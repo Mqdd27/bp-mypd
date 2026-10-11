@@ -5,7 +5,7 @@ description: Siklus pengadaan rumah sakit dari permintaan unit sampai pembayaran
 
 ## 1. Apa itu?
 
-**Procure-to-pay** adalah rantai: kebutuhan unit → permintaan pembelian (PR) → pemilihan vendor & harga (RFQ/agreement) → pesanan (PO) → penerimaan barang → validasi → tagihan supplier → pembayaran. Di Mayapada, rantai ini diimplementasikan oleh modul **eProc** (`mayapada/eproc/eproc_tc.py`), terpisah dari `purchase.order` standar Odoo yang masih ada di `models/purchase.py` (generasi lama). <Confidence level="verified" />
+**Procure-to-pay** adalah rantai: kebutuhan unit → permintaan pembelian (PR) → pemilihan vendor & harga (RFQ/agreement) → pesanan (PO) → penerimaan barang → validasi → tagihan supplier → pembayaran. Di Mayapada, rantai ini diimplementasikan oleh modul **eProc** (<Src file="mayapada/eproc/eproc_tc.py" />), terpisah dari `purchase.order` standar Odoo yang masih ada di <Src file="mayapada/models/purchase.py" /> (generasi lama). <Confidence level="verified" />
 
 ## 2. Kenapa RS membutuhkannya?
 
@@ -54,7 +54,7 @@ flowchart TD
   SRV -.-> RT["Vendor Return (RT)<br/>GOODS_RETURN, jurnal dibalik"]
 ```
 
-*Sumber:* `eproc_tc.py` — `EprocRequest` (6236), `EprocOrder` (4252), `EprocAgreement` (2749), `EprocReceipt` (11416), `_complete_receipt` (13081); `models/payable.py`. <Confidence level="verified" /> Hubungan receipt → `payable.invoice`: <Confidence level="inferred">ada field `ap_invoice_signed_total_*` & `action_open_ap_invoice`</Confidence>
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" /> — <Src file="mayapada/eproc/eproc_tc.py" line={6236} symbol="EprocRequest" />, <Src file="mayapada/eproc/eproc_tc.py" line={4252} symbol="EprocOrder" />, <Src file="mayapada/eproc/eproc_tc.py" line={2749} symbol="EprocAgreement" />, <Src file="mayapada/eproc/eproc_tc.py" line={11416} symbol="EprocReceipt" />, <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" />; <Src file="mayapada/models/payable.py" />. <Confidence level="verified" /> Hubungan receipt → `payable.invoice`: <Confidence level="inferred">ada field `ap_invoice_signed_total_*` & `action_open_ap_invoice`</Confidence>
 
 ## Halaman
 
@@ -67,5 +67,19 @@ flowchart TD
 
 <Callout type="info" title="Tentang istilah VRT, PRT, reservation di brief">
 - **RT** = *Vendor Return* (`receipt_type='RT'`). Kode juga mengecek `'PRT'` di beberapa tempat (9 kali), tetapi `PRT` **tidak** ada di pilihan `receipt_type` — kemungkinan sisa kompatibilitas. **VRT** tidak ditemukan. <Confidence level="verified" />
-- **Reservation** di eProc berarti **reservasi budget** (PR yang disetujui "memesan" sisa budget item), bukan reservasi stok seperti `stock.move` Odoo standar. <Confidence level="verified">eproc_tc.py:2397, 8636</Confidence>
+- **Reservation** di eProc berarti **reservasi budget** (PR yang disetujui "memesan" sisa budget item), bukan reservasi stok seperti `stock.move` Odoo standar. <Confidence level="verified"><Src file="mayapada/eproc/eproc_tc.py" line={2397} symbol="reserve" />, <Src file="mayapada/eproc/eproc_tc.py" line={8636} symbol="reserved" /></Confidence>
 </Callout>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={2749} symbol="EprocAgreement" /> — class `EprocAgreement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4252} symbol="EprocOrder" /> — class `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6236} symbol="EprocRequest" /> — class `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11416} symbol="EprocReceipt" /> — class `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={14179} symbol="action_open_ap_invoice" /> — method `EprocReceipt`
+- <Src file="mayapada/models/payable.py" line={188} symbol="payable.invoice" /> — model `PayableInvoice`
+- <Src file="mayapada/models/purchase.py" line={31} symbol="purchase.order" /> — extend `PurchaseOrder`
+- <Src file="mayapada/models/stock.py" line={3973} symbol="stock.move" /> — extend `StockMove`

@@ -46,7 +46,7 @@ sequenceDiagram
   end
 ```
 
-*Sumber:* `eproc_tc.py:20657` dan method terkait. <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="_scheduler_pricelist_final" /> dan method terkait. <Confidence level="verified" />
 
 ## 7. Implementasi di Odoo Mayapada
 
@@ -83,11 +83,11 @@ Diproses: (1) semua anchor pricelist tariff terpilih; (2) dependency yang **targ
 
 ### Wizard & aksi
 
-| Komponen | Lokasi | Fungsi |
-| --- | --- | --- |
-| `tariff.pricelist.fixed.wizard` | 19630 | Hitung ulang untuk tariff terpilih (`action_update`). |
-| `tariff.pricelist.fixed.export` | 20828 | Export XLS/TXT per status (Pending/Sent/All); field `urgent_rate` default 20%. |
-| `action_mark_sent_tc` | 20821 | Tandai versi terpilih `sent`. |
+| Komponen | Fungsi |
+| --- | --- |
+| <Src file="mayapada/eproc/eproc_tc.py" line={19631} symbol="tariff.pricelist.fixed.wizard" /> | Hitung ulang untuk tariff terpilih (`action_update`). |
+| <Src file="mayapada/eproc/eproc_tc.py" line={20829} symbol="tariff.pricelist.fixed.export" /> | Export XLS/TXT per status (Pending/Sent/All); field `urgent_rate` default 20%. |
+| <Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" /> | Tandai versi terpilih `sent`. |
 
 ## 8. Alur perubahan data (sintetis)
 
@@ -136,4 +136,17 @@ Ya. Scheduler juga memproses dependency yang `depend_tariff_id` ∈ tariff terpi
 
 ## 13. Referensi
 
-`mayapada/eproc/eproc_tc.py:19682–21119` <Confidence level="verified" /> · Memory: D01208 compute, D01209 TXT, D01210 callback belum diimplementasi <Confidence level="inferred" />
+<Src file="mayapada/eproc/eproc_tc.py" line={19682} end={21119} /> <Confidence level="verified" /> · Memory: D01208 compute, D01209 TXT, D01210 callback belum diimplementasi <Confidence level="inferred" />
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={19631} symbol="tariff.pricelist.fixed.wizard" /> — model `TariffPricelistFixedWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19667} symbol="action_update" /> — method `TariffPricelistFixedWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19945} symbol="_get_pending_pricelist" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20049} symbol="_max_current_effective" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20106} symbol="_generate_price_hash" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20562} symbol="_upsert_fixed_price" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="_scheduler_pricelist_final" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20829} symbol="tariff.pricelist.fixed.export" /> — model `TariffPricelistFixedExport`

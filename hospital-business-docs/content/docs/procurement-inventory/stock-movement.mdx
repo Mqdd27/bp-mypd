@@ -5,7 +5,7 @@ description: Jenis pergerakan stok rumah sakit, ledger eProc, WAC/HPP, jurnal ha
 
 ## 1. Apa itu?
 
-`eproc.stock.move` (eproc_tc.py:10984) adalah **ledger pergerakan stok** eProc. Sebagian dibuat Odoo (penerimaan/retur), sebagian besar disinkron dari TrakCare (`trx_stock_move`), karena dispensing ke pasien dan distribusi antar unit terjadi di HIS.
+<Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" />) adalah **ledger pergerakan stok** eProc. Sebagian dibuat Odoo (penerimaan/retur), sebagian besar disinkron dari TrakCare (`trx_stock_move`), karena dispensing ke pasien dan distribusi antar unit terjadi di HIS.
 
 ## 2. Jenis pergerakan (`EPROC_STOCK_MOVE_TYPES`, 10963)
 
@@ -42,7 +42,7 @@ flowchart LR
   end
 ```
 
-*Sumber:* `TC_JOURNAL_VIEWS['view_account_tc_stock_movement']` (eproc_tc.py ~22718); model `eproc.stock.quant` (1305), `eproc.stock.inventory` (1480), `eproc.cost.price` (1643), `eproc.cost.price.historical` (1689); README Airflow (016-01..04: quant, WAC/COGS, cost placement, cutoff inventory). <Confidence level="verified" />
+*Sumber:* `TC_JOURNAL_VIEWS['view_account_tc_stock_movement']` (eproc_tc.py ~22718); model <Src file="mayapada/eproc/eproc_tc.py" line={1306} symbol="eproc.stock.quant" />, <Src file="mayapada/eproc/eproc_tc.py" line={1481} symbol="eproc.stock.inventory" />, <Src file="mayapada/eproc/eproc_tc.py" line={1644} symbol="eproc.cost.price" />, <Src file="mayapada/eproc/eproc_tc.py" line={1690} symbol="eproc.cost.price.historical" />; README Airflow (016-01..04: quant, WAC/COGS, cost placement, cutoff inventory). <Confidence level="verified" />
 
 <Callout type="warn" title="Pertanyaan terbuka di memory">
 Workbook requirement menyebut Dispense = Dr COGS / Cr Inventory, sedangkan SQL view (kelompok keluar) menghasilkan Dr *stock output* / Cr *inventory valuation* dengan qty keluar bernilai negatif. Konvensi tanda qty dari TC dan nama akun stock output vs COGS **belum diverifikasi**. <Confidence level="confirm" />
@@ -55,15 +55,15 @@ Workbook requirement menyebut Dispense = Dr COGS / Cr Inventory, sedangkan SQL v
 
 ## Lot & kedaluwarsa
 
-`eproc.stock.lot` (10777) menyimpan batch & `expiration_date`. Produk `tracking_type='lot'` wajib lot saat diterima; retur wajib lot yang ada. Penarikan barang kedaluwarsa tercatat sebagai `DISPOSAL`. Alur notifikasi near-expiry tidak ditemukan. <Confidence level="notfound" />
+<Src file="mayapada/eproc/eproc_tc.py" line={10778} symbol="eproc.stock.lot" /> menyimpan batch & `expiration_date`. Produk `tracking_type='lot'` wajib lot saat diterima; retur wajib lot yang ada. Penarikan barang kedaluwarsa tercatat sebagai `DISPOSAL`. Alur notifikasi near-expiry tidak ditemukan. <Confidence level="notfound" />
 
 ## Orderpoint (A3)
 
 | Model | Fungsi |
 | --- | --- |
-| `eproc.orderpoint` (1026) | Aturan per produk: `auto` (dihitung) / `manual`; pemakaian 7/14/30/90 hari, periode jadwal. |
+| <Src file="mayapada/eproc/eproc_tc.py" line={1027} symbol="eproc.orderpoint" /> | Aturan per produk: `auto` (dihitung) / `manual`; pemakaian 7/14/30/90 hari, periode jadwal. |
 | `eproc.product.log` | Statistik pemakaian (A3-1). |
-| `eproc.orderpoint.log` (5845) | Saran pembelian (A3-2), state `draft → auto_pr → cancel`, saran supplier. |
+| <Src file="mayapada/eproc/eproc_tc.py" line={5846} symbol="eproc.orderpoint.log" /> | Saran pembelian (A3-2), state `draft → auto_pr → cancel`, saran supplier. |
 | `eproc.orderpoint.realize.wizard` | Realisasi saran menjadi PR/RFQ (A3-3). |
 
 <Confidence level="verified">model & README A3</Confidence>
@@ -86,3 +86,18 @@ Karena dispensing mengurangi persediaan & menimbulkan HPP — dampak finansial y
 ISSUE_REQ memindahkan barang dari gudang ke unit (masih persediaan unit, tergantung desain lokasi); CONSUMPTION menghabiskan barang (BHP ruangan) menjadi beban. Keduanya dipetakan ke jurnal berbeda (`tc_stock_issue` vs `tc_stock_consumption`), meski di kode `tc_stock_issue` memakai nama jurnal "TC Stock Consumption". <Confidence level="verified" />
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={1027} symbol="eproc.orderpoint" /> — model `EprocOrderpoint`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1306} symbol="eproc.stock.quant" /> — model `EprocStockQuant`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1481} symbol="eproc.stock.inventory" /> — model `EprocStockInventory`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1644} symbol="eproc.cost.price" /> — model `EprocCostPrice`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1690} symbol="eproc.cost.price.historical" /> — model `EprocCostPriceHistorical`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1756} symbol="eproc.product.log" /> — model `EprocProductLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5846} symbol="eproc.orderpoint.log" /> — model `EprocOrderpointLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10426} symbol="eproc.orderpoint.realize.wizard" /> — model `EprocOrderpointRealizeWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10778} symbol="eproc.stock.lot" /> — model `EprocStockLot`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`

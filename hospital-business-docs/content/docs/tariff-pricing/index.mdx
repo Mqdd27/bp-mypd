@@ -86,7 +86,7 @@ flowchart TD
   SENT -.-> TC["[HIS] TrakCare memakai harga"]
 ```
 
-*Sumber:* `mayapada/eproc/eproc_tc.py` — `TariffAggregation` (22051), `TariffPricelist.scheduler_pricelist_realization` (19266), `TariffPricelistFixed._scheduler_pricelist_final` (20657); `airflow:README.md` (A2 012-04 s.d. 012-10). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" /> — <Src file="mayapada/eproc/eproc_tc.py" line={22051} symbol="TariffAggregation" />, <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="TariffPricelist.scheduler_pricelist_realization" />, <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="TariffPricelistFixed._scheduler_pricelist_final" />; `airflow:README.md` (A2 012-04 s.d. 012-10). <Confidence level="verified" />
 
 <PriceFormula />
 
@@ -121,3 +121,17 @@ Bed type adalah bagian dari kunci harga. Item yang sama bisa punya harga berbeda
 Harga salah tersebar ke **banyak** item sekaligus (satu dependency berlaku untuk satu tariff × bed type × kategori). Jika source pricelist tidak ada untuk suatu produk, dependency **tidak menghasilkan** harga sama sekali untuk produk itu — item tidak punya harga di HIS. Lihat [Dependency & Markup](/docs/tariff-pricing/dependency-markup).
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="TariffPricelist.scheduler_pricelist_realization" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="TariffPricelistFixed._scheduler_pricelist_final" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22051} symbol="TariffAggregation" /> — class `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22052} symbol="tariff.aggregation" /> — model `TariffAggregation`
+- <Src file="mayapada/models/hospital.py" line={30} symbol="hospital.bed.type" /> — model `HospitalBedType`
+- <Src file="mayapada/models/hospital.py" line={178} symbol="hospital.tariff" /> — model `HospitalTariff`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`

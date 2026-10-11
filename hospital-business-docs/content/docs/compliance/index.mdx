@@ -42,7 +42,7 @@ Halaman ini merangkum kewajiban umum dengan sumber publik dan memetakan kontrol 
 
 **Risiko yang terlihat di kode** <Confidence level="verified" />:
 - Penulisan payload/query ke file log server (`/opt/odoo16/logs/*.log`) di beberapa method — berpotensi menulis data pasien ke log.
-- Kredensial/API key literal di source (`models/sync.py`; snapshot Airflow `db_config.py`).
+- Kredensial/API key literal di source (<Src file="mayapada/models/sync.py" />; snapshot Airflow `db_config.py`).
 - Asset JS `dil_patient_export_only.js` menunjukkan ada pembatasan ekspor untuk view pasien tertentu. <Confidence level="inferred" />
 
 ## 4. Kontrol akses & separation of duties
@@ -78,3 +78,19 @@ Halaman ini merangkum kewajiban umum dengan sumber publik dan memetakan kontrol 
 | SATUSEHAT Interoperability | [satusehat.kemkes.go.id](https://satusehat.kemkes.go.id/platform/docs/id/interoperability/) | Resmi |
 
 Semua diakses 10 Oktober 2026.
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={4153} symbol="eproc.approval.log" /> — model `EprocApprovalLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11271} symbol="eproc.receipt.log" /> — model `EprocReceiptLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/misc.py" line={3807} symbol="mail.thread" /> — extend `MailThread`
+- <Src file="mayapada/models/misc.py" line={4479} symbol="res.users.log" /> — model `ResUsersLog`
+- <Src file="mayapada/models/misc.py" line={4490} symbol="password.history" /> — model `PasswordHistory`
+- <Src file="mayapada/models/partner.py" line={19} symbol="res.partner" /> — extend `ResPartner`
+- <Src file="mayapada/models/receivable.py" line={3494} symbol="lock.ar.configuration" /> — model `LockArConfiguration`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10404} symbol="sale.order.bill.history" /> — model `SaleOrderBillHistory`

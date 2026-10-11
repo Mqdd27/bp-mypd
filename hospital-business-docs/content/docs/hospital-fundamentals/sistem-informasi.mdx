@@ -49,3 +49,17 @@ Untuk identitas pasien, **HIS adalah source of truth**; Odoo menyimpan salinan s
 
 - Permenkes 24/2022 tentang Rekam Medis — ringkasan pasal di [pasal.id](https://pasal.id/peraturan/permen/permenkes-no-24-tahun-2022) (sumber sekunder; cek teks resmi di JDIH). <Confidence level="general" />
 - SATUSEHAT Platform Playbook — [satusehat.kemkes.go.id/platform/docs/id/playbook](https://satusehat.kemkes.go.id/platform/docs/id/playbook/) (diakses 10 Okt 2026; versi dokumentasi 7.23).
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/eproc/eproc_tc.py" line={15732} symbol="receivable.receipt" /> — model `ReceivableReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={17732} symbol="receivable.receipt.settlement" /> — model `ReceivableReceiptSettlement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/models/account.py" line={18869} symbol="account.move" /> — model `AccountMove`
+- <Src file="mayapada/models/doctor_fee.py" line={4498} symbol="doctor.fee" /> — model `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={26461} symbol="doctor.fee.bpjs" /> — model `DoctorFeeBPJS`
+- <Src file="mayapada/models/partner.py" line={19} symbol="res.partner" /> — extend `ResPartner`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={13555} symbol="sale.order.lab.wizard" /> — model `SaleOrderLabWizard`

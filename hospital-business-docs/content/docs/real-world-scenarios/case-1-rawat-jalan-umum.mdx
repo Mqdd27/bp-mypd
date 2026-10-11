@@ -75,3 +75,13 @@ sequenceDiagram
 1. Satu kunjungan sederhana menghasilkan **empat** dampak buku besar dari tiga sumber berbeda.
 2. Odoo tidak melihat transaksi sampai EOD — laporan "hari ini" selalu belum lengkap.
 3. HPP bergantung pada WAC yang dibentuk oleh penerimaan barang (Case 4).
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/models/receivable.py" line={9021} symbol="receivable.scroll.receipt.cashier" /> — model `ReceivableScrollReceiptCashier`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`

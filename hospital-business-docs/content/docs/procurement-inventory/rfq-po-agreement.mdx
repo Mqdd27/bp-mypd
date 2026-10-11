@@ -33,18 +33,18 @@ stateDiagram-v2
   draft --> cancelled
 ```
 
-*Sumber:* `EprocOrder.state` (eproc_tc.py:4308), `action_confirm` (5387), `action_expire_orders` (4372). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" line={4308} symbol="EprocOrder.state" />), <Src file="mayapada/eproc/eproc_tc.py" line={5387} symbol="action_confirm" />, <Src file="mayapada/eproc/eproc_tc.py" line={4372} symbol="action_expire_orders" />. <Confidence level="verified" />
 
 ## 7. Implementasi — kontrol saat confirm PO
 
 | Kontrol | Method | Aturan |
 | --- | --- | --- |
-| Budget | `_check_budget_ceiling` (5378) | Komitmen PO tidak boleh melampaui budget item; RFQ **Medical Equipment** (capex) wajib berasal dari PR ber-budget. |
+| Budget | <Src file="mayapada/eproc/eproc_tc.py" line={5378} symbol="_check_budget_ceiling" /> | Komitmen PO tidak boleh melampaui budget item; RFQ **Medical Equipment** (capex) wajib berasal dari PR ber-budget. |
 | Kelipatan kemasan | `_get_qty_multiple_mismatches` | Peringatan jika qty tidak sesuai kelipatan pack (wizard konfirmasi). |
 | Tanggal agreement | `_is_confirm_date_inside_agreement_range` | Peringatan jika tanggal di luar periode kontrak. |
-| Harga agreement | `_validate_stock_agreement_pricing` (5441) | **PO stok wajib punya agreement.** Untuk rate contract: agreement harus valid untuk supplier, procurement type, company, tanggal; setiap baris harus menemukan harga agreement untuk produk + pack + qty; harga diterapkan otomatis. Tender memakai harga tabulasi. |
+| Harga agreement | <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="_validate_stock_agreement_pricing" /> | **PO stok wajib punya agreement.** Untuk rate contract: agreement harus valid untuk supplier, procurement type, company, tanggal; setiap baris harus menemukan harga agreement untuk produk + pack + qty; harga diterapkan otomatis. Tender memakai harga tabulasi. |
 | Lokasi | `_validate_required_locations` | Lokasi penerimaan & supplier wajib. |
-| Approval | `_create_approval_logs` | Sama seperti PR (restart jika nilai berubah). |
+| Approval | <Src file="mayapada/eproc/eproc_tc.py" line={5292} symbol="EprocOrder._create_approval_logs" />, <Src file="mayapada/eproc/eproc_tc.py" line={2970} symbol="EprocAgreement._create_approval_logs" /> | Sama seperti PR (restart jika nilai berubah). |
 
 <Callout title="Makna bisnis">
 Aturan "PO stok wajib agreement" berarti pembeli **tidak bisa mengetik harga bebas** untuk barang stok. Harga beli dikendalikan kontrak — dan kontrak itu juga menjadi sumber **base price** (Airflow D012_05).
@@ -79,3 +79,23 @@ Rate contract memvalidasi & menerapkan harga dari baris agreement per produk/pac
 PO memiliki masa berlaku; `action_expire_orders` menandai PO yang tidak lagi valid sehingga sisa qty tidak bisa diterima.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={2750} symbol="eproc.agreement" /> — model `EprocAgreement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={3772} symbol="eproc.agreement.evaluation" /> — model `EprocAgreementEvaluation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={3791} symbol="eproc.tabulation.wizard" /> — model `EprocTabulationWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4253} symbol="eproc.order" /> — model `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4372} symbol="action_expire_orders" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4534} symbol="_is_confirm_date_inside_agreement_range" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4565} symbol="_get_qty_multiple_mismatches" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4826} symbol="_validate_required_locations" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5378} symbol="_check_budget_ceiling" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5387} symbol="action_confirm" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="_validate_stock_agreement_pricing" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5688} symbol="action_print_po_nonstock" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5719} symbol="action_print_po_stock" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={9501} symbol="eproc.order.rebalance.wizard" /> — model `EprocOrderRebalanceWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={9573} symbol="eproc.order.change.supplier.wizard" /> — model `EprocOrderChangeSupplierWizard`

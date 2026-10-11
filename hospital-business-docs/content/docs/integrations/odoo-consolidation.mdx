@@ -5,9 +5,9 @@ description: API internal unit/main, field sync_consol_*, dan pola sinkronisasi 
 
 ## 1. Konsolidasi unit ↔ main
 
-**Apa:** Odoo Mayapada mendukung dua peran (`consol_type` di `models/sync.py`): `main` (Odoo konsolidasi grup) dan `unit` (Odoo rumah sakit). Record yang disinkron membawa `sync_consol_id_unit`, `sync_consol_id_main`, `sync_consol_date`, `consol_sent`, `consol_response_status`.
+**Apa:** Odoo Mayapada mendukung dua peran (`consol_type` di <Src file="mayapada/models/sync.py" />): `main` (Odoo konsolidasi grup) dan `unit` (Odoo rumah sakit). Record yang disinkron membawa `sync_consol_id_unit`, `sync_consol_id_main`, `sync_consol_date`, `consol_sent`, `consol_response_status`.
 
-**Endpoint** (`models/resapi.py`, semua `auth='user'`):
+**Endpoint** (<Src file="mayapada/models/resapi.py" />, semua `auth='user'`):
 
 | Route | Fungsi |
 | --- | --- |
@@ -52,3 +52,11 @@ Catatan: kode memakai `unicode` dan `xrange` (Python 2) — beberapa jalur `_syn
 ## 3. Odoo 16 vs Odoo 10
 
 Tidak ada kode yang menghubungkan Odoo 16 dan Odoo 10 secara langsung. Keduanya adalah **target** job Airflow A2 (dipilih via `sync_type`) dan berbagi desain modul tarif (backport). Perbedaan framework (Python 2, API lama) membuat patch harus diadaptasi, bukan disalin. <Confidence level="inferred">memory</Confidence>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/hospital.py" line={110} symbol="HospitalBedType._sync_hospital_bed_type" /> — method `HospitalBedType`
+- <Src file="mayapada/models/hospital.py" line={260} symbol="HospitalTariff._sync_hospital_tariff" /> — method `HospitalTariff`
+- <Src file="mayapada/models/resapi.py" line={938} symbol="api_consol_unit_method" /> — method `ApiController`

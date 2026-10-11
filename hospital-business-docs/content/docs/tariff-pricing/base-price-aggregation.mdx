@@ -45,21 +45,21 @@ flowchart TD
   WIN --> REL["Aggregation lain → state=release"]
 ```
 
-*Sumber:* `TariffAggregation._scheduler_baseprice_aggregation` (eproc_tc.py:22219), `_prepare_from_receipt_line` (22176), `_realize_to_baseprice` (22265); `airflow:a2_scheduler_mix_interfacing/D012_05_vendor_pricelist_to_baseprice_aggregation.py` → `sync_vendor_agreement_aggregation_unit()`. <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" line={22219} symbol="TariffAggregation._scheduler_baseprice_aggregation" />), <Src file="mayapada/eproc/eproc_tc.py" line={22176} symbol="_prepare_from_receipt_line" />, <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="_realize_to_baseprice" />; `airflow:a2_scheduler_mix_interfacing/D012_05_vendor_pricelist_to_baseprice_aggregation.py` → `sync_vendor_agreement_aggregation_unit()`. <Confidence level="verified" />
 
 ## 7. Implementasi di Odoo Mayapada
 
 | Langkah | Kode | Catatan |
 | --- | --- | --- |
 | Ambil receipt line | `_scheduler_baseprice_aggregation` | Domain: `receipt_type='PO'`, `state in (done, closed)`, produk `is_eproc` & `eproc_type='stock'`; urut `uom_netprice desc`. |
-| Mapping ke order item | `_get_aggregation_products` (22167) | `product.template` dengan `stock_item_id` = produk stok. Satu stock item bisa dipetakan ke banyak order item. |
-| Harga terima | `_get_receiving_price` (22163) | `uom_netprice` atau `uom_price`. |
+| Mapping ke order item | <Src file="mayapada/eproc/eproc_tc.py" line={22167} symbol="_get_aggregation_products" /> | `product.template` dengan `stock_item_id` = produk stok. Satu stock item bisa dipetakan ke banyak order item. |
+| Harga terima | <Src file="mayapada/eproc/eproc_tc.py" line={22163} symbol="_get_receiving_price" /> | `uom_netprice` atau `uom_price`. |
 | Filter kenaikan | `_prepare_from_receipt_line` | Jika ada base price aktif dan `receive_price <= current_price` → **tidak** dibuat. |
 | Idempotensi | — | Kunci `company + product + receipt_line_id`; record pending diperbarui, bukan diduplikasi. |
 | Realisasi otomatis | `auto_baseprice == 'auto'` | Konteks `enforce_aggregation_h2` → `new_effective = max(tgl terima, hari ini+2)`. |
-| Realisasi manual | `tariff.aggregation.wizard` (22426) | `new_effective` default H+2, wajib ≥ H+2; jika sudah ada draft Base Price, wizard minta konfirmasi sebelum menimpa. |
+| Realisasi manual | <Src file="mayapada/eproc/eproc_tc.py" line={22427} symbol="tariff.aggregation.wizard" /> | `new_effective` default H+2, wajib ≥ H+2; jika sudah ada draft Base Price, wizard minta konfirmasi sebelum menimpa. |
 | Pemenang | `_realize_to_baseprice` | Rank = (harga UEPR, tanggal UEPR, calculated_date, id) — **harga tertinggi menang**. Draft lama untuk bed type sama di-expire, diganti draft baru. |
-| Laporan | `tariff.aggregation.report.baseprice.receipt.wizard` (21120) | XLS "BasePrice vs Latest GRN". |
+| Laporan | <Src file="mayapada/eproc/eproc_tc.py" line={21121} symbol="tariff.aggregation.report.baseprice.receipt.wizard" /> | XLS "BasePrice vs Latest GRN". |
 
 ## 8. Alur perubahan data (sintetis)
 
@@ -91,7 +91,7 @@ flowchart TD
 
 - Aggregation membandingkan dengan `current_price` aktif, bukan dengan `current_effective`.
 - Lookup base price aktif utamanya per produk; jika satu produk punya beberapa kombinasi kategori, review disambiguasi (memory). <Confidence level="inferred" />
-- Fungsi `sync_baseprice_aggregation_unit` / `sync_baseprice_pricelist_unit` (22418–22424) adalah *entry point* yang dipanggil job; realisasi lewat job selalu memaksa H+2.
+- Fungsi <Src file="mayapada/eproc/eproc_tc.py" line={22418} symbol="sync_baseprice_aggregation_unit" /> / <Src file="mayapada/eproc/eproc_tc.py" line={22421} symbol="sync_baseprice_pricelist_unit" /> adalah *entry point* yang dipanggil job; realisasi lewat job selalu memaksa H+2.
 
 ## 12. Pertanyaan uji
 
@@ -109,4 +109,18 @@ Karena yang dibeli adalah **stock item** (kemasan gudang), sedangkan yang dijual
 
 ## 13. Referensi
 
-`mayapada/eproc/eproc_tc.py:21120–22510` <Confidence level="verified" /> · Project memory "Important Decisions" (changes_type, Vendor Agreement) <Confidence level="inferred" />
+<Src file="mayapada/eproc/eproc_tc.py" line={21120} end={22510} /> <Confidence level="verified" /> · Project memory "Important Decisions" (changes_type, Vendor Agreement) <Confidence level="inferred" />
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={21121} symbol="tariff.aggregation.report.baseprice.receipt.wizard" /> — model `TariffAggregationBasepriceReceiptReportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22052} symbol="tariff.aggregation" /> — model `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22163} symbol="_get_receiving_price" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22167} symbol="_get_aggregation_products" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22176} symbol="_prepare_from_receipt_line" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22219} symbol="TariffAggregation._scheduler_baseprice_aggregation" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="_realize_to_baseprice" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22418} symbol="sync_baseprice_aggregation_unit" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22421} symbol="sync_baseprice_pricelist_unit" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22427} symbol="tariff.aggregation.wizard" /> — model `TariffAggregationWizard`
+- <Src file="mayapada/models/product.py" line={54} symbol="product.template" /> — extend `ProductTemplate`

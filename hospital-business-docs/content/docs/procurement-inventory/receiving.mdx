@@ -23,7 +23,7 @@ description: Receiving Bay (SRB), Receiving Validation (SRV), penerimaan tanpa P
 | **Financial acceptance** | Penerimaan diakui: stok bertambah, hutang/GRNI timbul | Receiving Validation → `_complete_receipt()` → `done`: stock move + jurnal + kirim ke TC. |
 | **Reservation** | Di Odoo standar: stok dipesan untuk keluar | Tidak dipakai eProc; "reserve" di eProc = **budget** (lihat [Procurement](/docs/procurement-inventory)). |
 
-<Confidence level="verified">eproc_tc.py:12813, 12832, 13081</Confidence>
+<Confidence level="verified"><Src file="mayapada/eproc/eproc_tc.py" line={12813} symbol="action_confirm_srb" />, 12832, 13081</Confidence>
 
 ## 3. Siapa yang terlibat?
 
@@ -61,10 +61,10 @@ sequenceDiagram
 
 | Langkah | Method | Detail |
 | --- | --- | --- |
-| Stok | `_create_stock_impacts` (13205) | Satu `eproc.stock.move` per baris; `GOODS_RECEIVE` qty positif, `GOODS_RETURN` qty negatif. Produk `tracking_type='lot'` wajib lot (`_ensure_lot`); retur wajib lot yang ada dan stok cukup (`_validate_return_stock_balance`). |
-| Akuntansi | `_create_accounting_impacts` (13355) | Jurnal "Stock Journal": Dr akun **valuasi persediaan** kategori, Cr **stock input** (penampung GR/IR). Retur: dibalik. |
+| Stok | <Src file="mayapada/eproc/eproc_tc.py" line={13205} symbol="_create_stock_impacts" /> | Satu `eproc.stock.move` per baris; `GOODS_RECEIVE` qty positif, `GOODS_RETURN` qty negatif. Produk `tracking_type='lot'` wajib lot (`_ensure_lot`); retur wajib lot yang ada dan stok cukup (`_validate_return_stock_balance`). |
+| Akuntansi | <Src file="mayapada/eproc/eproc_tc.py" line={13355} symbol="_create_accounting_impacts" /> | Jurnal "Stock Journal": Dr akun **valuasi persediaan** kategori, Cr **stock input** (penampung GR/IR). Retur: dibalik. |
 | PO progress | `_mark_lines_done` | Qty diterima − qty retur → `partial` / `done` per baris PO; retur tidak membuka kembali baris yang sudah di-*rebalance*. |
-| TrakCare | `action_interfacing` (13821), `_send_tc_by_api` (13713) | **Hanya API JSON** ("Feature 815 contract"): wajib `company.sync_tc_active` dan `sync_tc_type = api`; hanya baris produk stok; receipt hasil modifikasi GRN **tidak** dikirim; receipt yang sudah sukses dilewati. Status di `eproc.receipt.log` & `state_tc`. Retry: `action_retry_interfacing_tc(_batch)`. Helper TXT `_generate_tc_txt` (13765) masih ada tetapi tidak dipanggil oleh `action_interfacing`. |
+| TrakCare | <Src file="mayapada/eproc/eproc_tc.py" line={13821} symbol="action_interfacing" />, <Src file="mayapada/eproc/eproc_tc.py" line={13713} symbol="_send_tc_by_api" /> | **Hanya API JSON** ("Feature 815 contract"): wajib `company.sync_tc_active` dan `sync_tc_type = api`; hanya baris produk stok; receipt hasil modifikasi GRN **tidak** dikirim; receipt yang sudah sukses dilewati. Status di `eproc.receipt.log` & `state_tc`. Retry: `action_retry_interfacing_tc(_batch)`. Helper TXT <Src file="mayapada/eproc/eproc_tc.py" line={13765} symbol="_generate_tc_txt" /> masih ada tetapi tidak dipanggil oleh `action_interfacing`. |
 | Modifikasi GRN | `_validate_grn_modification_*`, `_create_grn_modification_accounting` | Revisi receipt (`receipt_revise`, `receipt_ref_id`) dengan jurnal koreksi. |
 | Aset | `action_create_asset_realize` | Barang aset → `eproc.asset.realize` → `account.asset.asset`. |
 
@@ -108,3 +108,28 @@ Stock input kategori (akun penampung penerimaan/GRNI) — nanti dihapus saat inv
 Barang konsinyasi masih milik supplier sampai dipakai; RS tidak mengakui persediaan saat barang datang. <Confidence level="general" />
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={7448} symbol="eproc.asset.realize" /> — model `EprocAssetRealize`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11271} symbol="eproc.receipt.log" /> — model `EprocReceiptLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11417} symbol="eproc.receipt" /> — model `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11635} symbol="action_create_asset_realize" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12678} symbol="_create_grn_modification_accounting" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12813} symbol="action_confirm_srb" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12832} symbol="action_confirm_srv" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12883} symbol="action_confirm_return" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13112} symbol="_mark_lines_done" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13174} symbol="_validate_return_stock_balance" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13205} symbol="_create_stock_impacts" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13355} symbol="_create_accounting_impacts" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13713} symbol="_send_tc_by_api" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13765} symbol="_generate_tc_txt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13821} symbol="action_interfacing" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={14926} symbol="_ensure_lot" /> — method `EprocReceiptLine`
+- <Src file="mayapada/models/stock.py" line={3973} symbol="stock.move" /> — extend `StockMove`
+- <Src file="om_account_asset/models/account_asset.py" line={100} symbol="account.asset.asset" /> — model `AccountAssetAsset`

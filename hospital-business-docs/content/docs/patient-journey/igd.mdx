@@ -38,7 +38,7 @@ flowchart TD
   BILL -. "item cito" .-> URG["Tarif urgent (UrgentRate)"]
 ```
 
-*Langkah klinis:* <Confidence level="general" />. *Link episode:* `sale.order.parent_admission_no`, `ref_admission_no` (`models/sale.py`). <Confidence level="inferred">penggunaan untuk konversi IGD→IP</Confidence>
+*Langkah klinis:* <Confidence level="general" />. *Link episode:* `sale.order.parent_admission_no`, `ref_admission_no` (<Src file="mayapada/models/sale.py" />). <Confidence level="inferred">penggunaan untuk konversi IGD→IP</Confidence>
 
 ## 7. Implementasi di Odoo Mayapada
 
@@ -70,3 +70,9 @@ Kode memiliki skema pool/poin khusus IGD (`igd_total_share`, `igd_point`, `igd_s
 ## Referensi
 
 - UU 17/2023 tentang Kesehatan — ringkasan di [Hukumonline](https://www.hukumonline.com/berita/a/peraturan-teknis-uu-kesehatan-terbit--ini-sejumlah-aturan-pelaksana-yang-dicabut-lt66a89ff97dafd/?page=all) dan teks di [Wikisource](https://id.wikisource.org/wiki/Undang-Undang_Republik_Indonesia_Nomor_17_Tahun_2023). Pasal spesifik larangan uang muka gawat darurat perlu dicek pada teks resmi. <Confidence level="general" />
+
+**Kode:**
+
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/doctor_fee.py" line={4498} symbol="doctor.fee" /> — model `DoctorFee`
+- <Src file="mayapada/models/sale.py" line={10404} symbol="sale.order.bill.history" /> — model `SaleOrderBillHistory`

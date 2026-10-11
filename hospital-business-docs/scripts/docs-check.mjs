@@ -35,6 +35,32 @@ for (const f of files.filter((f) => f.endsWith("meta.json"))) {
   }
 }
 
+// <Src file line end symbol>: file must exist, line in range, symbol's last
+// segment must appear on line..end (or line+2 for decorators/one-liners).
+const codeRoot = "../odoo-revamp";
+const srcFiles = new Map();
+let cites = 0;
+for (const f of files.filter((f) => f.endsWith(".mdx"))) {
+  for (const m of readFileSync(f, "utf8").matchAll(/<Src\s([^>]*?)\/>/g)) {
+    cites++;
+    const a = Object.fromEntries([...m[1].matchAll(/(\w+)=(?:"([^"]*)"|\{(\d+)\})/g)].map((x) => [x[1], x[2] ?? Number(x[3])]));
+    const path = join(codeRoot, a.file ?? "");
+    if (!a.file || !existsSync(path)) { errors.push(`${f}: <Src> file not found ${a.file}`); continue; }
+    if (!srcFiles.has(path)) srcFiles.set(path, readFileSync(path, "utf8").split("\n"));
+    const lines = srcFiles.get(path);
+    const name = a.symbol?.split(".").pop().replace(/\(\)$/, "");
+    if (a.line && (a.line > lines.length || (a.end && a.end < a.line))) { errors.push(`${f}: <Src> ${a.file}:${a.line} out of range`); continue; }
+    if (!name) continue;
+    const re = new RegExp(`\\b${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+    if (!a.line) {
+      if (!lines.some((l) => re.test(l))) errors.push(`${f}: <Src> symbol ${a.symbol} not in ${a.file}`);
+    } else if (!lines.slice(a.line - 1, Math.max(a.end ?? 0, a.line + 2)).some((l) => re.test(l))) {
+      const hit = lines.findIndex((l) => new RegExp(`(class|def)\\s+${name}\\b|^\\s*_name\\s*=\\s*['"]${name}['"]`).test(l));
+      errors.push(`${f}: <Src> ${a.symbol} not at ${a.file}:${a.line}${hit >= 0 ? ` (found at ${hit + 1})` : ""}`);
+    }
+  }
+}
+
 // Parse every ```mermaid block with the same library the site renders with.
 // DOMPurify has no DOM in Node; grammar parsing doesn't need sanitizing, so no-op it.
 const { default: DOMPurify } = await import("../node_modules/.pnpm/node_modules/dompurify/dist/purify.es.mjs"); // mermaid's own (pnpm-hoisted) copy
@@ -53,9 +79,9 @@ for (const f of files.filter((f) => f.endsWith(".mdx"))) {
   }
 }
 
-console.log(`${slugs.size} pages, ${diagrams} mermaid diagrams checked`);
+console.log(`${slugs.size} pages, ${diagrams} mermaid diagrams, ${cites} code citations checked`);
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log("OK: links, meta entries and mermaid syntax valid");
+console.log("OK: links, meta entries, mermaid syntax and code citations valid");

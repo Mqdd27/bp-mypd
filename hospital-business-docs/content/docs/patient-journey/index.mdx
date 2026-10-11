@@ -86,6 +86,20 @@ flowchart TD
 
 ## Yang perlu developer pahami
 
-- `sale.order` di Mayapada **bukan** sales order biasa: state-nya `draft`=*New Admission*, `sent`=*Confirmed*, `sale`=*Accrual*, `done`=*Paid*, `invoice`=*Invoiced* (`models/sale.py:129`).
+- `sale.order` di Mayapada **bukan** sales order biasa: state-nya `draft`=*New Admission*, `sent`=*Confirmed*, `sale`=*Accrual*, `done`=*Paid*, `invoice`=*Invoiced* (<Src file="mayapada/models/sale.py" line={129} symbol="state" />).
 - Satu admission dapat memiliki beberapa billing (`billing_ids`), dan satu billing bisa *merged* atau dipecah ke **COB** (`sale.order.cob`).
 - Diagnosis tersimpan sebagai kode & nama (primer, sekunder, repeat) — cukup untuk analisis keuangan, bukan rekam medis.
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/models/partner.py" line={19} symbol="res.partner" /> — extend `ResPartner`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={9021} symbol="receivable.scroll.receipt.cashier" /> — model `ReceivableScrollReceiptCashier`
+- <Src file="mayapada/models/receivable.py" line={9287} symbol="receivable.patient.deposit" /> — model `ReceivablePatientDeposit`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`

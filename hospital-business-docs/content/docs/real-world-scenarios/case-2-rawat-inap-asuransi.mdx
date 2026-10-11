@@ -74,3 +74,15 @@ flowchart TD
 1. **Tanggung jawab bayar berpindah tiga kali:** pasien (deposit) → penjamin (GL) → pasien lagi (non-cover).
 2. Bed type adalah variabel harga **dan** variabel penjaminan.
 3. Piutang penjamin harus dilacak per billing — itulah fungsi history & settlement.
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={15732} symbol="receivable.receipt" /> — model `ReceivableReceipt`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={9287} symbol="receivable.patient.deposit" /> — model `ReceivablePatientDeposit`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10404} symbol="sale.order.bill.history" /> — model `SaleOrderBillHistory`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`

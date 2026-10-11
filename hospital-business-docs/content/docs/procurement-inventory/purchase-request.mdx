@@ -41,27 +41,27 @@ stateDiagram-v2
   ready --> expired: melewati request_expiry_date
 ```
 
-*Sumber:* `EprocRequest.state` (eproc_tc.py:6280), `action_confirm` (6857). Transisi `partial/done/expired` <Confidence level="inferred">dari state baris & nama</Confidence>
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" line={6280} symbol="EprocRequest.state" />), <Src file="mayapada/eproc/eproc_tc.py" line={6857} symbol="action_confirm" />. Transisi `partial/done/expired` <Confidence level="inferred">dari state baris & nama</Confidence>
 
 ## 7. Implementasi — validasi saat confirm
 
-`_validate_before_confirm` (6794) mewajibkan:
+<Src file="mayapada/eproc/eproc_tc.py" line={6794} symbol="_validate_before_confirm" /> mewajibkan:
 
 - company, user, **department**, procurement type, approval type;
 - minimal satu baris aktif; setiap baris punya produk, **pack**, dan qty > 0;
 - **produk harus terdaftar untuk departemen** (`product.template.eproc_department_ids`) — farmasi tidak bisa meminta barang yang hanya untuk maintenance, dsb.;
-- untuk `budgeted`: budget item cocok (group/kategori/produk) dan masih punya sisa (`unrealize_amount > 0`); total baris ≤ sisa budget (`_validate_budget_line_amounts`, 6832);
-- approval type cocok dengan company + procurement type + (department atau budget group/kategori) (`_validate_request_approval_type`, 6844).
+- untuk `budgeted`: budget item cocok (group/kategori/produk) dan masih punya sisa (`unrealize_amount > 0`); total baris ≤ sisa budget (<Src file="mayapada/eproc/eproc_tc.py" line={6832} symbol="_validate_budget_line_amounts" />);
+- approval type cocok dengan company + procurement type + (department atau budget group/kategori) (<Src file="mayapada/eproc/eproc_tc.py" line={6844} symbol="_validate_request_approval_type" />).
 
 Aturan revisi setelah ditolak: hanya **pembuat** atau **penolak terakhir** (atau admin) yang boleh submit ulang. Jika total harga **tidak berubah**, approval dilanjutkan dari penolak; jika berubah, approval **diulang dari awal**. <Confidence level="verified" />
 
 ## Approval matrix
 
-| Model | Lokasi | Isi |
-| --- | --- | --- |
-| `eproc.approval.type` | 4026 | Jenis: `request` (PR), `order` (PO), `receipt` (GRN), `agreement` (Rate Contract), `budget` |
-| `eproc.approval.rule` | 4112 | Langkah berurutan: `check`, `approve`, `verify`, `review` |
-| `eproc.approval.log` | 4152 | Jejak per dokumen: `pending/approved/rejected/cancelled/skipped`, `amount_snapshot` |
+| Model | Isi |
+| --- | --- |
+| <Src file="mayapada/eproc/eproc_tc.py" line={4027} symbol="eproc.approval.type" /> | Jenis: `request` (PR), `order` (PO), `receipt` (GRN), `agreement` (Rate Contract), `budget` |
+| <Src file="mayapada/eproc/eproc_tc.py" line={4113} symbol="eproc.approval.rule" /> | Langkah berurutan: `check`, `approve`, `verify`, `review` |
+| <Src file="mayapada/eproc/eproc_tc.py" line={4153} symbol="eproc.approval.log" /> | Jejak per dokumen: `pending/approved/rejected/cancelled/skipped`, `amount_snapshot` |
 
 Matriks yang sama dipakai PR, PO, GRN tanpa PO, agreement, dan budget — satu tempat untuk **separation of duties**.
 
@@ -81,3 +81,18 @@ Karena keputusan finansial approver sebelumnya tetap valid; yang direvisi diangg
 PR yang disetujui mengikat sisa budget item sehingga tidak bisa dipakai PR lain; RFQ/PO kemudian mengonversi komitmen itu.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={2382} symbol="eproc.type" /> — model `EprocType`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4027} symbol="eproc.approval.type" /> — model `EprocApprovalType`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4113} symbol="eproc.approval.rule" /> — model `EprocApprovalRule`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4153} symbol="eproc.approval.log" /> — model `EprocApprovalLog`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6237} symbol="eproc.request" /> — model `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6794} symbol="_validate_before_confirm" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6832} symbol="_validate_budget_line_amounts" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6844} symbol="_validate_request_approval_type" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6857} symbol="action_confirm" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={9933} symbol="eproc.request.realize.wizard" /> — model `EprocRequestRealizeWizard`

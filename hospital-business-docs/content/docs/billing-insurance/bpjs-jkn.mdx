@@ -49,10 +49,10 @@ sequenceDiagram
 
 | Elemen | Lokasi | Arti |
 | --- | --- | --- |
-| `sale.order.bill.is_bpjs` | `models/sale.py` | Penanda billing BPJS (dari HIS). |
+| `sale.order.bill.is_bpjs` | <Src file="mayapada/models/sale.py" /> | Penanda billing BPJS (dari HIS). |
 | `inacbgs_code`, `inacbgs_amount` | `sale.order.bill` | Kode & nilai paket INA-CBG — memungkinkan perbandingan **tarif RS vs paket**. |
 | `hospital.tariff` "BPJS" | data uji di memory | Tariff BPJS ada sebagai tarif per item (mis. untuk menghitung biaya riil). |
-| `doctor.fee.bpjs` + import wizard | `models/doctor_fee.py:26460` | Fee dokter untuk pasien BPJS dihitung terpisah (dari file import), dengan `total_accrual` "BPJS Accrual" di `doctor.fee`. |
+| `doctor.fee.bpjs` + import wizard | <Src file="mayapada/models/doctor_fee.py" line={26460} symbol="DoctorFeeBPJS" /> | Fee dokter untuk pasien BPJS dihitung terpisah (dari file import), dengan `total_accrual` "BPJS Accrual" di `doctor.fee`. |
 | `doctor.rate.bpjs_doctor_ids` | `doctor.rate` | Grup dokter BPJS. |
 
 <Confidence level="verified" />
@@ -78,3 +78,11 @@ Tidak ada field SEP di repo. SEP dikelola di HIS/VClaim.
 
 - Permenkes 3/2023 tentang Standar Tarif Pelayanan Kesehatan dalam Penyelenggaraan Program Jaminan Kesehatan (diundangkan 9 Jan 2023) — [peraturan.go.id (PDF)](https://www.peraturan.go.id/files/permenkes+-no-3-tahun-2023.pdf); rilis [Kemenkes](https://kemkes.go.id/id/ini-dia-standar-tarif-baru-pelayanan-jkn). Status perubahan setelah 2023 belum dicek. <Confidence level="general" />
 - Penjelasan SEP/VClaim/e-Klaim (sumber sekunder, bukan dokumen resmi BPJS): [MedMinutes – SEP](https://medminutes.io/blog/sep-bpjs-surat-eligibilitas-peserta-panduan-rumah-sakit/), [MedMinutes – e-Klaim](https://medminutes.io/eklaim/), [OCBC – VClaim](https://www.ocbc.id/id/article/2023/12/19/vclaim-bpjs). Diakses 10 Okt 2026. **Belum diverifikasi ke panduan resmi BPJS.**
+
+**Kode:**
+
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/doctor_fee.py" line={4498} symbol="doctor.fee" /> — model `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={26461} symbol="doctor.fee.bpjs" /> — model `DoctorFeeBPJS`
+- <Src file="mayapada/models/hospital.py" line={178} symbol="hospital.tariff" /> — model `HospitalTariff`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`

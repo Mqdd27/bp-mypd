@@ -67,3 +67,16 @@ Struktur akun mengikuti wizard (expense/credit/tax account); pemetaan baris dari
 1. Fee dihitung dari **tagihan**, bukan dari **penerimaan kas** — RS menanggung risiko piutang tak tertagih kecuali kontrak mengatur lain. <Confidence level="confirm" />
 2. Ketepatan master rate (service × item × patient type × peran) menentukan fee.
 3. Pajak kumulatif membuat koreksi bulan lalu berdampak ke bulan ini.
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/doctor_fee.py" line={4498} symbol="doctor.fee" /> — model `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={8436} symbol="doctor.payout.line" /> — model `DoctorPayoutLine`
+- <Src file="mayapada/models/doctor_fee.py" line={10385} symbol="doctor.fee.line" /> — model `DoctorFeeLine`
+- <Src file="mayapada/models/doctor_fee.py" line={10776} symbol="_compute_fee_line" /> — method `DoctorFeeLine`
+- <Src file="mayapada/models/doctor_fee.py" line={26429} symbol="deduction.transaction" /> — model `DeductionTransaction`
+- <Src file="mayapada/models/doctor_fee.py" line={26461} symbol="doctor.fee.bpjs" /> — model `DoctorFeeBPJS`
+- <Src file="mayapada/models/doctor_fee.py" line={27344} symbol="doctor.fee.send.email.wizard" /> — model `DoctorFeeSendEmailWizard`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`

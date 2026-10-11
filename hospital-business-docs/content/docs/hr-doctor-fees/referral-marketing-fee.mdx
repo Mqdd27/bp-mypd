@@ -25,7 +25,7 @@ Pemberian imbalan atas rujukan pasien adalah area sensitif secara etika kedokter
 | `referral.compute.wizard` | Tipe: item, bill, **igd** (per billing IGD), visit, **kol** (Key Opinion Leader) |
 | `referral.fee.confirm/posting.wizard` | Konfirmasi & posting; state `draft → confirm → posted` |
 
-<Confidence level="verified">`models/referral_fee.py`, `models/sync.py`</Confidence>
+<Confidence level="verified"><Src file="mayapada/models/referral_fee.py" />, <Src file="mayapada/models/sync.py" /></Confidence>
 
 ```mermaid
 sequenceDiagram
@@ -70,3 +70,26 @@ Fee bergantung pada nilai/jenis kunjungan pasien yang dirujuk (billing, visit, i
 Fee tetap terhitung untuk rujukan baru. Field `blocked` dan validitas rate (`start/end_date_validity`) adalah kontrolnya.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/marketing_fee.py" line={33} symbol="marketing.position" /> — model `RatePosition`
+- <Src file="mayapada/models/marketing_fee.py" line={111} symbol="marketing.sales" /> — model `RateSales`
+- <Src file="mayapada/models/marketing_fee.py" line={298} symbol="marketing.rate" /> — model `MarketingRate`
+- <Src file="mayapada/models/marketing_fee.py" line={343} symbol="marketing.rate.personal" /> — model `MarketingRatePersonal`
+- <Src file="mayapada/models/marketing_fee.py" line={427} symbol="marketing.rate.pic" /> — model `MarketingRatePIC`
+- <Src file="mayapada/models/marketing_fee.py" line={2538} symbol="marketing.billing" /> — model `MarketingBilling`
+- <Src file="mayapada/models/marketing_fee.py" line={2681} symbol="marketing.fee" /> — model `MarketingFee`
+- <Src file="mayapada/models/marketing_fee.py" line={3520} symbol="marketing.personal" /> — model `MarketingPersonal`
+- <Src file="mayapada/models/marketing_fee.py" line={3790} symbol="marketing.pic" /> — model `MarketingPIC`
+- <Src file="mayapada/models/marketing_fee.py" line={4133} symbol="marketing.report.wizard" /> — model `MarketingReport`
+- <Src file="mayapada/models/marketing_fee.py" line={4194} symbol="marketing.posting.wizard" /> — model `MarketingPosting`
+- <Src file="mayapada/models/referral_fee.py" line={25} symbol="referral.agen" /> — model `ReferralAgen`
+- <Src file="mayapada/models/referral_fee.py" line={305} symbol="referral.rate" /> — model `ReferralRate`
+- <Src file="mayapada/models/referral_fee.py" line={949} symbol="referral.transaction" /> — model `ReferralTransaction`
+- <Src file="mayapada/models/referral_fee.py" line={1145} symbol="referral.fee" /> — model `ReferralFee`
+- <Src file="mayapada/models/referral_fee.py" line={1482} symbol="referral.fee.line" /> — model `ReferralFeeLine`
+- <Src file="mayapada/models/referral_fee.py" line={1793} symbol="referral.compute.wizard" /> — model `ReferralComputeWizard`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`

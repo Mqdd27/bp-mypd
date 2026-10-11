@@ -31,25 +31,25 @@ Commit terakhir saat dianalisis: `7e4772d feat: init tc journal view`.
 
 | Domain | Model utama (jumlah kelas) | File |
 | --- | --- | --- |
-| Tarif & harga | `hospital.tariff`, `hospital.bed.type`, `tariff.pricelist`, `tariff.pricelist.fixed`, `tariff.dependency`, `tariff.markup`, `tariff.aggregation` + 10 wizard | `eproc/eproc_tc.py` 17991–22510, `models/hospital.py` |
-| eProcurement | `eproc.request(.line)`, `eproc.order(.line)`, `eproc.agreement(.line)`, `eproc.receipt(.line)`, `eproc.approval.*`, `eproc.type`, `eproc.term`, `eproc.taxes`, `eproc.pack` + ~25 wizard | `eproc/eproc_tc.py` 900–14310 |
-| Stok eProc | `eproc.stock.move`, `eproc.stock.quant`, `eproc.stock.lot`, `eproc.stock.inventory`, `eproc.cost.price(.historical)`, `eproc.orderpoint(.log)` | `eproc/eproc_tc.py` |
-| Budget eProc | `eproc.budget.group/request/allocation/item/dashboard` | `eproc/eproc_tc.py` 23298+ |
-| AR TrakCare | `receivable.invoice(.item)`, `receivable.receipt(.item)`, `receivable.receipt.settlement`, `receivable.invoice.receipt` | `eproc/eproc_tc.py` 15039–17860 |
-| Billing pasien | `sale.order`, `sale.order.line`, `sale.order.bill`, `sale.order.cob`, `*.history`, `sale.diagnoses`, `sale.procedure`, `pmo.*` | `models/sale.py` |
-| Piutang & kas | `account.coveringletter`, `account.creditnote`, `account.advance(.realization)`, `inpatient.deposit`, `patient.debt`, `receivable.*` (11 model koleksi) | `models/receivable.py` |
-| Hutang | `payable.supplier`, `payable.invoice`, `payable.adjustment`, `payable.payment(.group)` | `models/payable.py` |
-| Fee | `doctor.*` (34 kelas), `referral.*` (21), `marketing.*` (24) | `models/doctor_fee.py`, `referral_fee.py`, `marketing_fee.py` |
-| Akuntansi & laporan | `account.move` (ext.), `profitability.*`, `account.console.*`, `bsl.mapping`, mapping analitik, `account.salary` | `models/account.py`, `report.py` |
-| Aset | `account.asset.*` ext., `asset.relocation`, `account.asset.opname`, `eproc.asset.realize` | `models/asset.py`, eproc |
-| Budget & cost center | `crossovered.budget` ext., `budget.*`, `cost.center.*` | `models/budget.py`, `cost_center.py` |
-| Procurement lama | `purchase.order`, `purchase.requisition`, `purchase.approval`, `stock.receiving`, `stock.ledger` | `models/purchase.py`, `stock.py` |
-| Integrasi | `sync.*` helper, `ApiController`, `EprocStressController` | `models/sync.py`, `resapi.py`, `controllers/` |
+| Tarif & harga | `hospital.tariff`, `hospital.bed.type`, `tariff.pricelist`, `tariff.pricelist.fixed`, `tariff.dependency`, `tariff.markup`, `tariff.aggregation` + 10 wizard | <Src file="mayapada/eproc/eproc_tc.py" line={17991} end={22510} />, <Src file="mayapada/models/hospital.py" /> |
+| eProcurement | `eproc.request(.line)`, `eproc.order(.line)`, `eproc.agreement(.line)`, `eproc.receipt(.line)`, `eproc.approval.*`, `eproc.type`, `eproc.term`, `eproc.taxes`, `eproc.pack` + ~25 wizard | <Src file="mayapada/eproc/eproc_tc.py" line={900} end={14310} /> |
+| Stok eProc | `eproc.stock.move`, `eproc.stock.quant`, `eproc.stock.lot`, `eproc.stock.inventory`, `eproc.cost.price(.historical)`, `eproc.orderpoint(.log)` | <Src file="mayapada/eproc/eproc_tc.py" /> |
+| Budget eProc | `eproc.budget.group/request/allocation/item/dashboard` | <Src file="mayapada/eproc/eproc_tc.py" /> 23298+ |
+| AR TrakCare | `receivable.invoice(.item)`, `receivable.receipt(.item)`, `receivable.receipt.settlement`, `receivable.invoice.receipt` | <Src file="mayapada/eproc/eproc_tc.py" line={15039} end={17860} /> |
+| Billing pasien | `sale.order`, `sale.order.line`, `sale.order.bill`, `sale.order.cob`, `*.history`, `sale.diagnoses`, `sale.procedure`, `pmo.*` | <Src file="mayapada/models/sale.py" /> |
+| Piutang & kas | `account.coveringletter`, `account.creditnote`, `account.advance(.realization)`, `inpatient.deposit`, `patient.debt`, `receivable.*` (11 model koleksi) | <Src file="mayapada/models/receivable.py" /> |
+| Hutang | `payable.supplier`, `payable.invoice`, `payable.adjustment`, `payable.payment(.group)` | <Src file="mayapada/models/payable.py" /> |
+| Fee | `doctor.*` (34 kelas), `referral.*` (21), `marketing.*` (24) | <Src file="mayapada/models/doctor_fee.py" />, <Src file="mayapada/models/referral_fee.py" />, <Src file="mayapada/models/marketing_fee.py" /> |
+| Akuntansi & laporan | `account.move` (ext.), `profitability.*`, `account.console.*`, `bsl.mapping`, mapping analitik, `account.salary` | <Src file="mayapada/models/account.py" />, <Src file="mayapada/models/report.py" /> |
+| Aset | `account.asset.*` ext., `asset.relocation`, `account.asset.opname`, `eproc.asset.realize` | <Src file="mayapada/models/asset.py" />, eproc |
+| Budget & cost center | `crossovered.budget` ext., `budget.*`, `cost.center.*` | <Src file="mayapada/models/budget.py" />, <Src file="mayapada/models/cost_center.py" /> |
+| Procurement lama | `purchase.order`, `purchase.requisition`, `purchase.approval`, `stock.receiving`, `stock.ledger` | <Src file="mayapada/models/purchase.py" />, <Src file="mayapada/models/stock.py" /> |
+| Integrasi | `sync.*` helper, `ApiController`, `EprocStressController` | <Src file="mayapada/models/sync.py" />, <Src file="mayapada/models/resapi.py" />, `controllers/` |
 
 ## Konvensi & pola yang perlu dikenali
 
-- **View didefinisikan di Python** (`get_view` override mengembalikan arch XML string) untuk banyak model master — XML view di `data/` tidak selalu menjadi sumber tampilan.
-- **Field sync** (`sync_type`, `sync_id`, `sync_id_api`, `sync_consol_*`) dideklarasikan sekali di `models/sync.py` lalu di-*assign* ke banyak model.
+- **View didefinisikan di Python** (`get_view` override mengembalikan arch XML string, contoh <Src file="mayapada/models/hospital.py" line={52} symbol="get_view" />; ±146 override di modul ini) untuk banyak model master — XML view di `data/` tidak selalu menjadi sumber tampilan.
+- **Field sync** (`sync_type`, `sync_id`, `sync_id_api`, `sync_consol_*`) dideklarasikan sekali di <Src file="mayapada/models/sync.py" /> lalu di-*assign* ke banyak model.
 - **SQL langsung** banyak dipakai untuk performa (upsert, laporan, view jurnal). Constraint ORM tidak melindungi jalur ini.
 - **Hard-coded**: nama company (Bogor, Tangerang), kode akun (`1104020101`, `2103000000`, `2103030000`, `7999000000`), nama item/service di fee dokter, nama kategori "Medical Equipment".
 - **Sisa Python 2** (`unicode`, `xrange`) di jalur sync lama.
@@ -65,3 +65,52 @@ Commit terakhir saat dianalisis: `7e4772d feat: init tc journal view`.
 5. Cek project memory untuk perbedaan server vs repo.
 
 Lihat [Traceability Matrix](/docs/mayapada-codebase/traceability-matrix).
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/controllers/eproc_stress.py" line={20} symbol="EprocStressController" /> — class `EprocStressController`
+- <Src file="mayapada/eproc/eproc_tc.py" line={907} symbol="eproc.pack" /> — model `EprocPack`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1306} symbol="eproc.stock.quant" /> — model `EprocStockQuant`
+- <Src file="mayapada/eproc/eproc_tc.py" line={1481} symbol="eproc.stock.inventory" /> — model `EprocStockInventory`
+- <Src file="mayapada/eproc/eproc_tc.py" line={2382} symbol="eproc.type" /> — model `EprocType`
+- <Src file="mayapada/eproc/eproc_tc.py" line={2672} symbol="eproc.taxes" /> — model `EprocTaxes`
+- <Src file="mayapada/eproc/eproc_tc.py" line={2719} symbol="eproc.term" /> — model `EprocTerm`
+- <Src file="mayapada/eproc/eproc_tc.py" line={7448} symbol="eproc.asset.realize" /> — model `EprocAssetRealize`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10778} symbol="eproc.stock.lot" /> — model `EprocStockLot`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/eproc/eproc_tc.py" line={16597} symbol="receivable.invoice.receipt" /> — model `ReceivableInvoiceReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={17732} symbol="receivable.receipt.settlement" /> — model `ReceivableReceiptSettlement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21314} symbol="tariff.dependency" /> — model `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21578} symbol="tariff.markup" /> — model `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22052} symbol="tariff.aggregation" /> — model `TariffAggregation`
+- <Src file="mayapada/models/account.py" line={18869} symbol="account.move" /> — model `AccountMove`
+- <Src file="mayapada/models/account.py" line={25149} symbol="account.salary" /> — model `AccountSalary`
+- <Src file="mayapada/models/account.py" line={30622} symbol="bsl.mapping" /> — model `BSLMapping`
+- <Src file="mayapada/models/asset.py" line={372} symbol="account.asset.opname" /> — model `AccountAssetOpname`
+- <Src file="mayapada/models/asset.py" line={914} symbol="asset.relocation" /> — model `AssetRelocation`
+- <Src file="mayapada/models/hospital.py" line={30} symbol="hospital.bed.type" /> — model `HospitalBedType`
+- <Src file="mayapada/models/hospital.py" line={178} symbol="hospital.tariff" /> — model `HospitalTariff`
+- <Src file="mayapada/models/payable.py" line={54} symbol="payable.supplier" /> — model `PayableSupplier`
+- <Src file="mayapada/models/payable.py" line={188} symbol="payable.invoice" /> — model `PayableInvoice`
+- <Src file="mayapada/models/payable.py" line={956} symbol="payable.adjustment" /> — model `PayableAdjustment`
+- <Src file="mayapada/models/purchase.py" line={31} symbol="purchase.order" /> — extend `PurchaseOrder`
+- <Src file="mayapada/models/purchase.py" line={5438} symbol="purchase.approval" /> — model `PurchaseApproval`
+- <Src file="mayapada/models/purchase.py" line={6795} symbol="purchase.requisition" /> — extend `PurchaseRequest`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={1032} symbol="account.creditnote" /> — model `CreditNote`
+- <Src file="mayapada/models/receivable.py" line={7106} symbol="patient.debt" /> — model `PatientDebt`
+- <Src file="mayapada/models/receivable.py" line={8224} symbol="inpatient.deposit" /> — model `InpatientDeposit`
+- <Src file="mayapada/models/resapi.py" line={97} symbol="ApiController" /> — class `ApiController`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`
+- <Src file="mayapada/models/sale.py" line={14655} symbol="sale.diagnoses" /> — model `SaleDiagnoses`
+- <Src file="mayapada/models/sale.py" line={14672} symbol="sale.procedure" /> — model `SaleProcedure`
+- <Src file="mayapada/models/stock.py" line={1301} symbol="stock.receiving" /> — model `StockReceiving`
+- <Src file="mayapada/models/stock.py" line={6263} symbol="stock.ledger" /> — model `StockLedger`
+- <Src file="om_account_budget/models/account_budget.py" line={42} symbol="crossovered.budget" /> — model `CrossoveredBudget`

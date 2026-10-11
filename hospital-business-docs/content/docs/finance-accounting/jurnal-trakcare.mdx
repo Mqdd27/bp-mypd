@@ -5,7 +5,7 @@ description: Bagaimana wizard Generate Journal mengubah view SQL atas data TrakC
 
 ## 1. Apa itu?
 
-`account.journal.wizard` (diperluas di eproc_tc.py:22862) punya 13 tipe jurnal TC (`TC_JOURNALS`, 22512). Untuk setiap tanggal dalam rentang, wizard membaca view SQL `view_account_tc_*`, mengelompokkan per akun, dan membuat satu `account.move` per tanggal.
+`account.journal.wizard` (diperluas di <Src file="mayapada/eproc/eproc_tc.py" line={22862} symbol="AccountJournalWizard" />) punya 13 tipe jurnal TC (<Src file="mayapada/eproc/eproc_tc.py" line={22512} symbol="TC_JOURNALS" />). Untuk setiap tanggal dalam rentang, wizard membaca view SQL `view_account_tc_*`, mengelompokkan per akun, dan membuat satu `account.move` per tanggal.
 
 | Tipe | Nama jurnal | View | move_type filter |
 | --- | --- | --- | --- |
@@ -52,7 +52,7 @@ sequenceDiagram
   end
 ```
 
-*Sumber:* `AccountJournalWizard._generate_tc_journal` (22880), `generate` (22961), `init` (22870). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/eproc/eproc_tc.py" line={22880} symbol="AccountJournalWizard._generate_tc_journal" />, <Src file="mayapada/eproc/eproc_tc.py" line={22961} symbol="generate" />, <Src file="mayapada/eproc/eproc_tc.py" line={22870} symbol="init" />. <Confidence level="verified" />
 
 ## 7. Catatan implementasi
 
@@ -87,3 +87,11 @@ Agar dua user yang men-generate tanggal yang sama bersamaan tidak membuat jurnal
 Supaya setiap hari bisa dicocokkan dengan laporan kas/stok harian dan diulang per hari jika ada koreksi.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={22880} symbol="AccountJournalWizard._generate_tc_journal" /> — method `AccountJournalWizard`
+- <Src file="mayapada/models/account.py" line={18869} symbol="account.move" /> — model `AccountMove`
+- <Src file="mayapada/models/account.py" line={32540} symbol="account.journal.wizard" /> — model `AccountJournalWizard`

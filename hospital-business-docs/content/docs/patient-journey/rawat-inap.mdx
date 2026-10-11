@@ -55,18 +55,18 @@ flowchart TD
   P1 --> KAS["[Odoo] Koleksi kasir & deposit<br/>jurnal TC"]
 ```
 
-*Sumber:* field `sale.order` (`bed_type_id`, `eligible_bed_type_id`, `alloted_bed_type_id`), `receivable.accrual.billing`, `account.coveringletter.action_confirm` (`models/receivable.py:621`), README Airflow interface 35 (*IP Payable Accrual Cutoff*). <Confidence level="verified" /> Aturan selisih kelas: <Confidence level="confirm" />
+*Sumber:* field `sale.order` (`bed_type_id`, `eligible_bed_type_id`, `alloted_bed_type_id`), `receivable.accrual.billing`, `account.coveringletter.action_confirm` (<Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" />), README Airflow interface 35 (*IP Payable Accrual Cutoff*). <Confidence level="verified" /> Aturan selisih kelas: <Confidence level="confirm" />
 
 ## 7. Implementasi di Odoo Mayapada
 
 | Konsep | Model / field |
 | --- | --- |
 | Tiga bed type | `sale.order.bed_type_id` (Billable), `eligible_bed_type_id` (hak), `alloted_bed_type_id` (ditempati) |
-| Deposit pasien | `inpatient.deposit` (legacy) dan `receivable.patient.deposit` (koleksi TC, `models/receivable.py:9286`) |
-| Accrual | `receivable.accrual.billing` (11231), `sale.order.line.accrual` (eproc report view) |
+| Deposit pasien | `inpatient.deposit` (legacy) dan `receivable.patient.deposit` (koleksi TC, <Src file="mayapada/models/receivable.py" line={9286} symbol="ReceivablePatientDeposit" />) |
+| Accrual | <Src file="mayapada/models/receivable.py" line={11232} symbol="receivable.accrual.billing" />, `sale.order.line.accrual` (eproc report view) |
 | Billing per payer | `sale.order.bill`: `payer_gross/amount/credit/receipt/balance`, `subpayer_*`, `personal_*` |
 | COB | `sale.order.cob` (state sama dengan bill), `cob_bill`, `cob_billno`, `cob_sequence` |
-| Riwayat outstanding | `sale.order.bill.history` (dibuat oleh `action_history`) |
+| Riwayat outstanding | `sale.order.bill.history` (dibuat oleh <Src file="mayapada/models/sale.py" line={9932} symbol="SaleOrderBill.action_history" />) |
 
 ## 9. Business rules
 
@@ -89,3 +89,17 @@ Eligible = kelas yang menjadi hak pasien menurut penjamin; alloted = kelas yang 
 Karena layanan sudah diberikan (pendapatan terjadi) sebelum tagihan final diterbitkan saat discharge, terutama untuk pasien yang masih dirawat saat tutup buku.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc_report_views.py" line={29} symbol="sale.order.line.accrual" /> — model `SaleOrderLineAccrual`
+- <Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" /> — method `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={8224} symbol="inpatient.deposit" /> — model `InpatientDeposit`
+- <Src file="mayapada/models/receivable.py" line={9287} symbol="receivable.patient.deposit" /> — model `ReceivablePatientDeposit`
+- <Src file="mayapada/models/receivable.py" line={11232} symbol="receivable.accrual.billing" /> — model `ReceivableAccrualBilling`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10404} symbol="sale.order.bill.history" /> — model `SaleOrderBillHistory`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`

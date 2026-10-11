@@ -32,3 +32,10 @@ description: Mode kegagalan yang terlihat di kode dan memory, dampak bisnisnya, 
 4. Rekonsiliasi harian dua arah (jumlah baris & total nominal) antara Bridge dan Odoo.
 
 Lihat skenario lengkap di [Case 7: Integrasi Gagal](/docs/real-world-scenarios/case-7-integrasi-gagal).
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={11271} symbol="eproc.receipt.log" /> — model `EprocReceiptLog`
+- <Src file="mayapada/models/misc.py" line={3810} symbol="message_post" /> — method `MailThread`

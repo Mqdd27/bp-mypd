@@ -43,7 +43,7 @@ flowchart TD
   RCV -. "potongan / ditolak" .-> CN["account.creditnote / receivable.writeoff"]
 ```
 
-*Sumber:* `models/receivable.py:69` (model), `:621` (`action_confirm`); `eproc/eproc_tc.py:15731` (`ReceivableReceipt`), `:17731` (`ReceivableReceiptSettlement`, deskripsi "DIL TDM AR Billing Settlement"). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/models/receivable.py" line={69} symbol="CoveringLetter" /> (model), <Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" />; <Src file="mayapada/eproc/eproc_tc.py" line={15731} symbol="ReceivableReceipt" />, <Src file="mayapada/eproc/eproc_tc.py" line={17731} symbol="ReceivableReceiptSettlement" /> (deskripsi "DIL TDM AR Billing Settlement"). <Confidence level="verified" />
 
 ## 7. Implementasi — jurnal
 
@@ -87,3 +87,13 @@ AR Unbilled (`company.receivable_credit_id`) dikredit; AR penjamin didebit.
 Agar status tagihan per billing di HIS (lunas/outstanding) konsisten dengan pembukuan, sehingga kasir/billing tidak menagih ulang. Lihat README Airflow interface 29.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={15731} symbol="ReceivableReceipt" /> — class `ReceivableReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={16844} symbol="receivable.receipt.import.wizard" /> — model `ReceivableReceiptImportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={17731} symbol="ReceivableReceiptSettlement" /> — class `ReceivableReceiptSettlement`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" /> — method `CoveringLetter`

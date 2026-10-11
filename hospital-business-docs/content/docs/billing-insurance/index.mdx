@@ -17,7 +17,7 @@ description: Jenis penjamin di RS swasta Indonesia, kapan tanggung jawab bayar b
 | **Coordination of Benefit (COB)** | Dua penjamin berbagi tagihan (mis. BPJS + asuransi swasta, atau dua asuransi) | Masing-masing penjamin |
 | **Membership / kontrak khusus** | Diskon/tarif khusus | Tergantung kontrak |
 
-Di Odoo, tipe customer HIS disimpan sebagai teks `customer_type_wipro` / `payer_type`. Fallback di `models/sync.py` (`get_data`) memuat daftar tipe dari HIS lama: GOVERNMENT, INSURANCE, CORPORATE, EMPLOYEE, PT, ASURANSI, REFFERAL, BANK, PRIVATE CREDIT, E-COMMERCE, MAYAPADA. <Confidence level="verified" />
+Di Odoo, tipe customer HIS disimpan sebagai teks `customer_type_wipro` / `payer_type`. Fallback di <Src file="mayapada/models/sync.py" /> (`get_data`) memuat daftar tipe dari HIS lama: GOVERNMENT, INSURANCE, CORPORATE, EMPLOYEE, PT, ASURANSI, REFFERAL, BANK, PRIVATE CREDIT, E-COMMERCE, MAYAPADA. <Confidence level="verified" />
 
 ## Perpindahan tanggung jawab finansial
 
@@ -44,7 +44,7 @@ sequenceDiagram
   end
 ```
 
-*Sumber:* `account.coveringletter.action_confirm` (`models/receivable.py:621`), `res.company.receivable_credit_id` = "AR Unbilled Account" (`models/misc.py:2532`), README Airflow interface 29. <Confidence level="verified" />
+*Sumber:* `account.coveringletter.action_confirm` (<Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" />), `res.company.receivable_credit_id` = "AR Unbilled Account" (<Src file="mayapada/models/misc.py" line={2532} symbol="receivable_credit_id" />), README Airflow interface 29. <Confidence level="verified" />
 
 ## Halaman
 

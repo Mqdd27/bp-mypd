@@ -45,7 +45,7 @@ flowchart TD
   Z --> R0["final = base"]
 ```
 
-*Sumber:* `TariffPricelistFixed._get_markup_for_combination`, `eproc_tc.py:19857`. <Confidence level="verified" />
+*Sumber:* `TariffPricelistFixed._get_markup_for_combination`, <Src file="mayapada/eproc/eproc_tc.py" line={19857} symbol="_get_markup_for_combination" />. <Confidence level="verified" />
 
 ## 7. Implementasi di Odoo Mayapada
 
@@ -55,11 +55,11 @@ flowchart TD
 | --- | --- |
 | `tariff_id`, `bed_type_id`, `category_id` | Target (tarif yang harganya diturunkan). `category_id` = service/order category. |
 | `depend_tariff_id`, `depend_bed_type_id` | Sumber harga. |
-| `depend_rate` | Persen. Record aktif wajib **1–200**; record nonaktif 0–200 (`_check_depend_rate`, 21351). |
+| `depend_rate` | Persen. Record aktif wajib **1–200**; record nonaktif 0–200 (<Src file="mayapada/eproc/eproc_tc.py" line={21351} symbol="_check_depend_rate" />). |
 
-- Membuat dependency aktif baru meng-*archive* dependency aktif lama untuk kunci `company + tariff + category + bed type` (`_archive_existing_active`, 21365).
-- Saat compute, dependency yang dipakai adalah yang **`write_date` terbaru** (`_get_dependency`, 19817) — mengedit dependency lama membuatnya "paling baru".
-- Wizard `tariff.dependency.wizard` (21384) menampilkan semua service category untuk tariff/bed type terpilih agar diisi massal.
+- Membuat dependency aktif baru meng-*archive* dependency aktif lama untuk kunci `company + tariff + category + bed type` (<Src file="mayapada/eproc/eproc_tc.py" line={21365} symbol="_archive_existing_active" />).
+- Saat compute, dependency yang dipakai adalah yang **`write_date` terbaru** (<Src file="mayapada/eproc/eproc_tc.py" line={19817} symbol="_get_dependency" />) — mengedit dependency lama membuatnya "paling baru".
+- Wizard <Src file="mayapada/eproc/eproc_tc.py" line={21385} symbol="tariff.dependency.wizard" /> menampilkan semua service category untuk tariff/bed type terpilih agar diisi massal.
 
 ### Markup — `eproc_tc.py:21577`
 
@@ -68,13 +68,13 @@ flowchart TD
 | `markup_level` | `0` = Item, `1` = Category. |
 | `category_id` | **Item category** (bukan order category) untuk kedua level. |
 | `product_tmpl_id` | Wajib untuk level Item. |
-| `markup_tier` | Level 1–4 (`TARIFF_MARKUP_TIERS`, 21562). |
+| `markup_tier` | Level 1–4 (<Src file="mayapada/eproc/eproc_tc.py" line={21562} symbol="TARIFF_MARKUP_TIERS" />). |
 | `from_price`, `to_price` | Rentang harga dasar. Default to = 9.999.999.999.999. |
 | `markup_rate` | 0–100%. |
 
 Validasi:
 - `_check_markup_rate`: 0 ≤ rate ≤ 100.
-- `_check_markup_price_range` (21642): `to ≥ from ≥ 0`; rentang aktif **tidak boleh tumpang tindih** untuk tariff + level + bed type + kategori/item yang sama.
+- <Src file="mayapada/eproc/eproc_tc.py" line={21642} symbol="_check_markup_price_range" />: `to ≥ from ≥ 0`; rentang aktif **tidak boleh tumpang tindih** untuk tariff + level + bed type + kategori/item yang sama.
 - `_check_markup_level_fields`: Item butuh bed type + category + item; Category butuh bed type + category; category harus `item_category`.
 - `_check_base_tariff_opd_bed_type`: Base tariff + OPD bed type tidak boleh punya markup.
 
@@ -118,4 +118,19 @@ Tidak secara otomatis. C akan membaca `tariff.pricelist` milik B; jika B hanya a
 
 ## 13. Referensi
 
-`mayapada/eproc/eproc_tc.py` 19817–19944, 21313–22050. <Confidence level="verified" />
+<Src file="mayapada/eproc/eproc_tc.py" line={19817} end={19944} />, <Src file="mayapada/eproc/eproc_tc.py" line={21313} end={22050} />. <Confidence level="verified" />
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19817} symbol="_get_dependency" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19857} symbol="TariffPricelistFixed._get_markup_for_combination" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21314} symbol="tariff.dependency" /> — model `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21351} symbol="_check_depend_rate" /> — method `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21365} symbol="_archive_existing_active" /> — method `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21385} symbol="tariff.dependency.wizard" /> — model `TariffDependencyWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21578} symbol="tariff.markup" /> — model `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21627} symbol="_check_markup_rate" /> — method `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21633} symbol="_check_base_tariff_opd_bed_type" /> — method `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21642} symbol="_check_markup_price_range" /> — method `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21666} symbol="_check_markup_level_fields" /> — method `TariffMarkup`

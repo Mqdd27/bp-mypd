@@ -68,3 +68,11 @@ stateDiagram-v2
 1. Di IGD, **klinis mendahului administrasi** — sistem harus mentoleransi data administratif yang terlambat.
 2. Kualitas **master pasien** (merge MRN) langsung memengaruhi AR.
 3. Pool fee IGD berbeda dari fee per pasien.
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/referral_fee.py" line={1793} symbol="referral.compute.wizard" /> — model `ReferralComputeWizard`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`

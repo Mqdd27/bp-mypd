@@ -46,11 +46,11 @@ erDiagram
   }
 ```
 
-*Sumber:* `mayapada/models/sale.py` (`SaleOrder` 42, `SaleOrderBill` 9651, `SaleOrderCob` 10446). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/models/sale.py" /> (<Src file="mayapada/models/sale.py" line={42} symbol="SaleOrder" />, <Src file="mayapada/models/sale.py" line={9651} symbol="SaleOrderBill" />, <Src file="mayapada/models/sale.py" line={10446} symbol="SaleOrderCob" />). <Confidence level="verified" />
 
 ## 7. Implementasi — rumus saldo payer
 
-Ketika covering letter dikonfirmasi (`models/receivable.py:621`):
+Ketika covering letter dikonfirmasi (<Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" />):
 
 ```text
 payer_adjustment = payer_amount × diskon_letter%      (jika diskon sebelum invoice aktif)
@@ -59,7 +59,7 @@ payer_balance    = payer_credit − payer_receipt − payer_discount (write-off)
 state            = 'invoice'
 ```
 
-Setiap kejadian (konfirmasi letter, credit note, receipt, advance) direkam di `sale.order.bill.history` lewat `action_history()` — inilah **jejak audit saldo piutang per billing**. <Confidence level="verified" />
+Setiap kejadian (konfirmasi letter, credit note, receipt, advance) direkam di `sale.order.bill.history` lewat <Src file="mayapada/models/sale.py" line={9932} symbol="SaleOrderBill.action_history" /> — inilah **jejak audit saldo piutang per billing**. <Confidence level="verified" />
 
 ## 8. State billing
 
@@ -74,11 +74,11 @@ stateDiagram-v2
   cancel --> draft: action_draft
 ```
 
-Saat covering letter dibatalkan, jurnalnya di-*cancel* lalu **dihapus** (`unlink`) dan billing kembali ke `done` (`models/receivable.py:548`). <Confidence level="verified" /> Penghapusan jurnal (bukan reversal) berarti jejak audit bergantung pada chatter & history, bukan ledger. <Confidence level="confirm">apakah diterima auditor</Confidence>
+Saat covering letter dibatalkan, jurnalnya di-*cancel* lalu **dihapus** (`unlink`) dan billing kembali ke `done` (<Src file="mayapada/models/receivable.py" line={548} symbol="action_cancel" />). <Confidence level="verified" /> Penghapusan jurnal (bukan reversal) berarti jejak audit bergantung pada chatter & history, bukan ledger. <Confidence level="confirm">apakah diterima auditor</Confidence>
 
 ## 9. Business rules
 
-- `lock_bill()` menutup (`done`) semua admission yang memiliki baris `type_line='BILL'`. <Confidence level="verified">sale.py:359</Confidence>
+- `lock_bill()` menutup (`done`) semua admission yang memiliki baris `type_line='BILL'`. <Confidence level="verified"><Src file="mayapada/models/sale.py" line={359} symbol="lock_bill" /></Confidence>
 - Field `is_bpjs`, `inacbgs_code`, `inacbgs_amount` menyimpan informasi klaim BPJS dari HIS. Lihat [BPJS](/docs/billing-insurance/bpjs-jkn).
 - `tpa_id/code/name` menyimpan Third Party Administrator jika asuransi memakai TPA.
 
@@ -100,3 +100,17 @@ Saat covering letter dibatalkan, jurnalnya di-*cancel* lalu **dihapus** (`unlink
 Untuk merekonstruksi saldo piutang per tanggal (aging, audit), karena field saldo di `sale.order.bill` hanya menyimpan nilai terakhir.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/sale.py" line={42} symbol="SaleOrder" /> — class `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={359} symbol="lock_bill" /> — method `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9651} symbol="SaleOrderBill" /> — class `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10404} symbol="sale.order.bill.history" /> — model `SaleOrderBillHistory`
+- <Src file="mayapada/models/sale.py" line={10446} symbol="SaleOrderCob" /> — class `SaleOrderCob`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`

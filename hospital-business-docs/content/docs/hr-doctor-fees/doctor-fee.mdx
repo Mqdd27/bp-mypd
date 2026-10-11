@@ -46,7 +46,7 @@ flowchart TD
   PO --> PAY["Payout (Wipro/Arcus/TC) & email slip"]
 ```
 
-*Sumber:* `DoctorFeeLine._compute_fee_line` (`models/doctor_fee.py:10776`), `DoctorFee.compute_grossup` (4687), `DoctorFeePostingWizard.posting` (753), `doctor.rate` (112), `doctor.rate.line` (408), `doctor.tax` (27). <Confidence level="verified" />
+*Sumber:* `DoctorFeeLine._compute_fee_line` (<Src file="mayapada/models/doctor_fee.py" line={10776} symbol="_compute_fee_line" />), <Src file="mayapada/models/doctor_fee.py" line={4687} symbol="DoctorFee.compute_grossup" />, <Src file="mayapada/models/doctor_fee.py" line={753} symbol="DoctorFeePostingWizard.posting" />, <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" />, <Src file="mayapada/models/doctor_fee.py" line={409} symbol="doctor.rate.line" />, <Src file="mayapada/models/doctor_fee.py" line={28} symbol="doctor.tax" />. <Confidence level="verified" />
 
 ## 7. Implementasi — detail penting
 
@@ -103,3 +103,16 @@ Jaminan minimum pendapatan dokter (sering untuk dokter baru); jika fee aktual di
 Rate dicari per `type_rate` (= `rate_remark` baris); setiap peran menghasilkan baris fee sendiri dari HIS. <Confidence level="inferred" />
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/models/doctor_fee.py" line={28} symbol="doctor.tax" /> — model `DoctorTax`
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/doctor_fee.py" line={409} symbol="doctor.rate.line" /> — model `DoctorRateLine`
+- <Src file="mayapada/models/doctor_fee.py" line={753} symbol="DoctorFeePostingWizard.posting" /> — method `DoctorFeePostingWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={4687} symbol="DoctorFee.compute_grossup" /> — method `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={8436} symbol="doctor.payout.line" /> — model `DoctorPayoutLine`
+- <Src file="mayapada/models/doctor_fee.py" line={10776} symbol="DoctorFeeLine._compute_fee_line" /> — method `DoctorFeeLine`
+- <Src file="mayapada/models/doctor_fee.py" line={26461} symbol="doctor.fee.bpjs" /> — model `DoctorFeeBPJS`

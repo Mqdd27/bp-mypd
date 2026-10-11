@@ -88,3 +88,7 @@
 .dark .conf-inferred { color: #fcd34d; border-color: #92400e; background: #451a03; }
 .dark .conf-confirm { color: #fdba74; border-color: #9a3412; background: #431407; }
 .dark .conf-notfound { color: #cbd5e1; border-color: #475569; background: #1e293b; }
+
+/* Code citations (see components/mdx/source.tsx). */
+.src-ref { display: inline-flex; gap: 0.35rem; align-items: baseline; text-decoration: none; }
+.src-loc { font-size: 0.8em; color: var(--color-fd-muted-foreground); text-decoration: underline dotted; }

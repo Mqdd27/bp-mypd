@@ -73,7 +73,7 @@ Agar harga beli dikendalikan kontrak dan tidak diketik bebas; kontrak juga menja
 4. Keuangan: [Struktur Billing](/docs/billing-insurance/struktur-billing) → [Covering Letter](/docs/billing-insurance/covering-letter-ar) → [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) → [Doctor Fee](/docs/hr-doctor-fees/doctor-fee)
 5. Case [4](/docs/real-world-scenarios/case-4-pembelian-obat), [5](/docs/real-world-scenarios/case-5-perubahan-tarif), [6](/docs/real-world-scenarios/case-6-fee-dokter)
 
-**Latihan kode:** buka `mayapada/eproc/eproc_tc.py:20149` dan tulis ulang rumus Fixed Selling Price dengan kata-kata sendiri; lalu baca `_complete_receipt` (13081) dan daftar semua efek sampingnya.
+**Latihan kode:** buka <Src file="mayapada/eproc/eproc_tc.py" line={20149} symbol="_compute_fixed_price_vals" /> dan tulis ulang rumus Fixed Selling Price dengan kata-kata sendiri; lalu baca <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> dan daftar semua efek sampingnya.
 
 <Accordions>
 <Accordion title="Uji: Apa yang memicu versi baru Fixed Selling Price?">
@@ -111,3 +111,11 @@ Karena worker menulis via SQL langsung; constraint Python & default ORM tidak be
 ## Latihan akhir
 
 [Telusuri satu transaksi end-to-end →](/docs/learning-roadmap/latihan-akhir)
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20562} symbol="_upsert_fixed_price" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/models/hospital.py" line={30} symbol="hospital.bed.type" /> — model `HospitalBedType`

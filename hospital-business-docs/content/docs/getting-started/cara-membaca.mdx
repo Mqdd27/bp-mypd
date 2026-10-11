@@ -24,7 +24,9 @@ mayapada/eproc/eproc_tc.py:20149 → TariffPricelistFixed._compute_fixed_price_v
 ```
 
 - Path relatif terhadap `bp-mypd/odoo-revamp/`.
-- Nomor baris mengacu ke commit `7e4772d` ("feat: init tc journal view"). Baris dapat bergeser setelah commit baru.
+- Rujukan inline di teks mengacu ke commit `7e4772d` ("feat: init tc journal view") dan bisa bergeser.
+- Bagian **Sumber → Kode** di akhir halaman memakai komponen `<Src>` (props `file`, `line`, `symbol`): tautan ke GitHub (`master`) yang dicek `pnpm docs:check` — file harus ada dan `symbol` harus ada di baris itu, jadi rujukan yang bergeser langsung gagal.
+- Sumber eksternal (regulasi, artikel) ditulis sebagai tautan biasa di bagian **Referensi/Sumber** beserta tanggal akses.
 - Airflow dirujuk sebagai `airflow:<path>` dan mengacu ke snapshot lokal `/Users/macbook/Documents/mayapada/_airflow_current/`.
 
 ## Struktur 13 bagian

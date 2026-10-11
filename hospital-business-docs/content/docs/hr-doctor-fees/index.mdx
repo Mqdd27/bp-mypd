@@ -32,11 +32,11 @@ flowchart LR
 
 | Domain | File | Model kunci |
 | --- | --- | --- |
-| Fee dokter | `models/doctor_fee.py` (27.503 baris) | `doctor.rate`, `doctor.rate.line`, `doctor.fee`, `doctor.fee.line`, `doctor.payout.line`, `doctor.fee.bpjs`, `doctor.mcu`, `doctor.tax` |
-| Fee perujuk | `models/referral_fee.py` | `referral.agen`, `referral.rate(*)`, `referral.transaction`, `referral.fee(.line)` |
-| Insentif marketing | `models/marketing_fee.py` | `marketing.employee`, `marketing.rate(*)`, `marketing.fee`, `marketing.pic`, `marketing.personal` |
-| HR | `models/hr.py` | `hr.department` (19 field tambahan), `res.position` |
-| Gaji (akuntansi) | `models/account.py` | `account.salary`, `account.salary.deduction`, `salary.expense.import.wizard` |
+| Fee dokter | <Src file="mayapada/models/doctor_fee.py" /> (27.503 baris) | `doctor.rate`, `doctor.rate.line`, `doctor.fee`, `doctor.fee.line`, `doctor.payout.line`, `doctor.fee.bpjs`, `doctor.mcu`, `doctor.tax` |
+| Fee perujuk | <Src file="mayapada/models/referral_fee.py" /> | `referral.agen`, `referral.rate(*)`, `referral.transaction`, `referral.fee(.line)` |
+| Insentif marketing | <Src file="mayapada/models/marketing_fee.py" /> | `marketing.employee`, `marketing.rate(*)`, `marketing.fee`, `marketing.pic`, `marketing.personal` |
+| HR | <Src file="mayapada/models/hr.py" /> | `hr.department` (19 field tambahan), `res.position` |
+| Gaji (akuntansi) | <Src file="mayapada/models/account.py" /> | `account.salary`, `account.salary.deduction`, `salary.expense.import.wizard` |
 
 **Lembur & approval HR**: tidak ditemukan model lembur/overtime di repo. <Confidence level="notfound" /> Payroll kemungkinan di sistem lain; Odoo hanya menerima beban gaji via import (`salary.expense.import.wizard`, template `Format_Import_Salary_Expense.xlsx`). <Confidence level="inferred" />
 
@@ -44,3 +44,27 @@ flowchart LR
   <Card title="Doctor Fee: rate, hitung, pajak, posting" href="/docs/hr-doctor-fees/doctor-fee" />
   <Card title="Referral & Marketing Fee" href="/docs/hr-doctor-fees/referral-marketing-fee" />
 </Cards>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={5789} symbol="hr.department" /> — model `HrDepartment`
+- <Src file="mayapada/models/account.py" line={25149} symbol="account.salary" /> — model `AccountSalary`
+- <Src file="mayapada/models/account.py" line={25317} symbol="account.salary.deduction" /> — model `AccountSalaryDeduction`
+- <Src file="mayapada/models/account.py" line={25471} symbol="salary.expense.import.wizard" /> — model `SalaryExpenseImportWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={28} symbol="doctor.tax" /> — model `DoctorTax`
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/doctor_fee.py" line={409} symbol="doctor.rate.line" /> — model `DoctorRateLine`
+- <Src file="mayapada/models/doctor_fee.py" line={3056} symbol="doctor.mcu" /> — model `DoctorMCU`
+- <Src file="mayapada/models/doctor_fee.py" line={4498} symbol="doctor.fee" /> — model `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={8436} symbol="doctor.payout.line" /> — model `DoctorPayoutLine`
+- <Src file="mayapada/models/doctor_fee.py" line={10385} symbol="doctor.fee.line" /> — model `DoctorFeeLine`
+- <Src file="mayapada/models/doctor_fee.py" line={26461} symbol="doctor.fee.bpjs" /> — model `DoctorFeeBPJS`
+- <Src file="mayapada/models/hr.py" line={525} symbol="res.position" /> — model `ResPosition`
+- <Src file="mayapada/models/marketing_fee.py" line={195} symbol="marketing.employee" /> — model `MarketingEmployee`
+- <Src file="mayapada/models/marketing_fee.py" line={2681} symbol="marketing.fee" /> — model `MarketingFee`
+- <Src file="mayapada/models/marketing_fee.py" line={3520} symbol="marketing.personal" /> — model `MarketingPersonal`
+- <Src file="mayapada/models/marketing_fee.py" line={3790} symbol="marketing.pic" /> — model `MarketingPIC`
+- <Src file="mayapada/models/referral_fee.py" line={25} symbol="referral.agen" /> — model `ReferralAgen`
+- <Src file="mayapada/models/referral_fee.py" line={949} symbol="referral.transaction" /> — model `ReferralTransaction`

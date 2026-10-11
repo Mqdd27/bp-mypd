@@ -53,7 +53,7 @@ erDiagram
   }
 ```
 
-*Sumber:* `models/hospital.py`, `models/partner.py`, `eproc/eproc_tc.py` (ext. `product.template` 1812, `product.category` 2141, `res.partner` 2158, `eproc.pack` 906). <Confidence level="verified" />
+*Sumber:* <Src file="mayapada/models/hospital.py" />, <Src file="mayapada/models/partner.py" />, <Src file="mayapada/eproc/eproc_tc.py" /> (ext. <Src file="mayapada/eproc/eproc_tc.py" line={1813} symbol="product.template" />, <Src file="mayapada/eproc/eproc_tc.py" line={2142} symbol="product.category" />, <Src file="mayapada/eproc/eproc_tc.py" line={2159} symbol="res.partner" />, <Src file="mayapada/eproc/eproc_tc.py" line={907} symbol="eproc.pack" />). <Confidence level="verified" />
 
 ## Tabel master
 
@@ -109,3 +109,28 @@ Setiap database unit punya sequence ID sendiri; ID 100 di Parent bukan record ya
 Order item adalah apa yang dipesan/ditagih (mis. "Paracetamol 500mg tablet"); stock item adalah barang fisik di gudang (mis. "Paracetamol 500mg box isi 100"). Satu stock item bisa dipakai banyak order item.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={907} symbol="eproc.pack" /> — model `EprocPack`
+- <Src file="mayapada/eproc/eproc_tc.py" line={2719} symbol="eproc.term" /> — model `EprocTerm`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5789} symbol="hr.department" /> — model `HrDepartment`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5839} symbol="account.analytic.account" /> — model `AccountAnalyticAccount`
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/hospital.py" line={30} symbol="hospital.bed.type" /> — model `HospitalBedType`
+- <Src file="mayapada/models/hospital.py" line={178} symbol="hospital.tariff" /> — model `HospitalTariff`
+- <Src file="mayapada/models/hospital.py" line={644} symbol="hospital.bed.name" /> — model `HospitalBedName`
+- <Src file="mayapada/models/hospital.py" line={809} symbol="hospital.room.name" /> — model `HospitalRoomName`
+- <Src file="mayapada/models/misc.py" line={2404} symbol="res.company" /> — extend `ResCompany`
+- <Src file="mayapada/models/partner.py" line={19} symbol="res.partner" /> — extend `ResPartner`
+- <Src file="mayapada/models/payable.py" line={54} symbol="payable.supplier" /> — model `PayableSupplier`
+- <Src file="mayapada/models/product.py" line={54} symbol="product.template" /> — extend `ProductTemplate`
+- <Src file="mayapada/models/product.py" line={1094} symbol="uom.uom" /> — extend `UomUom`
+- <Src file="mayapada/models/product.py" line={1698} symbol="product.category" /> — extend `ProductCategory`
+- <Src file="mayapada/models/receivable.py" line={7038} symbol="account.payment.term" /> — extend `AccountPaymentTerm`
+- <Src file="mayapada/models/receivable.py" line={10963} symbol="receivable.bank.name" /> — model `ReceivableBankName`
+- <Src file="mayapada/models/receivable.py" line={11138} symbol="receivable.payment.mode" /> — model `ReceivablePaymentMode`
+- <Src file="mayapada/models/stock.py" line={6214} symbol="stock.location" /> — extend `StockLocation`
+- <Src file="mayapada/models/stock.py" line={6331} symbol="stock.warehouse" /> — extend `StockWarehouse`

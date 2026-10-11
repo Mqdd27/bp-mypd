@@ -60,22 +60,22 @@ stateDiagram-v2
   end note
 ```
 
-*Sumber:* `TariffPricelist.create/_archive_existing_active` (19193/19237), `scheduler_pricelist_realization` (19266), `TariffAggregation._realize_to_baseprice` (22265). <Confidence level="verified" />
+*Sumber:* `TariffPricelist.create/_archive_existing_active` (19193/19237), <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="scheduler_pricelist_realization" />, <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="TariffAggregation._realize_to_baseprice" />. <Confidence level="verified" />
 
 ## 7. Implementasi di Odoo Mayapada
 
 | Elemen | Lokasi | Perilaku |
 | --- | --- | --- |
-| Model | `eproc_tc.py:19128` `TariffPricelist` | Semua field `readonly=True`, `tracking=True` (chatter mencatat perubahan). |
-| Constraint draft tunggal | `_check_single_draft_pricelist` (19201) | ValidationError jika ada >1 draft aktif untuk kombinasi yang sama. |
-| Constraint kategori | `_check_tariff_type_category` (19222) | Category harus `order_category`; produk harus di kategori itu; Base Price untuk kategori item wajib item category yang cocok. |
-| Auto-expire saat create active | `_archive_existing_active` (19237) | Membuat record `state=active` meng-expire active lama. |
-| Wizard input | `TariffPricelistWizard.action_view` (19499), `action_update` (19567) | Validasi tanda tariff, kategori, H+2, harga ≥ 0. |
-| Aturan H+2 | `_check_new_effective` (19487) | `new_effective ≥ hari ini + 2` dan ≥ `current_effective`. |
-| Rilis | `scheduler_pricelist_realization` (19266) | Lihat alur data di bawah. |
-| Import Excel | `TariffImportWizard` (18230) | Import Pricelist/Dependency/Markup dengan preview baris (`tariff.import.line`). |
-| Export existing | `TariffExistingExportWizard` (18080) | Ekspor record terpilih ke `.xls` dengan header template import. |
-| Proteksi arsip | `_disable_tariff_active_archive_field` (17991) | Field `active` dibuat readonly di UI. |
+| Model | <Src file="mayapada/eproc/eproc_tc.py" line={19128} symbol="TariffPricelist" /> `TariffPricelist` | Semua field `readonly=True`, `tracking=True` (chatter mencatat perubahan). |
+| Constraint draft tunggal | <Src file="mayapada/eproc/eproc_tc.py" line={19201} symbol="_check_single_draft_pricelist" /> | ValidationError jika ada >1 draft aktif untuk kombinasi yang sama. |
+| Constraint kategori | <Src file="mayapada/eproc/eproc_tc.py" line={19222} symbol="_check_tariff_type_category" /> | Category harus `order_category`; produk harus di kategori itu; Base Price untuk kategori item wajib item category yang cocok. |
+| Auto-expire saat create active | <Src file="mayapada/eproc/eproc_tc.py" line={19237} symbol="_archive_existing_active" /> | Membuat record `state=active` meng-expire active lama. |
+| Wizard input | <Src file="mayapada/eproc/eproc_tc.py" line={19499} symbol="TariffPricelistWizard.action_view" />, <Src file="mayapada/eproc/eproc_tc.py" line={19567} symbol="action_update" /> | Validasi tanda tariff, kategori, H+2, harga ≥ 0. |
+| Aturan H+2 | <Src file="mayapada/eproc/eproc_tc.py" line={19487} symbol="_check_new_effective" /> | `new_effective ≥ hari ini + 2` dan ≥ `current_effective`. |
+| Rilis | <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="scheduler_pricelist_realization" /> | Lihat alur data di bawah. |
+| Import Excel | <Src file="mayapada/eproc/eproc_tc.py" line={18230} symbol="TariffImportWizard" /> | Import Pricelist/Dependency/Markup dengan preview baris (`tariff.import.line`). |
+| Export existing | <Src file="mayapada/eproc/eproc_tc.py" line={18080} symbol="TariffExistingExportWizard" /> | Ekspor record terpilih ke `.xls` dengan header template import. |
+| Proteksi arsip | <Src file="mayapada/eproc/eproc_tc.py" line={17991} symbol="_disable_tariff_active_archive_field" /> | Field `active` dibuat readonly di UI. |
 
 <Callout type="info">
 Project memory mencatat bahwa di server (Odoo 10 dan 16) **tree/form tarif dikunci read-only** sejak Okt 2026; perubahan hanya lewat wizard/ETL. Ini restriksi UI, bukan ACL model. <Confidence level="inferred">memory, belum diverifikasi di repo</Confidence>
@@ -125,5 +125,26 @@ Memberi jeda bagi compute Fixed Selling Price dan publikasi ke TrakCare (yang me
 
 ## 13. Referensi & confidence
 
-- `mayapada/eproc/eproc_tc.py` 17991–19630 <Confidence level="verified" />
+- <Src file="mayapada/eproc/eproc_tc.py" line={17991} end={19630} /> <Confidence level="verified" />
 - Test case `TARIFF_TEST_CASE_ODOO10.md` (TC-02, TC-03) di `/Users/macbook/Documents/mayapada/` — skenario uji yang konsisten dengan perilaku di atas. <Confidence level="verified">dokumen uji internal</Confidence>
+
+**Kode:**
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={18052} symbol="tariff.import.line" /> — model `TariffImportWizardLine`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18080} symbol="TariffExistingExportWizard" /> — class `TariffExistingExportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18230} symbol="TariffImportWizard" /> — class `TariffImportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19128} symbol="TariffPricelist" /> — class `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19201} symbol="_check_single_draft_pricelist" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19222} symbol="_check_tariff_type_category" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19237} symbol="_archive_existing_active" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="scheduler_pricelist_realization" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19307} symbol="tariff.pricelist.wizard" /> — model `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19487} symbol="_check_new_effective" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19499} symbol="TariffPricelistWizard.action_view" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19562} symbol="_check_price" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19567} symbol="action_update" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21314} symbol="tariff.dependency" /> — model `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21578} symbol="tariff.markup" /> — model `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="TariffAggregation._realize_to_baseprice" /> — method `TariffAggregation`
+- <Src file="mayapada/models/base.py" line={348} symbol="ir.cron" /> — extend `IrCron`

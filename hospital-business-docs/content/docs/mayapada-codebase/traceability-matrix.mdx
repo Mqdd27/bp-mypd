@@ -10,14 +10,14 @@ Legenda status: **V** = terverifikasi di kode repo · **I** = inferensi (kode/me
 
 | Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Input harga tarif (draft) | Finance / tim tarif | eproc/eproc_tc.py | `tariff.pricelist.wizard` → `tariff.pricelist` | `action_view` 19499, `action_update` 19567, `_check_new_effective` 19487 | — | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V |
+| Input harga tarif (draft) | Finance / tim tarif | eproc/eproc_tc.py | `tariff.pricelist.wizard` → `tariff.pricelist` | <Src file="mayapada/eproc/eproc_tc.py" line={19499} symbol="action_view" />, <Src file="mayapada/eproc/eproc_tc.py" line={19567} symbol="action_update" />, <Src file="mayapada/eproc/eproc_tc.py" line={19487} symbol="_check_new_effective" /> | — | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V |
 | Import/export tarif Excel | Finance | eproc/eproc_tc.py | `tariff.import.wizard`, `tariff.existing.export.wizard` | `action_import`, `_import_pricelist/dependency/markup`, `action_export` | XLS template | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V |
-| Rilis harga terjadwal | Sistem / IT | eproc/eproc_tc.py | `tariff.pricelist` | `scheduler_pricelist_realization` 19266 | Airflow D01207 | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V (kode) / I (job) |
-| Dependency tarif | Finance | eproc/eproc_tc.py | `tariff.dependency`, wizard | `_check_depend_rate` 21351, `_archive_existing_active` 21365 | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
-| Markup berjenjang | Finance | eproc/eproc_tc.py | `tariff.markup`, wizard | `_check_markup_price_range` 21642, `_get_markup_for_combination` 19857 | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
-| Hitung Fixed Selling Price | Sistem | eproc/eproc_tc.py | `tariff.pricelist.fixed` | `_scheduler_pricelist_final` 20657, `_compute_fixed_price_vals` 20149, `_upsert_fixed_price` 20562 | Airflow D01208 | [Fixed Selling Price](/docs/tariff-pricing/fixed-selling-price) | V |
-| Publikasi harga ke TC | Finance / IT | eproc/eproc_tc.py | `tariff.pricelist.fixed.export` | `action_export`, `action_export_txt` 21099, `action_mark_sent_tc` 20821 | TXT `^`, NAS, D01209; ACK D01210 | [Publikasi](/docs/tariff-pricing/publikasi-trakcare) | V / I (D01209) / N (ACK) |
-| Base price dari GRN | Procurement, Finance | eproc/eproc_tc.py | `tariff.aggregation` | `_scheduler_baseprice_aggregation` 22219, `_realize_to_baseprice` 22265 | Airflow D01204/D01206 | [Aggregation](/docs/tariff-pricing/base-price-aggregation) | V |
+| Rilis harga terjadwal | Sistem / IT | eproc/eproc_tc.py | `tariff.pricelist` | <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="scheduler_pricelist_realization" /> | Airflow D01207 | [Lifecycle](/docs/tariff-pricing/pricelist-lifecycle) | V (kode) / I (job) |
+| Dependency tarif | Finance | eproc/eproc_tc.py | `tariff.dependency`, wizard | <Src file="mayapada/eproc/eproc_tc.py" line={21351} symbol="_check_depend_rate" />, <Src file="mayapada/eproc/eproc_tc.py" line={21365} symbol="_archive_existing_active" /> | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
+| Markup berjenjang | Finance | eproc/eproc_tc.py | `tariff.markup`, wizard | <Src file="mayapada/eproc/eproc_tc.py" line={21642} symbol="_check_markup_price_range" />, <Src file="mayapada/eproc/eproc_tc.py" line={19857} symbol="_get_markup_for_combination" /> | — | [Dependency & Markup](/docs/tariff-pricing/dependency-markup) | V |
+| Hitung Fixed Selling Price | Sistem | eproc/eproc_tc.py | `tariff.pricelist.fixed` | <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="_scheduler_pricelist_final" />, <Src file="mayapada/eproc/eproc_tc.py" line={20149} symbol="_compute_fixed_price_vals" />, <Src file="mayapada/eproc/eproc_tc.py" line={20562} symbol="_upsert_fixed_price" /> | Airflow D01208 | [Fixed Selling Price](/docs/tariff-pricing/fixed-selling-price) | V |
+| Publikasi harga ke TC | Finance / IT | eproc/eproc_tc.py | `tariff.pricelist.fixed.export` | `action_export`, <Src file="mayapada/eproc/eproc_tc.py" line={21099} symbol="action_export_txt" />, <Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" /> | TXT `^`, NAS, D01209; ACK D01210 | [Publikasi](/docs/tariff-pricing/publikasi-trakcare) | V / I (D01209) / N (ACK) |
+| Base price dari GRN | Procurement, Finance | eproc/eproc_tc.py | `tariff.aggregation` | <Src file="mayapada/eproc/eproc_tc.py" line={22219} symbol="_scheduler_baseprice_aggregation" />, <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="_realize_to_baseprice" /> | Airflow D01204/D01206 | [Aggregation](/docs/tariff-pricing/base-price-aggregation) | V |
 | Base price dari vendor agreement | Procurement | Airflow | `tariff.aggregation` (`changes_type=pricelist`) | `sync_vendor_agreement_aggregation_unit` | D012_05 | [Aggregation](/docs/tariff-pricing/base-price-aggregation) | V (snapshot) |
 | Approval perubahan tarif | Manajemen | — | — | — | — | [Open Questions](/docs/getting-started/open-questions) | N / C |
 
@@ -26,12 +26,12 @@ Legenda status: **V** = terverifikasi di kode repo · **I** = inferensi (kode/me
 | Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Registrasi, RME, order klinis | Admisi, medis | — (HIS) | — | — | TrakCare | [Sistem Informasi](/docs/hospital-fundamentals/sistem-informasi) | N (di Odoo) |
-| Episode & billing pasien | Billing | models/sale.py | `sale.order`, `sale.order.bill`, `sale.order.cob`, `sale.order.line` | `action_done`, `action_history`, `lock_bill` | `trx_visit`, `trx_billing` (D013/D014) | [Struktur Billing](/docs/billing-insurance/struktur-billing) | V (model) / I (job) |
+| Episode & billing pasien | Billing | models/sale.py | `sale.order`, `sale.order.bill`, `sale.order.cob`, `sale.order.line` | <Src file="mayapada/models/sale.py" line={9889} symbol="SaleOrderBill.action_done" />, <Src file="mayapada/models/sale.py" line={9932} symbol="SaleOrderBill.action_history" />, <Src file="mayapada/models/sale.py" line={10521} symbol="SaleOrderCob.action_done" />, <Src file="mayapada/models/sale.py" line={10551} symbol="SaleOrderCob.action_history" />, <Src file="mayapada/models/sale.py" line={359} symbol="lock_bill" /> | `trx_visit`, `trx_billing` (D013/D014) | [Struktur Billing](/docs/billing-insurance/struktur-billing) | V (model) / I (job) |
 | Koleksi kasir | Kasir, Finance | models/receivable.py, eproc/eproc_tc.py | `receivable.scroll.receipt.cashier` | wizard jurnal TC `tc_receipt_collection` | `trx_cashier_collection` D019/D019_01 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
 | Deposit pasien | Kasir, AR | sama | `receivable.patient.deposit` | `tc_deposit_collection` | `trx_deposit_collection` D020 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
 | Credit note | Billing, AR | sama | `receivable.credit.note`, `account.creditnote` | `tc_creditnote_collection`, `account.creditnote.action_confirm` | `trx_creditnote_collection` D021 | [Deposit & Kasir](/docs/billing-insurance/deposit-kasir-refund) | V |
-| Tagih penjamin (covering letter) | AR | models/receivable.py | `account.coveringletter` | `action_confirm` 621, `action_cancel` 548, `action_confirm_api` | API eksternal | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V |
-| Penerimaan & settlement penjamin | AR | eproc/eproc_tc.py | `receivable.receipt`, `receivable.receipt.settlement` | `action_apply_settlement`, `action_create_entries`, `action_confirm` | `trx_receipt_collection` (D012_11–13) | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V (model) / I (job) |
+| Tagih penjamin (covering letter) | AR | models/receivable.py | `account.coveringletter` | <Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" />, <Src file="mayapada/models/receivable.py" line={548} symbol="action_cancel" />, `action_confirm_api` | API eksternal | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V |
+| Penerimaan & settlement penjamin | AR | eproc/eproc_tc.py | `receivable.receipt`, `receivable.receipt.settlement` | <Src file="mayapada/eproc/eproc_tc.py" line={16153} symbol="ReceivableReceipt.action_apply_settlement" />, <Src file="mayapada/eproc/eproc_tc.py" line={16461} symbol="ReceivableReceipt.action_create_entries" />, <Src file="mayapada/eproc/eproc_tc.py" line={16485} symbol="ReceivableReceipt.action_confirm" /> | `trx_receipt_collection` (D012_11–13) | [Covering Letter](/docs/billing-insurance/covering-letter-ar) | V (model) / I (job) |
 | Accrual rawat inap | Finance | models/receivable.py, eproc report views | `receivable.accrual.billing`, `sale.order.line.accrual` | — | `trx_accrual` (D017 pending) | [Rawat Inap](/docs/patient-journey/rawat-inap) | V (model) / I |
 | Klaim BPJS (SEP, e-Klaim) | Klaim | — | (`is_bpjs`, `inacbgs_*` saja) | — | VClaim / e-Klaim | [BPJS](/docs/billing-insurance/bpjs-jkn) | N |
 
@@ -39,13 +39,13 @@ Legenda status: **V** = terverifikasi di kode repo · **I** = inferensi (kode/me
 
 | Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Purchase request | Unit peminta | eproc/eproc_tc.py | `eproc.request` | `action_confirm` 6857, `_validate_before_confirm` 6794 | Approval log | [PR](/docs/procurement-inventory/purchase-request) | V |
-| Approval matrix | Approver | eproc/eproc_tc.py | `eproc.approval.type/rule/log` | `_create_approval_logs`, `action_approve/reject` | Notifikasi chatter | [PR](/docs/procurement-inventory/purchase-request) | V |
-| Vendor agreement / tender | Purchasing | eproc/eproc_tc.py | `eproc.agreement`, `eproc.tabulation.wizard` | `action_confirm` 2944 | → base price (D012_05) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V |
-| RFQ/PO | Purchasing | eproc/eproc_tc.py | `eproc.order` | `action_confirm` 5387, `_validate_stock_agreement_pricing` 5441, `_check_budget_ceiling` 5378 | Parent → Unit (D012) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V / I (sync) |
-| Receiving fisik | Gudang | eproc/eproc_tc.py | `eproc.receipt` | `action_confirm_srb` 12813 | — | [Receiving](/docs/procurement-inventory/receiving) | V |
-| Validasi penerimaan | Accounting | eproc/eproc_tc.py | `eproc.receipt` | `action_confirm_srv` 12832, `_complete_receipt` 13081 | Stock move, jurnal, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
-| Retur vendor | Gudang/Purchasing | eproc/eproc_tc.py | `eproc.receipt` RT | `action_confirm_return` 12883 | GOODS_RETURN, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Purchase request | Unit peminta | eproc/eproc_tc.py | `eproc.request` | <Src file="mayapada/eproc/eproc_tc.py" line={6857} symbol="action_confirm" />, <Src file="mayapada/eproc/eproc_tc.py" line={6794} symbol="_validate_before_confirm" /> | Approval log | [PR](/docs/procurement-inventory/purchase-request) | V |
+| Approval matrix | Approver | eproc/eproc_tc.py | `eproc.approval.type/rule/log` | <Src file="mayapada/eproc/eproc_tc.py" line={2970} symbol="EprocAgreement._create_approval_logs" />, <Src file="mayapada/eproc/eproc_tc.py" line={5292} symbol="EprocOrder._create_approval_logs" />, <Src file="mayapada/eproc/eproc_tc.py" line={12907} symbol="EprocReceipt._create_approval_logs" />, `action_approve/reject` | Notifikasi chatter | [PR](/docs/procurement-inventory/purchase-request) | V |
+| Vendor agreement / tender | Purchasing | eproc/eproc_tc.py | `eproc.agreement`, `eproc.tabulation.wizard` | <Src file="mayapada/eproc/eproc_tc.py" line={2944} symbol="action_confirm" /> | → base price (D012_05) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V |
+| RFQ/PO | Purchasing | eproc/eproc_tc.py | `eproc.order` | <Src file="mayapada/eproc/eproc_tc.py" line={5387} symbol="action_confirm" />, <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="_validate_stock_agreement_pricing" />, <Src file="mayapada/eproc/eproc_tc.py" line={5378} symbol="_check_budget_ceiling" /> | Parent → Unit (D012) | [RFQ/PO](/docs/procurement-inventory/rfq-po-agreement) | V / I (sync) |
+| Receiving fisik | Gudang | eproc/eproc_tc.py | `eproc.receipt` | <Src file="mayapada/eproc/eproc_tc.py" line={12813} symbol="action_confirm_srb" /> | — | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Validasi penerimaan | Accounting | eproc/eproc_tc.py | `eproc.receipt` | <Src file="mayapada/eproc/eproc_tc.py" line={12832} symbol="action_confirm_srv" />, <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> | Stock move, jurnal, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
+| Retur vendor | Gudang/Purchasing | eproc/eproc_tc.py | `eproc.receipt` RT | <Src file="mayapada/eproc/eproc_tc.py" line={12883} symbol="action_confirm_return" /> | GOODS_RETURN, TC API | [Receiving](/docs/procurement-inventory/receiving) | V |
 | Dispense/issue/transfer/opname | Farmasi, unit | eproc/eproc_tc.py | `eproc.stock.move` | jurnal TC stok | `trx_stock_move` D016 | [Stock Movement](/docs/procurement-inventory/stock-movement) | V (model, view) / I (job) |
 | Orderpoint | Farmasi/gudang | eproc/eproc_tc.py | `eproc.orderpoint(.log)` | realize wizard | A3 D001–D003 | [Stock Movement](/docs/procurement-inventory/stock-movement) | V / I |
 | Invoice & bayar supplier | AP | models/payable.py | `payable.invoice`, `payable.payment(.group)` | posting jurnal ~543 | link `invoice_eproc_ids` | [Finance](/docs/finance-accounting) | V |
@@ -55,12 +55,85 @@ Legenda status: **V** = terverifikasi di kode repo · **I** = inferensi (kode/me
 
 | Proses | Departemen | File | Model | Method / Action | Data / Integrasi | Halaman | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Jurnal harian TC | Accounting | eproc/eproc_tc.py | `account.journal.wizard` | `_generate_tc_journal` 22880, `init` 22870 | View `view_account_tc_*` | [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) | V |
+| Jurnal harian TC | Accounting | eproc/eproc_tc.py | `account.journal.wizard` | <Src file="mayapada/eproc/eproc_tc.py" line={22880} symbol="_generate_tc_journal" />, <Src file="mayapada/eproc/eproc_tc.py" line={22870} symbol="init" /> | View `view_account_tc_*` | [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) | V |
 | Auto-setup jurnal TC | Accounting | (server) | — | `_get_tc_journal` | — | [Jurnal TC](/docs/finance-accounting/jurnal-trakcare) | I (tidak di repo) |
 | Budget eProc | Finance, Procurement | eproc/eproc_tc.py | `eproc.budget.*` | `_check_budget_tracking`, ceiling | cron refresh 1 menit | [Budget](/docs/finance-accounting/budget-cost-center) | V |
-| Fee dokter | Staff Fee Doctor | models/doctor_fee.py | `doctor.rate`, `doctor.fee(.line)` | `_compute_fee_line` 10776, `compute_grossup` 4687, `posting` 753 | `trx_payout_collection` (D022_01 pending) | [Doctor Fee](/docs/hr-doctor-fees/doctor-fee) | V / I |
+| Fee dokter | Staff Fee Doctor | models/doctor_fee.py | `doctor.rate`, `doctor.fee(.line)` | <Src file="mayapada/models/doctor_fee.py" line={10776} symbol="_compute_fee_line" />, <Src file="mayapada/models/doctor_fee.py" line={4687} symbol="compute_grossup" />, <Src file="mayapada/models/doctor_fee.py" line={753} symbol="posting" /> | `trx_payout_collection` (D022_01 pending) | [Doctor Fee](/docs/hr-doctor-fees/doctor-fee) | V / I |
 | Referral fee | Finance, Marketing | models/referral_fee.py | `referral.*` | compute/confirm/posting wizard | API backend appointment | [Referral & Marketing](/docs/hr-doctor-fees/referral-marketing-fee) | V |
 | Marketing fee | Marketing, Finance | models/marketing_fee.py | `marketing.*` | `marketing.posting.wizard` | — | [Referral & Marketing](/docs/hr-doctor-fees/referral-marketing-fee) | V (model) |
 | Konsolidasi unit ↔ main | IT, Finance corporate | models/resapi.py | `ApiController` | `api_consol_unit_method`, `api_consol_main_method` | REST internal | [Konsolidasi](/docs/integrations/odoo-consolidation) | V |
 | Lembur / approval HR | HR | — | — | — | — | [Dokter & Fee](/docs/hr-doctor-fees) | N |
 | SATUSEHAT | Rekam medis / IT | — | — | — | — | [Compliance](/docs/compliance) | N |
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={2750} symbol="eproc.agreement" /> — model `EprocAgreement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={3791} symbol="eproc.tabulation.wizard" /> — model `EprocTabulationWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={4253} symbol="eproc.order" /> — model `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5378} symbol="_check_budget_ceiling" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="_validate_stock_agreement_pricing" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6237} symbol="eproc.request" /> — model `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6394} symbol="_check_budget_tracking" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={6794} symbol="_validate_before_confirm" /> — method `EprocRequest`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/eproc/eproc_tc.py" line={11417} symbol="eproc.receipt" /> — model `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12813} symbol="action_confirm_srb" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12832} symbol="action_confirm_srv" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12883} symbol="action_confirm_return" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={15732} symbol="receivable.receipt" /> — model `ReceivableReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={16461} symbol="action_create_entries" /> — method `ReceivableReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={17732} symbol="receivable.receipt.settlement" /> — model `ReceivableReceiptSettlement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18081} symbol="tariff.existing.export.wizard" /> — model `TariffExistingExportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18194} symbol="action_export" /> — method `TariffExistingExportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18231} symbol="tariff.import.wizard" /> — model `TariffImportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={18779} symbol="action_import" /> — method `TariffImportWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19129} symbol="tariff.pricelist" /> — model `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19266} symbol="scheduler_pricelist_realization" /> — method `TariffPricelist`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19307} symbol="tariff.pricelist.wizard" /> — model `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19487} symbol="_check_new_effective" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19499} symbol="action_view" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19567} symbol="action_update" /> — method `TariffPricelistWizard`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19857} symbol="_get_markup_for_combination" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20149} symbol="_compute_fixed_price_vals" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20562} symbol="_upsert_fixed_price" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20657} symbol="_scheduler_pricelist_final" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20829} symbol="tariff.pricelist.fixed.export" /> — model `TariffPricelistFixedExport`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21099} symbol="action_export_txt" /> — method `TariffPricelistFixedExport`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21314} symbol="tariff.dependency" /> — model `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21351} symbol="_check_depend_rate" /> — method `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21365} symbol="_archive_existing_active" /> — method `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21578} symbol="tariff.markup" /> — model `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21642} symbol="_check_markup_price_range" /> — method `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22052} symbol="tariff.aggregation" /> — model `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22219} symbol="_scheduler_baseprice_aggregation" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22265} symbol="_realize_to_baseprice" /> — method `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22880} symbol="_generate_tc_journal" /> — method `AccountJournalWizard`
+- <Src file="mayapada/eproc/eproc_tc_report_views.py" line={29} symbol="sale.order.line.accrual" /> — model `SaleOrderLineAccrual`
+- <Src file="mayapada/models/account.py" line={32540} symbol="account.journal.wizard" /> — model `AccountJournalWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={113} symbol="doctor.rate" /> — model `DoctorRate`
+- <Src file="mayapada/models/doctor_fee.py" line={753} symbol="posting" /> — method `DoctorFeePostingWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={4687} symbol="compute_grossup" /> — method `DoctorFee`
+- <Src file="mayapada/models/doctor_fee.py" line={10776} symbol="_compute_fee_line" /> — method `DoctorFeeLine`
+- <Src file="mayapada/models/marketing_fee.py" line={4194} symbol="marketing.posting.wizard" /> — model `MarketingPosting`
+- <Src file="mayapada/models/payable.py" line={188} symbol="payable.invoice" /> — model `PayableInvoice`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={548} symbol="action_cancel" /> — method `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={761} symbol="action_confirm_api" /> — method `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={1032} symbol="account.creditnote" /> — model `CreditNote`
+- <Src file="mayapada/models/receivable.py" line={9021} symbol="receivable.scroll.receipt.cashier" /> — model `ReceivableScrollReceiptCashier`
+- <Src file="mayapada/models/receivable.py" line={9287} symbol="receivable.patient.deposit" /> — model `ReceivablePatientDeposit`
+- <Src file="mayapada/models/receivable.py" line={9762} symbol="receivable.credit.note" /> — model `ReceivableCreditNote`
+- <Src file="mayapada/models/receivable.py" line={11232} symbol="receivable.accrual.billing" /> — model `ReceivableAccrualBilling`
+- <Src file="mayapada/models/resapi.py" line={97} symbol="ApiController" /> — class `ApiController`
+- <Src file="mayapada/models/resapi.py" line={938} symbol="api_consol_unit_method" /> — method `ApiController`
+- <Src file="mayapada/models/resapi.py" line={1230} symbol="api_consol_main_method" /> — method `ApiController`
+- <Src file="mayapada/models/sale.py" line={43} symbol="sale.order" /> — extend `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={359} symbol="lock_bill" /> — method `SaleOrder`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={10447} symbol="sale.order.cob" /> — model `SaleOrderCob`

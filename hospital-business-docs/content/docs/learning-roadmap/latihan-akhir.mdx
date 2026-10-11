@@ -31,7 +31,7 @@ Isi tabel di bawah **dengan menelusuri kode/dokumentasi** (jawaban model ada di 
 <Accordion title="Jawaban model">
 
 1. `eproc.agreement` (rate contract) + `eproc.agreement.line`.
-2. `EprocOrder._validate_stock_agreement_pricing` (eproc_tc.py:5441).
+2. <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="EprocOrder._validate_stock_agreement_pricing" />).
 3. Receiving Bay `action_confirm_srb` → `confirmed`; Receiving Validation `action_confirm_srv` → `_complete_receipt` → `done`.
 4. `_create_accounting_impacts`: Dr persediaan / Cr stock input (+ opsional jurnal harian TC Stock Receipt).
 5. Job aggregation (`_scheduler_baseprice_aggregation`) jika harga terima > base price aktif → `tariff.aggregation` pending → realize → draft base price ≥ H+2 → rollover.
@@ -52,3 +52,29 @@ Isi tabel di bawah **dengan menelusuri kode/dokumentasi** (jawaban model ada di 
 - Berapa sistem yang dilalui? (HIS, Bridge, Airflow, Odoo Parent, Odoo Unit, NAS)
 - Di titik mana satu kesalahan master data akan menyebar paling luas?
 - Pertanyaan mana di [Open Questions](/docs/getting-started/open-questions) yang menghalangi Anda menjawab dengan pasti?
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={2750} symbol="eproc.agreement" /> — model `EprocAgreement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={3218} symbol="eproc.agreement.line" /> — model `EprocAgreementLine`
+- <Src file="mayapada/eproc/eproc_tc.py" line={5441} symbol="EprocOrder._validate_stock_agreement_pricing" /> — method `EprocOrder`
+- <Src file="mayapada/eproc/eproc_tc.py" line={10985} symbol="eproc.stock.move" /> — model `EprocStockMove`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12813} symbol="action_confirm_srb" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={12832} symbol="action_confirm_srv" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13081} symbol="_complete_receipt" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13355} symbol="_create_accounting_impacts" /> — method `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={15732} symbol="receivable.receipt" /> — model `ReceivableReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={17732} symbol="receivable.receipt.settlement" /> — model `ReceivableReceiptSettlement`
+- <Src file="mayapada/eproc/eproc_tc.py" line={19683} symbol="tariff.pricelist.fixed" /> — model `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20379} symbol="_compute_dependency_fixed_price_vals" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21314} symbol="tariff.dependency" /> — model `TariffDependency`
+- <Src file="mayapada/eproc/eproc_tc.py" line={21578} symbol="tariff.markup" /> — model `TariffMarkup`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22052} symbol="tariff.aggregation" /> — model `TariffAggregation`
+- <Src file="mayapada/eproc/eproc_tc.py" line={22219} symbol="_scheduler_baseprice_aggregation" /> — method `TariffAggregation`
+- <Src file="mayapada/models/doctor_fee.py" line={409} symbol="doctor.rate.line" /> — model `DoctorRateLine`
+- <Src file="mayapada/models/doctor_fee.py" line={540} symbol="doctor.fee.posting.wizard" /> — model `DoctorFeePostingWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={10385} symbol="doctor.fee.line" /> — model `DoctorFeeLine`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`

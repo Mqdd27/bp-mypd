@@ -5,7 +5,7 @@ description: Format ekspor Fixed Selling Price, jendela kirim H+1, status pendin
 
 ## Apa yang dikirim?
 
-File ekspor `tariff.pricelist.fixed.export` (eproc_tc.py:20828) memiliki kolom (`EXPORT_HEADERS`, 20832):
+File ekspor <Src file="mayapada/eproc/eproc_tc.py" line={20829} symbol="tariff.pricelist.fixed.export" />) memiliki kolom (<Src file="mayapada/eproc/eproc_tc.py" line={20832} symbol="EXPORT_HEADERS" />):
 
 | Kolom | Sumber nilai |
 | --- | --- |
@@ -25,7 +25,7 @@ File ekspor `tariff.pricelist.fixed.export` (eproc_tc.py:20828) memiliki kolom (
 TXT memakai pemisah `^` (satu karakter, keputusan terakhir user menurut memory). <Confidence level="verified" />
 
 <Callout type="warn" title="EpisodeType kosong untuk MCU & DayCare">
-`_episode_type` (20913) hanya memetakan OP/IP/Emergency. Baris MCU/ODC terkirim dengan EpisodeType kosong. Perlu dikonfirmasi apakah TrakCare menerima ini. <Confidence level="confirm" />
+<Src file="mayapada/eproc/eproc_tc.py" line={20913} symbol="_episode_type" /> hanya memetakan OP/IP/Emergency. Baris MCU/ODC terkirim dengan EpisodeType kosong. Perlu dikonfirmasi apakah TrakCare menerima ini. <Confidence level="confirm" />
 </Callout>
 
 <Callout type="info" title="Apa itu Urgent Rate?">
@@ -54,7 +54,7 @@ sequenceDiagram
 
 *Sumber:* project memory (Current State & Active Work), `airflow:README.md` (012-09/012-10). File D01209/D01210 **tidak ada** di snapshot lokal. <Confidence level="inferred" />
 
-Jalur manual yang terverifikasi di kode: menu Fixed Selling Price → **Export** (XLS/TXT, filter Pending/Sent/All) → kirim → **Mark Sent TC** (`action_mark_sent_tc`, 20821). <Confidence level="verified" />
+Jalur manual yang terverifikasi di kode: menu Fixed Selling Price → **Export** (XLS/TXT, filter Pending/Sent/All) → kirim → **Mark Sent TC** (<Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" />). <Confidence level="verified" />
 
 ## Batas yang perlu diingat
 
@@ -71,3 +71,11 @@ Karena tujuan publikasi adalah memberi tahu TC harga yang **akan** berlaku. Untu
 Harga tidak pernah sampai ke TC dan tidak akan dikirim ulang (bukan pending lagi). Desain D01209 menulis file dulu, baru update state, untuk mencegah ini.
 </Accordion>
 </Accordions>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={20821} symbol="action_mark_sent_tc" /> — method `TariffPricelistFixed`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20829} symbol="tariff.pricelist.fixed.export" /> — model `TariffPricelistFixedExport`
+- <Src file="mayapada/eproc/eproc_tc.py" line={20913} symbol="_episode_type" /> — method `TariffPricelistFixedExport`

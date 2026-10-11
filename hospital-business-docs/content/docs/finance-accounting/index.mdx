@@ -21,16 +21,16 @@ description: COA, jurnal, piutang & hutang, pengakuan pendapatan, accrual, depos
 
 | Kejadian bisnis | Dokumen Odoo | Debit | Kredit | Sumber |
 | --- | --- | --- | --- | --- |
-| Barang diterima (PO/WO) | `eproc.receipt` done | Persediaan (valuasi kategori) | Stock input / GRNI | `_create_accounting_impacts` eproc_tc.py:13355 |
+| Barang diterima (PO/WO) | `eproc.receipt` done | Persediaan (valuasi kategori) | Stock input / GRNI | <Src file="mayapada/eproc/eproc_tc.py" line={13355} symbol="_create_accounting_impacts" /> |
 | Retur ke vendor | `eproc.receipt` RT | Stock input | Persediaan | idem |
-| Invoice supplier | `payable.invoice` | Interim/GRNI (+ pajak) | AP supplier | `models/payable.py` ~543–600 |
-| Pembayaran supplier | `payable.payment(.group)` | AP | Bank | `models/payable.py` <Confidence level="inferred" /> |
+| Invoice supplier | `payable.invoice` | Interim/GRNI (+ pajak) | AP supplier | <Src file="mayapada/models/payable.py" /> ~543–600 |
+| Pembayaran supplier | `payable.payment(.group)` | AP | Bank | <Src file="mayapada/models/payable.py" /> <Confidence level="inferred" /> |
 | Kasir terima uang pasien (harian) | Jurnal TC Receipt Collection | Kas/bank per payment mode | Akun `1104020101` | `view_account_tc_cashier_collection` |
 | Deposit pasien | Jurnal TC Deposit Collection | Kas/bank | Akun `2103000000` | `view_account_tc_deposit_collection` |
 | Credit note | Jurnal TC Credit Note Collection | Kas/bank atau `7999000000` | Akun `2103030000` | `view_account_tc_creditnote_collection` |
-| Tagih penjamin | `account.coveringletter` | AR payer | AR Unbilled | `models/receivable.py:621` |
+| Tagih penjamin | `account.coveringletter` | AR payer | AR Unbilled | <Src file="mayapada/models/receivable.py" line={621} symbol="action_confirm" /> |
 | Dispense/consumption/transfer/opname (harian) | Jurnal TC Stock * | lihat [Stock Movement](/docs/procurement-inventory/stock-movement) | | `view_account_tc_stock_movement` |
-| Fee dokter (bulanan) | `doctor.fee.posting.wizard` | Beban fee (expense account) | Hutang fee / pajak | `models/doctor_fee.py:753` |
+| Fee dokter (bulanan) | `doctor.fee.posting.wizard` | Beban fee (expense account) | Hutang fee / pajak | <Src file="mayapada/models/doctor_fee.py" line={753} symbol="posting" /> |
 
 <Confidence level="verified" /> Nama akun per kode perlu dicek di COA tiap company. <Confidence level="confirm" />
 
@@ -51,7 +51,7 @@ flowchart LR
 
 ## 4. Kontrol periode & approval jurnal
 
-- `account.move.status`: `draft → waiting (Waiting for Approval) → approved → posted` — lapisan approval jurnal di atas state Odoo standar. <Confidence level="verified">models/account.py:18953</Confidence>
+- `account.move.status`: `draft → waiting (Waiting for Approval) → approved → posted` — lapisan approval jurnal di atas state Odoo standar. <Confidence level="verified"><Src file="mayapada/models/account.py" line={18953} symbol="status" /></Confidence>
 - `account.move.post.wizard` / `account.move.cancel.wizard` — posting/batal massal.
 - `lock.ar.configuration` — kunci tanggal AR; `closing.wizard`, `stock.ledger.closing.wizard`, `sale.bulk.closing.wizard` — closing per area. <Confidence level="verified" />
 - `om_fiscal_year` (add-on) untuk tahun fiskal.
@@ -69,3 +69,24 @@ flowchart LR
   <Card title="Jurnal Harian dari TrakCare" href="/docs/finance-accounting/jurnal-trakcare" />
   <Card title="Budget & Cost Center" href="/docs/finance-accounting/budget-cost-center" />
 </Cards>
+
+## Sumber
+
+### Kode
+
+- <Src file="mayapada/eproc/eproc_tc.py" line={11417} symbol="eproc.receipt" /> — model `EprocReceipt`
+- <Src file="mayapada/eproc/eproc_tc.py" line={13355} symbol="_create_accounting_impacts" /> — method `EprocReceipt`
+- <Src file="mayapada/models/account.py" line={30273} symbol="account.console.company.mapping" /> — model `AccountConsoleCompanyMapping`
+- <Src file="mayapada/models/account.py" line={30335} symbol="account.console.financial.report.wizard" /> — model `AccountConsoleFinancialReportWizard`
+- <Src file="mayapada/models/account.py" line={30418} symbol="account.console.cashflow.wizard" /> — model `AccountConsoleCashflowWizard`
+- <Src file="mayapada/models/account.py" line={32405} symbol="closing.wizard" /> — model `Closing`
+- <Src file="mayapada/models/account.py" line={34187} symbol="account.move.post.wizard" /> — model `AccountMovePostWizard`
+- <Src file="mayapada/models/account.py" line={34205} symbol="account.move.cancel.wizard" /> — model `AccountMoveCancelWizard`
+- <Src file="mayapada/models/doctor_fee.py" line={540} symbol="doctor.fee.posting.wizard" /> — model `DoctorFeePostingWizard`
+- <Src file="mayapada/models/payable.py" line={188} symbol="payable.invoice" /> — model `PayableInvoice`
+- <Src file="mayapada/models/receivable.py" line={70} symbol="account.coveringletter" /> — model `CoveringLetter`
+- <Src file="mayapada/models/receivable.py" line={3494} symbol="lock.ar.configuration" /> — model `LockArConfiguration`
+- <Src file="mayapada/models/sale.py" line={1885} symbol="sale.order.line" /> — extend `SaleOrderLine`
+- <Src file="mayapada/models/sale.py" line={9652} symbol="sale.order.bill" /> — model `SaleOrderBill`
+- <Src file="mayapada/models/sale.py" line={11569} symbol="sale.bulk.closing.wizard" /> — model `SaleBulkClosingWizard`
+- <Src file="mayapada/models/stock.py" line={4553} symbol="stock.ledger.closing.wizard" /> — model `StockLedgerClosing`
