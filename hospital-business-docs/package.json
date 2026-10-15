@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "docs:check": "node scripts/docs-check.mjs",
+    "ship": "ssh mqdd@100.115.174.40 'bash -lc ~/apps/bp-mypd/hospital-business-docs/scripts/deploy.sh'",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:content": "prettier --write \"content/**/*.{md,mdx}\"",
     "format:content:check": "prettier --check \"content/**/*.{md,mdx}\""
