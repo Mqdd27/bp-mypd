@@ -16,14 +16,12 @@ Node 20+ (tested on Node 26, pnpm 11).
 
 ## Deploy (pm2)
 
-The server holds a git clone at `~/apps/bp-mypd`. `scripts/deploy.sh` (run on the server) does `git pull` → install → build → copies the standalone bundle to `~/apps/hospital-business-docs/app` → `pm2 restart` → prints `docs=200`. Building outside the app dir keeps the site up during the build.
+The server holds a git clone at `~/apps/bp-mypd`; pm2 serves `hospital-business-docs/.next/standalone/server.js` straight from it (port 3200). `scripts/deploy.sh` (run on the server) does `git pull` → install → build → copies `static`/`public` into the standalone dir → `pm2 restart` (or first-time `pm2 start`) → prints `docs=200`. The site is briefly down while it builds.
 
 ```bash
 git push            # deploy pulls from origin/master
 pnpm ship           # = ssh to the server and run scripts/deploy.sh
 ```
-
-First time only (on the server): `cd ~/apps/hospital-business-docs/app && PORT=3200 HOSTNAME=0.0.0.0 pm2 start server.js --name hospital-business-docs && pm2 save`
 
 Live at http://100.115.174.40:3200/docs (Tailscale).
 
